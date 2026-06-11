@@ -8,7 +8,10 @@ type Props = {
 export default function ImageViewer ({imgSource}: Props){
     return (
         <Image
-        style={{width: 24, height: 24, margin: 'auto'}}
+        style={{width: 24, 
+            height: 24,
+            tintColor: "#F5F5F5"
+        }}
          source={imgSource}
         ></Image>
     )

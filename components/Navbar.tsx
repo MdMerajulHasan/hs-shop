@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable, Text, Image } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -11,7 +11,6 @@ export default function Navbar() {
             <View>
                 <Pressable>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        {/* <Image style={{width: 16, height: 16, tintColor: "#73815"}} source={locationSource}></Image> */}
                         <Ionicons
                             name="location-sharp"
                             size={16}
