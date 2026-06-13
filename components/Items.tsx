@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import GoIcon from "./GoIcon";
 import ItemsTitle from "./ItemsTitle";
 
@@ -10,26 +10,43 @@ export default function Items() {
     return (
         <View style={styles.itemsContainer}>
             <View>
-                <View style={{ position: 'absolute', top: 37, right: 55, zIndex: 1 }}>
-                    <ItemsTitle label={"Lunch " + "\n" + "Items"}></ItemsTitle>
-                </View>
-                <GoIcon></GoIcon>
-                <Image style={styles.itemsImage} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/lunchItems.png" }}></Image>
+                <ImageBackground
+                    source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/lunchItems.png" }}
+                    style={styles.itemsImage}
+                    imageStyle={{ borderRadius: 10 }}
+                >
+                    <View style={{ position: 'absolute', top: 37, right: 55, }}>
+                        <ItemsTitle label={"Lunch " + "\n" + "Items"}></ItemsTitle>
+                    </View>
+                    <GoIcon></GoIcon>
+                </ImageBackground>
             </View>
             <View style={styles.itmesContainer2}>
                 <View style={styles.itemsImageContainer}>
-                    <View style={{ position: 'absolute', top: 19, left: 2, zIndex: 1 }}>
-                        <ItemsTitle label={"Breakfast"}></ItemsTitle>
-                    </View>
-                    <GoIcon></GoIcon>
-                    <Image style={styles.itemsImage2} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/breakfast.png" }}></Image>
+                    <ImageBackground
+                        source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/breakfast.png" }}
+                        style={styles.itemsImage2}
+                        imageStyle={{ borderRadius: 10 }}
+                    >
+                        <View style={{ position: 'absolute', top: 19, left: "50%", transform: [{ translateX: -70 }], alignItems: "center" }}>
+                            <ItemsTitle label={"Breakfast"}></ItemsTitle>
+                        </View>
+                        <GoIcon></GoIcon>
+                    </ImageBackground>
                 </View>
                 <View style={styles.itemsImageContainer}>
-                    <View style={{ position: 'absolute', top: 19, left: 25, zIndex: 1 }}>
-                        <ItemsTitle label={"Dinner"}></ItemsTitle>
-                    </View>
-                    <GoIcon></GoIcon>
-                    <Image style={styles.itemsImage2} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/dinner.png" }}></Image>
+
+                    <ImageBackground
+                        source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/dinner.png" }}
+                        style={styles.itemsImage2}
+                        imageStyle={{ borderRadius: 10 }}
+                    >
+                        <View style={{ position: 'absolute', top: 19, left: "50%", transform: [{ translateX: -45 }], }}>
+                            <ItemsTitle label={"Dinner"}></ItemsTitle>
+                        </View>
+                        <GoIcon></GoIcon>
+                    </ImageBackground>
+
                 </View>
             </View>
         </View>
@@ -41,12 +58,12 @@ const styles = StyleSheet.create({
         marginTop: 86,
         marginHorizontal: 10,
         gap: 10,
-        marginBottom: 40
+        marginBottom: 40,
     },
     itemsImage: {
         width: "100%",
         height: 200,
-        borderRadius: 10
+        borderRadius: 10,
     },
     itemsImageContainer: {
         width: "49%",
@@ -55,7 +72,6 @@ const styles = StyleSheet.create({
     itemsImage2: {
         width: "100%",
         height: "100%",
-        borderRadius: 10
     },
     itmesContainer2: {
         flexDirection: "row",

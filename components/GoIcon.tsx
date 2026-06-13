@@ -1,14 +1,14 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 export default function GoIcon() {
     return (
-        <View style={styles.goIconContainer}>
+        <Pressable onPress={()=>{}} style={styles.goIconContainer}>
             <Ionicons style={{ transform: [{ rotate: "-45deg" }] }} 
             size={24} color={"#F5F5F5"} 
             name="arrow-forward-outline">
             </Ionicons>
-        </View>
+        </Pressable>
     )
 }
 

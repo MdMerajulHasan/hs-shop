@@ -10,7 +10,7 @@ export type Props = {
 
 export default function FoodCard({ item, index, isVertical }: Props) {
     return (
-        <View style={[styles.cardContainer,{ width: isVertical? 150: 220}]}>
+        <View style={[styles.cardContainer,{ width: isVertical? 160: 220}]}>
 
             <View style={styles.offerTextContainer}>
                 <Text
@@ -23,7 +23,10 @@ export default function FoodCard({ item, index, isVertical }: Props) {
                 <Ionicons name="heart-outline" size={24} color={"#575757"}></Ionicons>
             </Pressable>
 
-            <Image style={[styles.cardImage,{width: isVertical ? 150: 220}]} source={{ uri: item.image }}></Image>
+            <View style={{backgroundColor: "#E9E9E9", borderRadius: 10}}>
+
+            <Image style={[styles.cardImage,{width: isVertical ? 160: 220}]} source={{ uri: item.image }}></Image>
+            </View>
 
             <Text style={styles.itemName}>{item.name}</Text>
 
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 340,
         justifyContent: "space-between",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     offerTextContainer: {
         backgroundColor: "#E93037",
