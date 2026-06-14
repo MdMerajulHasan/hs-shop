@@ -1,5 +1,6 @@
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import NotiNumber from "./NotiNumber";
 
 
 
@@ -25,8 +26,14 @@ export default function Navbar() {
                 </Pressable>
             </View>
             <View style={styles.searchContainer}>
-                <Ionicons style={{ padding: 10 }} size={24} name="notifications-outline" />
-                <Ionicons style={{ padding: 10 }} size={24} name="cart-outline" />
+                <View style={styles.iconContainer}>
+                    <Ionicons style={{ padding: 10 }} size={24} name="notifications-outline" />
+                    <NotiNumber Number={6}></NotiNumber>
+                </View>
+                <View style={styles.iconContainer}>
+                    <Ionicons style={{ padding: 10 }} size={24} name="cart-outline" />
+                    <NotiNumber Number={6}></NotiNumber>
+                </View>
             </View>
         </View>
 
@@ -36,12 +43,19 @@ export default function Navbar() {
 
 const styles = StyleSheet.create({
     navbarContainer: {
+        borderBottomRightRadius: 20,
+        paddingTop: 10,
         flexDirection: 'row',
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 30,
         marginHorizontal: 10,
+
     }, searchContainer: {
         flexDirection: "row", alignItems: "center", gap: 10
+    },
+    iconContainer: {
+        backgroundColor: "#E9E9E9",
+        padding: 10,
+        borderRadius: 40
     }
 })

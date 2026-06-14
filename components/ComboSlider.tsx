@@ -34,10 +34,9 @@ export default function ComboSlider() {
 const styles = StyleSheet.create({
     bgImage: {
         flex: 1,
-        width: 300,
-        height: 475,
+        width: 250,
+        height: 375,
         marginRight: 20,
-        borderRadius: 10,
         overflow: "hidden",
         justifyContent: "center",
         alignItems: "center",

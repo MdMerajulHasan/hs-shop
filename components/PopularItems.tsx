@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import TitleBar from "./TitleBar";
 import FoodCard from "./FoodCard";
+import TitleBar from "./TitleBar";
 
 export default function PopularItems() {
     const popularItemsData = [
         {
             id: 1,
             name: "Delicious And Crispy Potato French Fries",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/image-1628.png",
+            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/pizza-no-bg.png",
             price: 18.88,
             oldPrice: 32.88,
             rating: 4.9,
@@ -17,7 +17,7 @@ export default function PopularItems() {
         {
             id: 2,
             name: "Classic Cheese Pizza",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/image-1628-1.png",
+            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
             price: 15.99,
             oldPrice: 24.99,
             rating: 4.8,
@@ -27,7 +27,7 @@ export default function PopularItems() {
         {
             id: 3,
             name: "Spicy Chicken Burger",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/image-1628.png",
+            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/pizza-no-bg.png",
             price: 12.50,
             oldPrice: 18.50,
             rating: 4.7,
@@ -37,7 +37,7 @@ export default function PopularItems() {
         {
             id: 4,
             name: "Grilled Kebab Platter",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/image-1628-1.png",
+            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
             price: 21.99,
             oldPrice: 29.99,
             rating: 4.9,

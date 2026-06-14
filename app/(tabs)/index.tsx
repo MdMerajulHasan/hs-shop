@@ -168,66 +168,76 @@ export default function Index() {
   ]
 
   return (
-    <FlatList
-      //  style={{ backgroundColor: "#fff" }}
-      ListHeaderComponent={
-        <>
-          {/* navbar and carousel */}
-          <View style={{ position: 'relative' }}>
-            {/* navbar and searchbar */}
-            <View style={{
-              zIndex: 1,
-              paddingBottom: 20,
-            }}>
-              <Navbar></Navbar>
-              <SearchBar></SearchBar>
+    <View style={{zIndex: 0}}>
+      {/* <Navbar></Navbar> */}
+      <View style={{
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        paddingVertical: 20,
+      }}>
+        <Navbar></Navbar>
+      </View>
+      <FlatList
+        ListHeaderComponent={
+          <>
+            <View>
+              {/* searchbar */}
+              <View style={{
+                paddingBottom: 16,
+                backgroundColor: "#F5F5F5",
+                zIndex: 200,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20
+              }}>
+                <SearchBar></SearchBar>
+              </View>
+
+              {/* Carousel */}
+              <View style={{ zIndex: 1, marginTop: -16 }}>
+                <Slider></Slider>
+              </View>
+
             </View>
 
-            {/* Carousel */}
-            <View style={{ zIndex: 0, marginTop: -20 }}>
-              <Slider></Slider>
+            {/* category */}
+            <Category></Category>
+
+            {/* best deals */}
+            <BestDeals></BestDeals>
+
+            {/* items */}
+            <Items></Items>
+
+            {/* book your table */}
+            <View style={{ marginHorizontal: 10 }}>
+              <BookYourTable></BookYourTable>
             </View>
 
-          </View>
+            {/* polular items */}
+            <PopularItems></PopularItems>
+            {/* combo */}
+            <ComboSlider></ComboSlider>
 
-          {/* category */}
-          <Category></Category>
+            {/* all items title */}
+            <View style={{ marginHorizontal: 10 }}>
+              <TitleBar label={"All Items"}></TitleBar>
+            </View>
+          </>
+        }
 
-          {/* best deals */}
-          <BestDeals></BestDeals>
-
-          {/* items */}
-          <Items></Items>
-
-          {/* book your table */}
-          <View style={{marginHorizontal: 10}}>
-            <BookYourTable></BookYourTable>
-          </View>
-
-          {/* polular items */}
-          <PopularItems></PopularItems>
-          {/* combo */}
-          <ComboSlider></ComboSlider>
-
-          {/* all items title */}
-          <View style={{ marginHorizontal: 10 }}>
-            <TitleBar label={"All Items"}></TitleBar>
-          </View>
-        </>
-      }
-
-      data={allItemsData}
-      numColumns={2}
-      columnWrapperStyle={{
-        justifyContent: "space-between",
-        marginHorizontal: 10,
-        marginBottom: 20,
-      }}
-      renderItem={({ item, index }) =>
-        (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
-      ListFooterComponent={<View style={{ height: 86 }} />}
-    >
-    </FlatList>
+        data={allItemsData}
+        numColumns={2}
+        columnWrapperStyle={{
+          justifyContent: "space-between",
+          marginHorizontal: 10,
+          gap: 20,
+        }}
+        renderItem={({ item, index }) =>
+          (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
+        ListFooterComponent={<View style={{ height: 165 }} />}
+      >
+      </FlatList>
+    </View>
   );
 }
 

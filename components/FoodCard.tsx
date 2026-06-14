@@ -1,16 +1,20 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { FoodItem } from "./BestDeals";
 
 export type Props = {
     item: FoodItem,
     index: number,
-    isVertical?: boolean
+    isVertical?: boolean,
 }
+
+const {width} = Dimensions.get("window");
+const verticalCardWidth = width * 0.45;
+
 
 export default function FoodCard({ item, index, isVertical }: Props) {
     return (
-        <View style={[styles.cardContainer,{ width: isVertical? 160: 220}]}>
+        <View style={[styles.cardContainer,{ width: isVertical? verticalCardWidth : 200, height: isVertical ? 280 : 330}]}>
 
             <View style={styles.offerTextContainer}>
                 <Text
@@ -25,7 +29,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
 
             <View style={{backgroundColor: "#E9E9E9", borderRadius: 10}}>
 
-            <Image style={[styles.cardImage,{width: isVertical ? 160: 220}]} source={{ uri: item.image }}></Image>
+            <Image style={[styles.cardImage,{width: isVertical ? 160: 200, height: isVertical? 170: 220}]} source={{ uri: item.image }}></Image>
             </View>
 
             <Text style={styles.itemName}>{item.name}</Text>
@@ -64,6 +68,7 @@ const styles = StyleSheet.create({
         height: 340,
         justifyContent: "space-between",
         flexDirection: "column",
+        gap: 10,
     },
     offerTextContainer: {
         backgroundColor: "#E93037",
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
         borderRadius: 30
     },
     cardImage: {
-        height: 224,
+        height: 160,
         borderRadius: 10,
         overflow: "hidden"
     },

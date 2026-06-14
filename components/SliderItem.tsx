@@ -1,4 +1,4 @@
-import { Dimensions, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import { Dimensions, ImageBackground, ImageSourcePropType, StyleSheet} from "react-native";
 
 type Props = {
     item: ImageSourcePropType;
@@ -10,20 +10,15 @@ const { width } = Dimensions.get('screen');
 export default function SliderItem({ item, index }: Props) {
 
     return (
-        <View style={[styles.sliderContainer]}>
-            <Image
-                source={item}
-                key={index}
-                style={styles.sliderImage}
-            ></Image>
-        </View>
+        <ImageBackground imageStyle={{borderBottomLeftRadius: 20, borderBottomRightRadius: 20}} source={item} style={[styles.sliderContainer]}>
+        </ImageBackground>
     )
 }
 
 const styles = StyleSheet.create({
     sliderContainer: {
         width: width,
-        height: 250,
+        height: 210,
         justifyContent: "center",
         alignItems: "center"
     },
