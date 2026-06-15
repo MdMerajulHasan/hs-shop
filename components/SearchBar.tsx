@@ -23,6 +23,7 @@ export default function SearchBar() {
 const styles = StyleSheet.create({
   textInputContainer: {
     borderColor: "#D5D5D5",
+    marginTop: 5,
     borderWidth: 1,
     marginHorizontal: 10,
     paddingVertical: 2,

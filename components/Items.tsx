@@ -16,7 +16,7 @@ export default function Items() {
                     imageStyle={{ borderRadius: 10 }}
                 >
                     <View style={{ position: 'absolute', top: 37, right: 55, }}>
-                        <ItemsTitle label={"Lunch " + "\n" + "Items"}></ItemsTitle>
+                        <ItemsTitle isLunch={true} label={"Lunch " + "\n" + "Items"}></ItemsTitle>
                     </View>
                     <GoIcon></GoIcon>
                 </ImageBackground>
@@ -28,7 +28,7 @@ export default function Items() {
                         style={styles.itemsImage2}
                         imageStyle={{ borderRadius: 10 }}
                     >
-                        <View style={{ position: 'absolute', top: 19, left: "50%", transform: [{ translateX: -70 }], alignItems: "center" }}>
+                        <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Breakfast"}></ItemsTitle>
                         </View>
                         <GoIcon></GoIcon>
@@ -41,7 +41,7 @@ export default function Items() {
                         style={styles.itemsImage2}
                         imageStyle={{ borderRadius: 10 }}
                     >
-                        <View style={{ position: 'absolute', top: 19, left: "50%", transform: [{ translateX: -45 }], }}>
+                        <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Dinner"}></ItemsTitle>
                         </View>
                         <GoIcon></GoIcon>

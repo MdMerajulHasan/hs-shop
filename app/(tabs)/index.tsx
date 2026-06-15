@@ -13,6 +13,7 @@ import { FlatList, View } from "react-native";
 
 export default function Index() {
 
+
   const allItemsData = [
     {
       id: 1,
@@ -168,75 +169,80 @@ export default function Index() {
   ]
 
   return (
-    <View style={{zIndex: 0}}>
-      {/* <Navbar></Navbar> */}
+    <View>
       <View style={{
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-        paddingVertical: 20,
+        paddingVertical: 15,
+        zIndex: 1,
+        backgroundColor: "#F5F5F5"
       }}>
         <Navbar></Navbar>
       </View>
-      <FlatList
-        ListHeaderComponent={
-          <>
-            <View>
-              {/* searchbar */}
-              <View style={{
-                paddingBottom: 16,
-                backgroundColor: "#F5F5F5",
-                zIndex: 200,
-                borderBottomLeftRadius: 20,
-                borderBottomRightRadius: 20
-              }}>
-                <SearchBar></SearchBar>
+      <View style={{ marginTop: -20, zIndex: 0 }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <>
+              <View>
+                {/* searchbar */}
+                <View style={{
+                  paddingTop: 15,
+                  paddingBottom: 16,
+                  backgroundColor: "#F5F5F5",
+                  zIndex: 200,
+                  borderBottomLeftRadius: 20,
+                  borderBottomRightRadius: 20
+                }}>
+                  <SearchBar></SearchBar>
+                </View>
+
+                {/* Carousel */}
+                <View style={{ zIndex: 1, marginTop: -16 }}>
+                  <Slider></Slider>
+                </View>
+
               </View>
 
-              {/* Carousel */}
-              <View style={{ zIndex: 1, marginTop: -16 }}>
-                <Slider></Slider>
+              {/* category */}
+              <Category></Category>
+
+              {/* best deals */}
+              <BestDeals></BestDeals>
+
+              {/* items */}
+              <Items></Items>
+
+              {/* book your table */}
+              <View style={{ marginHorizontal: 10 }}>
+                <BookYourTable></BookYourTable>
               </View>
 
-            </View>
+              {/* polular items */}
+              <PopularItems></PopularItems>
+              {/* combo */}
+              <ComboSlider></ComboSlider>
 
-            {/* category */}
-            <Category></Category>
+              {/* all items title */}
+              <View style={{ marginHorizontal: 10 }}>
+                <TitleBar label={"All Items"}></TitleBar>
+              </View>
+            </>
+          }
 
-            {/* best deals */}
-            <BestDeals></BestDeals>
-
-            {/* items */}
-            <Items></Items>
-
-            {/* book your table */}
-            <View style={{ marginHorizontal: 10 }}>
-              <BookYourTable></BookYourTable>
-            </View>
-
-            {/* polular items */}
-            <PopularItems></PopularItems>
-            {/* combo */}
-            <ComboSlider></ComboSlider>
-
-            {/* all items title */}
-            <View style={{ marginHorizontal: 10 }}>
-              <TitleBar label={"All Items"}></TitleBar>
-            </View>
-          </>
-        }
-
-        data={allItemsData}
-        numColumns={2}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginHorizontal: 10,
-          gap: 20,
-        }}
-        renderItem={({ item, index }) =>
-          (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
-        ListFooterComponent={<View style={{ height: 165 }} />}
-      >
-      </FlatList>
+          data={allItemsData}
+          numColumns={2}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            marginHorizontal: 10,
+            gap: 20,
+          }}
+          renderItem={({ item, index }) =>
+            (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
+          ListFooterComponent={<View style={{ height: 165 }} />}
+        >
+        </FlatList>
+      </View>
     </View>
   );
 }

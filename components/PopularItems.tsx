@@ -1,6 +1,7 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, View } from "react-native";
 import FoodCard from "./FoodCard";
 import TitleBar from "./TitleBar";
+import { router } from "expo-router";
 
 export default function PopularItems() {
     const popularItemsData = [
@@ -49,6 +50,7 @@ export default function PopularItems() {
         <View style={styles.popularItemsContainer}>
             <TitleBar label={"Popular Items"}></TitleBar>
             <FlatList
+                showsHorizontalScrollIndicator={false}
                 data={popularItemsData}
                 renderItem={({ item, index }) =>
                     <View style={{

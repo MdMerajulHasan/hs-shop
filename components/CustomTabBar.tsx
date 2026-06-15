@@ -2,9 +2,9 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import ImageViewer from "./ImageViewer";
 
-type TabRouteName = "index" | "booking" | "cart" | "order" | "profile";
+type TabRouteName = "index" | "booking" | "shopping" | "order" | "profile";
 
-const {width} = Dimensions.get("window")
+const { width } = Dimensions.get("window");
 const Width = width;
 
 export default function CustomTabBar({
@@ -22,7 +22,7 @@ export default function CustomTabBar({
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/book-1-1.png" },
             inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/book-1.png" },
         },
-        cart: {
+        shopping: {
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Bag.png" },
             inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag-2.png" },
         },
@@ -38,12 +38,13 @@ export default function CustomTabBar({
 
     return (
         <View style={styles.container}>
-            <View style={{width: 277, height: 93, 
-                marginHorizontal: 'auto', 
-                borderRadius: 65, 
-                justifyContent: "center", 
+            <View style={{
+                width: 277, height: 93,
+                marginHorizontal: 'auto',
+                borderRadius: 65,
+                justifyContent: "center",
                 alignItems: "center"
-                }}>
+            }}>
                 {state.routes.map((route, index) => {
                     const focused = state.index === index;
                     const { options } = descriptors[route.key];
@@ -53,9 +54,13 @@ export default function CustomTabBar({
                     const GAP = 50;
                     const left = index * GAP;
 
-                    const imgSource = focused
-                        ? images[routeName].active
-                        : images[routeName].inactive;
+                    const image = images[routeName as keyof typeof images];
+
+                    if (!image) {
+                        return null;
+                    }
+
+                    const imgSource = focused ? image.active : image.inactive;
 
                     return (
                         <Pressable
@@ -67,7 +72,7 @@ export default function CustomTabBar({
                                 bottom: 10,
                                 width: ITEM_WIDTH,
                                 alignItems: "center",
-                                zIndex: focused ? 999 : index,
+                                zIndex: focused ? 999 : 5 - index,
                             }]}
                         >
                             <View
@@ -83,7 +88,7 @@ export default function CustomTabBar({
                                         { scale: focused ? 1.15 : 1 },
                                     ],
                                     elevation: focused ? 10 : 5,
-                                },focused ? {borderWidth: 0} : {borderWidth: 1, borderColor: '#242424'} ]}
+                                }, focused ? { borderWidth: 0 } : { borderWidth: 1, borderColor: '#242424' }]}
                             >
                                 <ImageViewer imgSource={imgSource} />
 
@@ -115,3 +120,4 @@ const styles = StyleSheet.create({
         fontSize: 10
     }
 });
+

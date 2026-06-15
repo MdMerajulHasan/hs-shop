@@ -1,13 +1,14 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Link } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import NotiNumber from "./NotiNumber";
-
+import ImageViewer from './ImageViewer';
 
 
 export default function Navbar() {
 
     return (
-
+        
         <View style={styles.navbarContainer}>
             <View>
                 <Pressable>
@@ -26,14 +27,20 @@ export default function Navbar() {
                 </Pressable>
             </View>
             <View style={styles.searchContainer}>
-                <View style={styles.iconContainer}>
-                    <Ionicons style={{ padding: 10 }} size={24} name="notifications-outline" />
-                    <NotiNumber Number={6}></NotiNumber>
-                </View>
-                <View style={styles.iconContainer}>
-                    <Ionicons style={{ padding: 10 }} size={24} name="cart-outline" />
-                    <NotiNumber Number={6}></NotiNumber>
-                </View>
+                <Link href={"/notifications"}>
+                    <View style={styles.iconContainer}>
+                        <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/notification-bing.png" }}></ImageViewer>
+                        <NotiNumber Number={6}></NotiNumber>
+                    </View>
+                </Link>
+
+                <Link href={"/cart"}>
+                    <View style={styles.iconContainer}>
+                        <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Buy.png" }}></ImageViewer>
+                        <NotiNumber Number={6}></NotiNumber>
+                    </View>
+                </Link>
+
             </View>
         </View>
 

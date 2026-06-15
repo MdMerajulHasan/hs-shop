@@ -30,9 +30,9 @@ export default function TabLayout() {
             }}
         />
         <Tabs.Screen
-            name="cart"
+            name="shopping"
             options={{
-                title: "Cart",
+                title: "Shopping",
             }}
         />
         <Tabs.Screen
@@ -45,6 +45,12 @@ export default function TabLayout() {
             name="profile"
             options={{
                 title: "Profile",
+            }}
+        />
+        <Tabs.Screen
+            name="allItems"
+            options={{
+                href: null, 
             }}
         />
     </Tabs>

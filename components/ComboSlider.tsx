@@ -11,17 +11,18 @@ export default function ComboSlider() {
 
     return (
         <FlatList
+            showsHorizontalScrollIndicator={false}
             data={imageData}
             renderItem={({ item }) => (
                 <ImageBackground
                     source={{ uri: item.image }}
                     style={styles.bgImage}
-                    imageStyle={{borderRadius: 10}}
+                    imageStyle={{ borderRadius: 10 }}
                 >
                     <View style={styles.textButtonContainer}>
                         <Text style={styles.nameText}>{item.name}</Text>
                         <View style={styles.viewDeatilsButton}>
-                            <Text style={{color: "#F5F5F5", textAlign: "center", fontSize: 16, fontWeight: "500"}}>View Details</Text>
+                            <Text style={{ color: "#F5F5F5", textAlign: "center", fontSize: 16, fontWeight: "500" }}>View Details</Text>
                         </View>
                     </View>
                 </ImageBackground>

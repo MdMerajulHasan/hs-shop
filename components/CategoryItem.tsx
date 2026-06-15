@@ -1,4 +1,5 @@
 import { CategoryType } from "@/components/Category";
+import { router } from "expo-router";
 import { Dispatch, SetStateAction } from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 
@@ -24,7 +25,15 @@ export default function CategroyItem({
                     : "#D765271A",
             },
         ]}
-        onPress={() => setSelectedCategory(item.id)}
+        onPress={() => {
+            setSelectedCategory(item.id);
+            router.push({
+                pathname: "/(tabs)/allItems",
+                params: {
+                    filter: item.id,
+                }
+            });
+        }}
     >
         <Image
             source={item.icon}
@@ -37,10 +46,9 @@ export default function CategroyItem({
                 },
             ]}
         />
-        <Text style={[styles.catygoryText,{
-            color: selectedCategory === item.id ?  "#F5F5F5" : "#272727",
+        <Text style={[styles.catygoryText, {
+            color: selectedCategory === item.id ? "#F5F5F5" : "#272727",
         }]}>{item.id}</Text>
-
     </Pressable>
     );
 }
@@ -50,8 +58,8 @@ const styles = StyleSheet.create({
         height: 90,
         width: 90,
         borderRadius: 80,
-        justifyContent: "center", 
-        alignItems: "center", 
+        justifyContent: "center",
+        alignItems: "center",
         fontSize: 12,
         gap: 10
     },
@@ -59,9 +67,9 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
     },
-    catygoryText : {
+    catygoryText: {
         fontSize: 12,
         fontWeight: "600"
-        
+
     }
 });

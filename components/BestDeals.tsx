@@ -1,6 +1,7 @@
-import { FlatList, View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import FoodCard from "./FoodCard";
 import TitleBar from "./TitleBar";
+import { Link, router } from "expo-router";
 
 
 export type FoodItem = {
@@ -61,19 +62,20 @@ export default function BestDeals() {
     ]
 
     return (
-    
-        <View style={{ marginTop: 40, marginHorizontal: 10 }}>
-            <TitleBar label={"Best Deals"}></TitleBar>
 
+        <View style={{ marginTop: 40, marginHorizontal: 10 }}>
+                <TitleBar label={"Best Deals"}></TitleBar>
             <FlatList
+                showsHorizontalScrollIndicator={false}
                 data={bestDealsData}
-                renderItem={({ item, index }) => 
-                <View style={{ 
-                    marginRight: 20 }}> 
-                    <FoodCard item={item} index={index}></FoodCard> 
+                renderItem={({ item, index }) =>
+                    <View style={{
+                        marginRight: 20
+                    }}>
+                        <FoodCard item={item} index={index}></FoodCard>
                     </View>
                 }
-               horizontal
+                horizontal
             />
         </View>
     )

@@ -55,8 +55,9 @@ export default function Category() {
             style={styles.categoryConatiner}
         >
             <FlatList
+                showsHorizontalScrollIndicator={false}
                 data={categories}
-                renderItem={({ item, index }) => <View style={{marginRight: 20}}>
+                renderItem={({ item, index }) => <View style={{ marginRight: 20 }}>
                     <CategoryItem
                         key={item.id}
                         item={item}
