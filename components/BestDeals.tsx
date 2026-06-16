@@ -66,6 +66,7 @@ export default function BestDeals() {
         <View style={{ marginTop: 40, marginHorizontal: 10 }}>
                 <TitleBar label={"Best Deals"}></TitleBar>
             <FlatList
+                bounces
                 showsHorizontalScrollIndicator={false}
                 data={bestDealsData}
                 renderItem={({ item, index }) =>

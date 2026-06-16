@@ -1,7 +1,6 @@
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import FoodCard from "./FoodCard";
 import TitleBar from "./TitleBar";
-import { router } from "expo-router";
 
 export default function PopularItems() {
     const popularItemsData = [
@@ -68,6 +67,7 @@ export default function PopularItems() {
 const styles = StyleSheet.create({
     popularItemsContainer: {
         marginBottom: 86,
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        marginTop: 40
     }
 })

@@ -6,14 +6,15 @@ type Props = {
     notBottom?: boolean;
 }
 
-export default function ImageViewer ({imgSource, notBottom}: Props){
+export default function ImageViewer({ imgSource, notBottom }: Props) {
     return (
         <Image
-        style={{width: 24, 
-            height: 24,
-            tintColor: notBottom? "#272727" : "#F5F5F5"
-        }}
-         source={imgSource}
+            style={{
+                width: 24,
+                height: 24,
+                tintColor: notBottom ? "#272727" : "#F5F5F5"
+            }}
+            source={imgSource}
         ></Image>
     )
 }

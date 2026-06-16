@@ -18,7 +18,8 @@ export default function Items() {
                     <View style={{ position: 'absolute', top: 37, right: 55, }}>
                         <ItemsTitle isLunch={true} label={"Lunch " + "\n" + "Items"}></ItemsTitle>
                     </View>
-                    <GoIcon></GoIcon>
+                    
+                    <GoIcon item={"Lunch"}></GoIcon>
                 </ImageBackground>
             </View>
             <View style={styles.itmesContainer2}>
@@ -31,7 +32,7 @@ export default function Items() {
                         <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Breakfast"}></ItemsTitle>
                         </View>
-                        <GoIcon></GoIcon>
+                        <GoIcon item={"Breakfast"}></GoIcon>
                     </ImageBackground>
                 </View>
                 <View style={styles.itemsImageContainer}>
@@ -44,7 +45,7 @@ export default function Items() {
                         <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Dinner"}></ItemsTitle>
                         </View>
-                        <GoIcon></GoIcon>
+                        <GoIcon item={"Dinner"}></GoIcon>
                     </ImageBackground>
 
                 </View>

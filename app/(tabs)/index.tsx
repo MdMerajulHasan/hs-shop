@@ -4,6 +4,7 @@ import Category from "@/components/Category";
 import ComboSlider from "@/components/ComboSlider";
 import FoodCard from "@/components/FoodCard";
 import Items from "@/components/Items";
+import Menu from "@/components/Menu";
 import Navbar from "@/components/Navbar";
 import PopularItems from "@/components/PopularItems";
 import SearchBar from "@/components/SearchBar";
@@ -214,7 +215,8 @@ export default function Index() {
               <Items></Items>
 
               {/* book your table */}
-              <View style={{ marginHorizontal: 10 }}>
+              <View style={{ marginHorizontal: 10, backgroundColor: "#070C12", borderRadius: 20 }}>
+                <Menu></Menu>
                 <BookYourTable></BookYourTable>
               </View>
 
@@ -237,9 +239,11 @@ export default function Index() {
             marginHorizontal: 10,
             gap: 20,
           }}
+          contentContainerStyle={{
+    paddingBottom: 190, // space for bottom nav
+  }}
           renderItem={({ item, index }) =>
             (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
-          ListFooterComponent={<View style={{ height: 165 }} />}
         >
         </FlatList>
       </View>

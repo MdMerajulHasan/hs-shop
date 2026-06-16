@@ -1,4 +1,5 @@
-import { FlatList, ImageBackground, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { FlatList, ImageBackground, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ComboSlider() {
 
@@ -21,9 +22,16 @@ export default function ComboSlider() {
                 >
                     <View style={styles.textButtonContainer}>
                         <Text style={styles.nameText}>{item.name}</Text>
-                        <View style={styles.viewDeatilsButton}>
+                        <Pressable
+                            onPress={()=>router.push({
+                                pathname: "/Details",
+                                params: {
+                                    id: `${item.name}`
+                                }
+                            })}
+                         style={styles.viewDeatilsButton}>
                             <Text style={{ color: "#F5F5F5", textAlign: "center", fontSize: 16, fontWeight: "500" }}>View Details</Text>
-                        </View>
+                        </Pressable>
                     </View>
                 </ImageBackground>
             )}

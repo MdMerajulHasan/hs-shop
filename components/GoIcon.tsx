@@ -1,12 +1,22 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 
-export default function GoIcon() {
+type Props = {
+    item: string;
+}
+
+export default function GoIcon({ item }: Props) {
     return (
-        <Pressable onPress={()=>{}} style={styles.goIconContainer}>
-            <Ionicons style={{ transform: [{ rotate: "-45deg" }] }} 
-            size={24} color={"#F5F5F5"} 
-            name="arrow-forward-outline">
+        <Pressable onPress={() => router.push({
+            pathname: "/Details",
+            params: {
+                id: `${item}`
+            }
+        })} style={styles.goIconContainer}>
+            <Ionicons style={{ transform: [{ rotate: "-45deg" }] }}
+                size={24} color={"#F5F5F5"}
+                name="arrow-forward-outline">
             </Ionicons>
         </Pressable>
     )

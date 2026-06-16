@@ -70,6 +70,7 @@ export default function Slider() {
         <View>
             <Animated.FlatList
                 ref={flatListRef}
+                bounces
                 data={offers}
                 keyExtractor={(_, index) => index.toString()}
                 snapToInterval={_imageWidth}
