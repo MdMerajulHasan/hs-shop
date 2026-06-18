@@ -1,6 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { Image, Pressable, Text, View } from "react-native";
+import FilterIcon from "./FilterIcon";
 
 type Props = {
     label: string;
@@ -13,7 +14,7 @@ export default function TitleBar({ isAllItemPage, label }: Props) {
             <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>{label}</Text>
             {
                 isAllItemPage ?
-                    <Image style={{ width: 24, height: 24 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/setting-3.png" }}></Image>
+                    <FilterIcon></FilterIcon>
                     :
                     <Pressable
                         onPress={() => router.push({

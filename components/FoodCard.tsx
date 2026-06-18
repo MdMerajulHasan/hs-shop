@@ -27,7 +27,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
                 <Ionicons name="heart-outline" size={24} color={"#575757"}></Ionicons>
             </Pressable>
 
-            <View style={{backgroundColor: "#E9E9E9", borderRadius: 10}}>
+            <View style={styles.cardImageContainre}>
 
             <Image style={[styles.cardImage,{width: isVertical ? 160: 200, height: isVertical? 170: 220}]} source={{ uri: item.image }}></Image>
             </View>
@@ -69,6 +69,12 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         flexDirection: "column",
         gap: 10,
+    },
+    cardImageContainre: {
+        backgroundColor: "#E9E9E91A",
+         borderRadius: 10,
+          borderColor: "#E9E9E9", 
+          borderWidth: 1
     },
     offerTextContainer: {
         backgroundColor: "#E93037",

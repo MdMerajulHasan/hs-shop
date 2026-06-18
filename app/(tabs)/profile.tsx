@@ -1,3 +1,4 @@
+import ModalNotificationSettings from "@/components/ModalNotificationSettings";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -6,6 +7,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-nati
 
 export default function Profile() {
     const [theme, setTheme] = useState<"light" | "dark">("light");
+    const [menuVisible, setMenuVisible] = useState(false);
 
 
     const user = {
@@ -95,14 +97,14 @@ export default function Profile() {
             </View>
 
             {/* all  settings container */}
-            <View style={{gap: 20, marginHorizontal: 10}}>
+            <View style={{ gap: 20, marginHorizontal: 10 }}>
                 {/* general settings */}
                 <View style={styles.generalContainer}>
                     <Text style={styles.settingsTitle}>
                         General Settings
                     </Text>
 
-                    <View style={{gap: 20}}>
+                    <View style={{ gap: 20 }}>
                         <View style={styles.settingsBar}>
                             <Text style={styles.settingsText}>Language Settings</Text>
                             <Pressable
@@ -155,11 +157,15 @@ export default function Profile() {
                         </View>
                         {/* --------------------------------------------- */}
 
-                        <Pressable style={styles.settingsBar}>
+                        <Pressable onPress={()=>router.push({
+                            pathname: "/changePassword"
+                        })} style={styles.settingsBar}>
                             <Text style={styles.settingsText}>Change Password</Text>
                             <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                         </Pressable>
-                        <Pressable style={styles.settingsBar}>
+                        <Pressable
+                            onPress={() => setMenuVisible(true)}
+                            style={styles.settingsBar}>
                             <Text style={styles.settingsText}>Notification Setting</Text>
                             <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                         </Pressable>
@@ -177,20 +183,20 @@ export default function Profile() {
                         Supports
                     </Text>
 
-                    <View style={{gap: 20}}>
+                    <View style={{ gap: 20 }}>
 
-                    <Pressable style={styles.settingsBar}>
-                        <Text style={styles.settingsText}>Security</Text>
-                        <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                    </Pressable>
-                    <Pressable style={styles.settingsBar}>
-                        <Text style={styles.settingsText}>FAQs</Text>
-                        <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                    </Pressable>
-                    <Pressable style={styles.settingsBar}>
-                        <Text style={styles.settingsText}>Help Center</Text>
-                        <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                    </Pressable>
+                        <Pressable style={styles.settingsBar}>
+                            <Text style={styles.settingsText}>Security</Text>
+                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                        </Pressable>
+                        <Pressable style={styles.settingsBar}>
+                            <Text style={styles.settingsText}>FAQs</Text>
+                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                        </Pressable>
+                        <Pressable style={styles.settingsBar}>
+                            <Text style={styles.settingsText}>Help Center</Text>
+                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                        </Pressable>
                     </View>
                 </View>
 
@@ -219,7 +225,13 @@ export default function Profile() {
                 </View>
             </View>
 
-            <Text style={[styles.versionText, {textAlign: "center"}]}>Version: RS.0.0.1</Text>
+            <Text style={[styles.versionText, { textAlign: "center" }]}>Version: RS.0.0.1</Text>
+
+            {/* notification settings modal */}
+            <ModalNotificationSettings
+                visible={menuVisible}
+                onClose={() => setMenuVisible(false)}
+            ></ModalNotificationSettings>
         </ScrollView>
     )
 }
@@ -354,7 +366,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "45%"
-    }, 
+    },
     bottonsContainer: {
         flexDirection: "row",
         gap: 20,

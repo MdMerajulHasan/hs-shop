@@ -1,10 +1,9 @@
 import EmptyNotificationBox from "@/components/EmptyNotificationBox";
 import NotificationCard from "@/components/NotificationCard";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, Text, View, StyleSheet, Image, FlatList, Dimensions, Switch } from "react-native";
-
+import { Pressable,  View, StyleSheet, Image, FlatList } from "react-native";
+import ModalNotificationSettings from "@/components/ModalNotificationSettings";
+import Header from "@/components/Header";
 
 // export type NotificationType =
 //     | "order_update"
@@ -107,35 +106,15 @@ export const notificationsData: NotificationItem[] = [
     },
 ];
 
-const { width: Width } = Dimensions.get("screen");
-
 export default function Notifications() {
 
     const [menuVisible, setMenuVisible] = useState(false);
-    const [isEnabledNoti, setIsEnabledNoti] = useState(true);
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
     const totalNotifications = notificationsData.length;
     // const totalNotifications = 0;
 
     const [unread, setUnread] = useState(0);
     const unreads = notificationsData.filter(item => item.isRead === false);
-
-    const options = [
-        "Order & Delivery Updates",
-        "Exclusive Offers & Promotions",
-        "Reservation Reminders",
-        "Loyalty Rewards & Points Alerts",
-        "Security & Account Notifications",
-    ];
-
-    const toggleOption = (item: string) => {
-        setSelectedOptions((prev) =>
-            prev.includes(item)
-                ? prev.filter((i) => i !== item)
-                : [...prev, item]
-        );
-    };
 
     useEffect(() => {
         setUnread(unreads.length);
@@ -147,29 +126,7 @@ export default function Notifications() {
         <View style={{ flex: 1 }}>
             {/* header */}
             <View style={styles.header}>
-                <View
-                    style={styles.headerStart}
-                >
-                    <Pressable
-                        onPress={() => router.back()}
-                        style={{
-                            padding: 8,
-                            borderWidth: 1,
-                            borderColor: "#D5D5D5",
-                            borderRadius: 30,
-                        }}
-                    >
-                        <Ionicons name="arrow-back" size={24} color="#272727" />
-                    </Pressable>
-                    <View style={{ alignItems: "center" }}>
-                        <Text style={{ fontSize: 18, fontWeight: "500", color: "#272727" }}>
-                            Notifications
-                        </Text>
-                        <Text style={{ fontWeight: "400", fontSize: 12, color: "#575757" }}>
-                            {`Unread ${unread} notifications`}
-                        </Text>
-                    </View>
-                </View>
+                <Header count={unread} page={"notifications"}></Header>
                 <Pressable
                     onPress={() => setMenuVisible(true)}
                     style={{ paddingHorizontal: 9 }}
@@ -212,119 +169,12 @@ export default function Notifications() {
             }
 
             {/* notification settings modal */}
-            <Modal
-                statusBarTranslucent={true}
-                visible={menuVisible}
-                transparent
-                animationType="none"
-            >
-                <View
-                    style={{
-                        flex: 1,
-                        backgroundColor: "rgba(0,0,0,0.4)",
-                        marginTop: 0,
-                    }}
-                >
-                    <View
-                        style={{
-                            width: Width,
-                            backgroundColor: "#fff",
-                            borderTopLeftRadius: 20,
-                            borderTopRightRadius: 20,
-                            paddingHorizontal: 10,
-                        }}
-                    >
-
-                        {/* modal header */}
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Pressable
-                                onPress={() => setMenuVisible(false)}
-                                style={{
-                                    padding: 8,
-                                    borderWidth: 1,
-                                    borderColor: "#D5D5D5",
-                                    borderRadius: 30,
-                                    width: 40,
-                                    height: 40
-                                }}
-                            >
-                                <Ionicons name="arrow-back" size={24} color="#272727" />
-                            </Pressable>
-                            <Text style={{ color: "#272727", fontWeight: "500", fontSize: 18, textAlign: "left", flex: 1, marginLeft: 16 }}>
-                                Notification Settings
-                            </Text>
-                            <View>
-                                <Switch
-                                    value={isEnabledNoti}
-                                    onValueChange={() => setIsEnabledNoti(!isEnabledNoti)}
-                                    trackColor={{ false: "#828282", true: "#D76527" }}
-                                    thumbColor={"#F5F5F5"}
-                                    style={{
-                                        transform: [
-                                            { scaleX: 1.5 },
-                                            { scaleY: 1.5 },
-                                        ],
-                                    }}
-                                />
-                            </View>
-                        </View>
-                        {/* divider */}
-                        <View style={{
-                            height: 1,
-                            backgroundColor: "#D5D5D5",
-                            marginVertical: 20
-                        }}></View>
-
-                        {/* settings options */}
-                        <View>
-                            {options.map((item) => {
-                                const selected = selectedOptions.includes(item);
-                                return (
-                                    <Pressable
-                                        key={item}
-                                        onPress={() => toggleOption(item)}
-                                        style={{
-                                            flexDirection: "row",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                            paddingVertical: 12,
-                                        }}
-                                    >
-                                        <Text style={{ color: "#272727", fontSize: 16, fontWeight: "500" }}>
-                                            {item}
-                                        </Text>
-
-                                        <View
-                                            style={{
-                                                width: 24,
-                                                height: 24,
-                                                borderRadius: 12,
-                                                borderWidth: 2,
-                                                borderColor: selected ? "#D76527" : "#BDBDBD",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            {selected && (
-                                                <View
-                                                    style={{
-                                                        width: 12,
-                                                        height: 12,
-                                                        borderRadius: 6,
-                                                        backgroundColor: "#D76527",
-                                                    }}
-                                                />
-                                            )}
-                                        </View>
-                                    </Pressable>
-                                );
-                            })}
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+            <ModalNotificationSettings 
+            visible={menuVisible}
+            onClose={() => setMenuVisible(false)}>
+            </ModalNotificationSettings>
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -336,8 +186,4 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginBottom: 20
     },
-    headerStart: {
-        flexDirection: "row",
-        gap: 16
-    }
 })

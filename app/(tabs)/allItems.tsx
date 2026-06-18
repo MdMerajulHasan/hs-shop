@@ -351,48 +351,8 @@ export default function AllItems() {
                     }}
                 />
 
-                {/* <FlatList
-                    ListHeaderComponent={
-                        <>
-                            <View style={{
-                                paddingTop: 15,
-                                paddingBottom: 16,
-                                backgroundColor: "#F5F5F5",
-                                zIndex: 200,
-                                borderBottomLeftRadius: 20,
-                                borderBottomRightRadius: 20
-                            }}>
-                                <SearchBar></SearchBar>
-                            </View>
-
-                            <View style={{ zIndex: 1, marginTop: -16 }}>
-                                <Slider></Slider>
-                            </View>
-                            <View style={{ marginHorizontal: 10, marginTop: 40 }}>
-                                <TitleBar isAllItemPage={true} label={filterItem}></TitleBar>
-                            </View>
-                        </>
-                    }
-                    showsVerticalScrollIndicator={false}
-                    data={allItemsData}
-                    numColumns={2}
-                    columnWrapperStyle={{
-                        justifyContent: "space-between",
-                        marginHorizontal: 10,
-                        gap: 20,
-                    }}
-                    contentContainerStyle={{
-                        paddingBottom: 190, // space for bottom nav
-                    }}
-                    renderItem={({ item, index }) => (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
-                >
-
-                </FlatList> */}
+                
             </View>
-
-            {/* here */}
-
-
         </View>
     )
 

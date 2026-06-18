@@ -240,8 +240,8 @@ export default function Index() {
             gap: 20,
           }}
           contentContainerStyle={{
-    paddingBottom: 190, // space for bottom nav
-  }}
+            paddingBottom: 190, // space for bottom nav
+          }}
           renderItem={({ item, index }) =>
             (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
         >
