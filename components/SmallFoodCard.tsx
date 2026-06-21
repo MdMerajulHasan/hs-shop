@@ -1,12 +1,13 @@
 import { CartDataType } from "@/app/cart";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
     item: CartDataType;
+    page: string;
 }
 
-export default function SmallFoodCard({ item }: Props) {
+export default function SmallFoodCard({ item, page }: Props) {
     return (
         <View style={styles.cartCardContainer}>
             <View style={{ backgroundColor: "#5757571A", height: 30, width: 30, padding: 6, borderRadius: 30 }}>
@@ -14,6 +15,12 @@ export default function SmallFoodCard({ item }: Props) {
             </View>
 
             <View style={[styles.cardImageContainre]}>
+                <View style={styles.offerTextContainer}>
+                    <Text
+                        style={styles.offerText}>
+                        -{item.discount}%
+                    </Text>
+                </View>
                 <Image style={{ width: "95%", height: "95%" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png" }}></Image>
             </View>
 
@@ -31,11 +38,21 @@ export default function SmallFoodCard({ item }: Props) {
                 </View>
             </View>
 
-            <View style={styles.countContainer}>
-                <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
-                <Text style={styles.countNumber}>1</Text>
-                <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
-            </View>
+            {
+                page === "cart" ? <View style={styles.countContainer}>
+                    <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
+                    <Text style={styles.countNumber}>1</Text>
+                    <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
+                </View> : null
+            }
+
+            {
+                page === "wishlist" ? <Pressable style={styles.cartContainer}>
+                    <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                        style={{ width: 24, height: 24 }}
+                    ></Image>
+                </Pressable> : null
+            }
         </View>
     )
 }
@@ -72,5 +89,28 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "600",
         color: "#575757"
-    }
+    },
+    offerTextContainer: {
+        backgroundColor: "#E93037",
+        width: 35,
+        borderRadius: 40,
+        padding: 4,
+        position: "absolute",
+        top: 6,
+        left: 6,
+        zIndex: 1
+    },
+    offerText: {
+        color: "#F5F5F5",
+        fontWeight: "600",
+        fontSize: 10,
+        textAlign: "center"
+    },
+    cartContainer: {
+        backgroundColor: "#D76527",
+        padding: 12,
+        width: 48,
+        height: 48,
+        borderRadius: 66
+    },
 })

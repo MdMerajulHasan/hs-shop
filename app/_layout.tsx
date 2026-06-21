@@ -11,7 +11,6 @@ export default function RootLayout() {
           name="(tabs)"
           options={{ headerShown: false, animation: "none" }}
         />
-
         <Stack.Screen
           name="notifications"
           options={{
@@ -33,6 +32,14 @@ export default function RootLayout() {
             title: "Cart",
             headerShown: false,
             animation: "none",
+          }}
+        />
+        <Stack.Screen
+          name="placeOrder"
+          options={{
+            title: "Place Order",
+            headerShown: false,
+            animation: "none"
           }}
         />
       </Stack>

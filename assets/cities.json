@@ -1,0 +1,1012 @@
+{
+    "cities": [
+        {
+            "subdiscrict_id": "496",
+            "id": "1",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Gulshan",
+            "bn_name": "গুলশান"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "2",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Banani",
+            "bn_name": "বনানী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "3",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Baridhara",
+            "bn_name": "বারিধারা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "4",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Uttara",
+            "bn_name": "উত্তরা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "5",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Mirpur",
+            "bn_name": "মিরপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "6",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Mohakhali",
+            "bn_name": "মহাখালী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "7",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Niketon",
+            "bn_name": "নিকেতন"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "8",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Khilkhet",
+            "bn_name": "খিলক্ষেত"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "9",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Badda",
+            "bn_name": "বাড্ডা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "10",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Cantonment",
+            "bn_name": "ক্যান্টনমেন্ট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "11",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Kuril",
+            "bn_name": "কুড়িল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "12",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Vatara",
+            "bn_name": "ভাটারা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "13",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Adabor",
+            "bn_name": "আদাবর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "14",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Shewrapara",
+            "bn_name": "শেওড়াপাড়া"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "15",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Agargaon",
+            "bn_name": "আগারগাঁও"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "16",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Kazipara",
+            "bn_name": "কাজীপাড়া"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "17",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Darussalam",
+            "bn_name": "দারুসসালাম"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "18",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Kafrul",
+            "bn_name": "কাফরুল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "19",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Uttarkhan",
+            "bn_name": "উত্তরখান"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "20",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Pallabi",
+            "bn_name": "পল্লবী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "21",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Nikunja",
+            "bn_name": "নিকুঞ্জ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "22",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Bashundhara R/A",
+            "bn_name": "বসুন্ধরা রেজিডেন্সিয়াল এলাকা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "23",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Tongi",
+            "bn_name": "টঙ্গি"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "24",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Kakrail",
+            "bn_name": "কাকরাইল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "25",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Shyamoli",
+            "bn_name": "শ্যামলী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "26",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Dhamrai",
+            "bn_name": "ধামরাই"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "27",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Mohakhali DOHS",
+            "bn_name": "মহাখালী ডিওএইচএস"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "28",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Rampura",
+            "bn_name": "রামপুরা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "29",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Mirpur DOHS",
+            "bn_name": "মিরপুর ডিওএইচএস"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "30",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Mirpur Cantonment",
+            "bn_name": "মিরপুর ক্যান্টনমেন্ট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "31",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Shah Ali",
+            "bn_name": "শাহ আলী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "32",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Rayer Bazar",
+            "bn_name": "রায়ের বাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "33",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Farmgate",
+            "bn_name": "ফার্মগেট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "34",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Kamalapur",
+            "bn_name": "কমলাপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "35",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Elephant Road",
+            "bn_name": "হাতিরঝিল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "36",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Lalmatia",
+            "bn_name": "লালমাটিয়া"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "37",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Malibagh",
+            "bn_name": "মালিবাগ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "38",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Tejgaon",
+            "bn_name": "তেজগাঁও"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "39",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Sher-e-Bangla Nagar",
+            "bn_name": "শের-ই-বাংলা নগর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "40",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Gabtoli",
+            "bn_name": "গাবতলী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "41",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka North",
+            "name": "Rupnagar",
+            "bn_name": "রূপনগর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "42",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Dhanmondi",
+            "bn_name": "ধানমন্ডি"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "43",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mohammadpur",
+            "bn_name": "মোহাম্মদপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "44",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Farmgate",
+            "bn_name": "ফার্মগেট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "45",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Lalbagh",
+            "bn_name": "লালবাগ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "46",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Kotwali",
+            "bn_name": "কোতওয়ালী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "47",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Shahbag",
+            "bn_name": "শাহবাগ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "48",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Armanitola",
+            "bn_name": "আরমানিটোলা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "49",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Shyampur",
+            "bn_name": "শ্যামপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "50",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Demra",
+            "bn_name": "ডেমরা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "51",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Laxmibazar",
+            "bn_name": "লক্ষ্মীবাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "52",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Gendaria",
+            "bn_name": "গেন্ডারিয়া"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "53",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Wari",
+            "bn_name": "ওয়ারী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "54",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Sutrapur",
+            "bn_name": "সুত্রাপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "55",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Kamrangirchar",
+            "bn_name": "কামরাঙ্গীরচর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "56",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Kotwali Police Line",
+            "bn_name": "কোতওয়ালী পুলিশ লাইন"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "57",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Bangshal",
+            "bn_name": "বংশাল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "58",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Chawkbazar",
+            "bn_name": "চকবাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "59",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Nayabazar",
+            "bn_name": "নয়াবাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "60",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Nababganj",
+            "bn_name": "নবাবগঞ্জ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "61",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Banglamotor",
+            "bn_name": "বাংলামটর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "62",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Fakirapool",
+            "bn_name": "ফকিরাপুল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "63",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Shantinagar",
+            "bn_name": "শান্তিনগর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "64",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Moghbazar",
+            "bn_name": "মগবাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "65",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Gulshan Model Town",
+            "bn_name": "গুলশান মডেল টাউন"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "66",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Banani",
+            "bn_name": "বনানী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "67",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Baridhara",
+            "bn_name": "বারিধারা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "68",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Bashundhara",
+            "bn_name": "বসুন্ধরা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "69",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Kakrail",
+            "bn_name": "কাকরাইল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "70",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Malibagh",
+            "bn_name": "মালিবাগ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "71",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mouchak",
+            "bn_name": "মৌচাক"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "72",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Siddheshwari",
+            "bn_name": "সিদ্ধেশ্বরী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "73",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Jatrabari",
+            "bn_name": "যাত্রাবাড়ি"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "74",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Jurain",
+            "bn_name": "জুরাইন"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "75",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Dholpur",
+            "bn_name": "ধলপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "76",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Posta",
+            "bn_name": "পোস্টা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "77",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Dhaka Cantonment",
+            "bn_name": "ঢাকা ক্যান্টনমেন্ট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "78",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mirpur Cantonment",
+            "bn_name": "মিরপুর ক্যান্টনমেন্ট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "79",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Uttar Khan",
+            "bn_name": "উত্তর খান"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "80",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Darus Salam",
+            "bn_name": "দারুস সালাম"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "81",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Khilkhet",
+            "bn_name": "খিলক্ষেত"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "82",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Nikunja",
+            "bn_name": "নিকুঞ্জ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "83",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Airport",
+            "bn_name": "এয়ারপোর্ট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "84",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Rampura Bazar",
+            "bn_name": "রামপুরা বাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "85",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Middle Badda",
+            "bn_name": "মধ্য বড্ডা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "86",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Banasree Block-C",
+            "bn_name": "বনশ্রী ব্লক-সি"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "87",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "North Badda",
+            "bn_name": "উত্তর বড্ডা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "88",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Postogola",
+            "bn_name": "পোস্তগোলা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "89",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Dakshinkhan",
+            "bn_name": "দক্ষিণখান"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "90",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Nawabganj",
+            "bn_name": "নবাবগঞ্জ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "91",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Jhigatola",
+            "bn_name": "ঝিগাতলা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "92",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Pallabi Extension",
+            "bn_name": "পল্লবী এক্সটেনশন"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "93",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Uttara",
+            "bn_name": "উত্তরা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "94",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mohakhali",
+            "bn_name": "মহাখালী"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "95",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Badda",
+            "bn_name": "বড্ডা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "96",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Basabo",
+            "bn_name": "বাসাবো"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "97",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Merul Badda",
+            "bn_name": "মেরুল বড্ডা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "98",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Bashabo",
+            "bn_name": "বাসাবো"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "99",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Shantibagh",
+            "bn_name": "শান্তিবাগ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "100",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Basundhara Residential Area",
+            "bn_name": "বসুন্ধরা রেজিডেনশিয়াল এলাকা"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "101",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mohammadpur Housing",
+            "bn_name": "মোহাম্মদপুর হাউজিং"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "102",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Green Road",
+            "bn_name": "গ্রিন রোড"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "103",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Mohammadpur Krishi Market",
+            "bn_name": "মোহাম্মদপুর কৃষি মার্কেট"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "104",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Tikatuli",
+            "bn_name": "টিকাটুলি"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "105",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Kamalapur",
+            "bn_name": "কমলাপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "106",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Basundhara R/A",
+            "bn_name": "বসুন্ধরা আর/এ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "107",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Shantibagh R/A",
+            "bn_name": "শান্তিবাগ আর/এ"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "108",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Monipur",
+            "bn_name": "মনিপুর"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "109",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Rayer Bazar",
+            "bn_name": "রায়েরবাজার"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "110",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Baily Road",
+            "bn_name": "বেইলি রোড"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "111",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "Elephant Road",
+            "bn_name": "হাতিরপুল"
+        },
+        {
+            "subdiscrict_id": "496",
+            "id": "112",
+            "division_id": "3",
+            "district_id": "1",
+            "city_corporation": "Dhaka South",
+            "name": "New Market",
+            "bn_name": "নিউমার্কেট"
+        }
+    ]
+}

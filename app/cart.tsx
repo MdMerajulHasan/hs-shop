@@ -2,6 +2,7 @@ import FilterIcon from "@/components/FilterIcon";
 import Header from "@/components/Header";
 import PrimaryButton from "@/components/PrimaryButton";
 import SmallFoodCard from "@/components/SmallFoodCard";
+import { router } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 export type CartDataType = {
@@ -81,7 +82,7 @@ export default function Cart() {
                 renderItem={({ item }) => {
                     return (<View style={{ marginHorizontal: 10 }}>
 
-                        <SmallFoodCard item={item}></SmallFoodCard>
+                        <SmallFoodCard item={item} page={"cart"}></SmallFoodCard>
                     </View>)
                 }}
                 ItemSeparatorComponent={() => <View style={{
@@ -156,9 +157,11 @@ export default function Cart() {
                                 <Text style={styles.voucherItemText3}>Total:</Text>
                                 <Text style={[styles.voucherItemText3]}>$428.75</Text>
                             </View>
-                            <View style={{ marginVertical: 20 }}>
+                            <Pressable
+                                onPress={() => router.push("/placeOrder")}
+                                style={{ marginVertical: 20 }}>
                                 <PrimaryButton label={"Place Order"}></PrimaryButton>
-                            </View>
+                            </Pressable>
                         </View>
                     </View>
                 </View>}

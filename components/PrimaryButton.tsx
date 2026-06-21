@@ -1,13 +1,13 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 type Props = {
     label: string;
 }
 export default function PrimaryButton({ label }: Props) {
     return (
-        <Pressable style={styles.primaryButton}>
+        <View style={styles.primaryButton}>
             <Text style={styles.buttonText}>{label}</Text>
-        </Pressable>
+        </View>
     )
 }
 
@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 16,
         borderRadius: 66
-
     },
     buttonText: {
         fontWeight: "500",
