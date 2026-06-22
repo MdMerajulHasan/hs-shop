@@ -12,7 +12,19 @@ export default function BookingForm() {
     const [showDate, setShowDate] = useState(false);
     const [time, setTime] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
-    const now = new Date();
+
+
+    const currentDate = {
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+    };
+
+    const currentTime = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+    }).format(time);
 
 
 
@@ -61,7 +73,7 @@ export default function BookingForm() {
                 <View>
                     <Text style={styles.text}>Date</Text>
                     <Pressable onPress={() => setShowDate(true)} style={styles.inputContainer}>
-                        <Text style={{ color: "#E9E9E9" }}>Select Date</Text>
+                        <Text style={{ color: "#E9E9E9" }}>{currentDate.day + "-" + currentDate.month + "-" + currentDate.year}</Text>
                         <Image style={{ width: 18, height: 18, tintColor: "#ADADAD" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/calendar-2.png" }}></Image>
                     </Pressable>
                 </View>
@@ -69,7 +81,7 @@ export default function BookingForm() {
                 <View>
                     <Text style={styles.text}>Time</Text>
                     <Pressable onPress={() => { setShowTime(true) }} style={styles.inputContainer}>
-                        <Text style={{ color: "#E9E9E9" }}>Select Time</Text>
+                        <Text style={{ color: "#E9E9E9" }}>{currentTime}</Text>
                         <Image style={{ width: 18, height: 18, tintColor: "#ADADAD" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/clock.png" }}></Image>
                     </Pressable>
                 </View>
@@ -115,21 +127,30 @@ export default function BookingForm() {
                     value={time}
                     mode="time"
                     is24Hour={false}
-                    onChange={(event: any, selectedTime?: Date) => {
+                    onChange={(event, selectedTime?: Date) => {
                         setShowTime(false);
 
                         if (!selectedTime) return;
 
-                        const isToday = date.toDateString() === now.toDateString();
+                        const now = new Date();
 
-                        if (isToday && selectedTime < now) {
-                            alert("Invalid Time, " + "Please select a future time.");
+                        const selectedDateTime = new Date(date);
+                        selectedDateTime.setHours(
+                            selectedTime.getHours(),
+                            selectedTime.getMinutes(),
+                            0,
+                            0
+                        );
+
+                        const isToday =
+                            date.toDateString() === now.toDateString();
+
+                        if (isToday && selectedDateTime < now) {
+                            alert("Invalid Time, Please select a future time.");
                             return;
                         }
 
-                        if (selectedTime) {
-                            setTime(selectedTime);
-                        }
+                        setTime(selectedTime);
                     }}
                 />
             )}
