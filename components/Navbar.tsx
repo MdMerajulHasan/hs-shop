@@ -34,7 +34,7 @@ export default function Navbar() {
                     </View>
                 </Link>
 
-                <Link href={"/cart"}>
+                <Link href={"/(tabs)/shopping"}>
                     <View style={styles.iconContainer}>
                         <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Buy.png" }}></ImageViewer>
                         <NotiNumber Number={6}></NotiNumber>

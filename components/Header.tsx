@@ -5,9 +5,11 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 type Props = {
     count?: number;
     page: string;
+    isModal?: boolean;
+    onClose?: () => void;
 }
 
-export default function Header({ count, page }: Props) {
+export default function Header({ count, page, isModal, onClose }: Props) {
 
     let title = "";
     let subtitle: string | null = null;
@@ -32,6 +34,12 @@ export default function Header({ count, page }: Props) {
         case "changepassword":
             title = "Change Password";
             break;
+        case "deliveryaddress":
+            title = "Delivery Address";
+            break;
+        case "notificationsettings": 
+            title =  "Notification Settings";
+            break;
     }
 
 
@@ -40,7 +48,7 @@ export default function Header({ count, page }: Props) {
             style={styles.headerStart}
         >
             <Pressable
-                onPress={() => {
+                onPress={ isModal ? onClose : () => {
                     if (router.canGoBack()) {
                         router.back();
                     } else {

@@ -6,8 +6,9 @@ import {
     Pressable,
     Switch,
     Dimensions,
+    StyleSheet
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import Header from "./Header";
 
 const { width: Width } = Dimensions.get("screen");
 
@@ -43,13 +44,13 @@ export default function ModalNotificationSettings({
         <Modal
             visible={visible}
             transparent
-            animationType="none"
-            statusBarTranslucent
+            animationType="slide"
         >
             <View
                 style={{
                     flex: 1,
                     backgroundColor: "rgba(0,0,0,0.4)",
+                    justifyContent: "flex-start"
                 }}
             >
                 <View
@@ -62,34 +63,8 @@ export default function ModalNotificationSettings({
                     }}
                 >
                     {/* Header */}
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        <Pressable
-                            onPress={onClose}
-                            style={{
-                                padding: 8,
-                                borderWidth: 1,
-                                borderColor: "#D5D5D5",
-                                borderRadius: 30,
-                            }}
-                        >
-                            <Ionicons
-                                name="arrow-back"
-                                size={24}
-                                color="#272727"
-                            />
-                        </Pressable>
-
-                        <Text
-                            style={{
-                                flex: 1,
-                                marginLeft: 16,
-                                fontSize: 18,
-                                fontWeight: "500",
-                            }}
-                        >
-                            Notification Settings
-                        </Text>
-
+                    <View style={styles.header}>
+                        <Header onClose={onClose} isModal={true} page="notificationsettings"></Header>
                         <Switch
                             value={isEnabledNoti}
                             onValueChange={() => setIsEnabledNoti(!isEnabledNoti)}
@@ -149,3 +124,16 @@ export default function ModalNotificationSettings({
         </Modal>
     );
 }
+
+const styles = StyleSheet.create({
+    header: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: "center",
+        marginTop: 20,
+        marginHorizontal: 10,
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: "#D5D5D5"
+    },
+})

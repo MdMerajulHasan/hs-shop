@@ -1,4 +1,4 @@
-import { CartDataType } from "@/app/cart";
+import { CartDataType } from "@/app/(tabs)/shopping";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 

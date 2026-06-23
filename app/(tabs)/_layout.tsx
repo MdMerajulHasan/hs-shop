@@ -24,21 +24,21 @@ export default function TabLayout() {
             }}
         />
         <Tabs.Screen
-            name="booking"
-            options={{
-                title: "Book",
-            }}
-        />
-        <Tabs.Screen
             name="shopping"
             options={{
-                title: "Shopping",
+                title: "Cart",
             }}
         />
         <Tabs.Screen
             name="order"
             options={{
                 title: "Order",
+            }}
+        />
+        <Tabs.Screen
+            name="wishlist"
+            options={{
+                title: "Wish List"
             }}
         />
         <Tabs.Screen

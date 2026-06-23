@@ -3,8 +3,10 @@ import GoIcon from "./GoIcon";
 import ItemsTitle from "./ItemsTitle";
 
 export type ItemsType = {
-    label: string,
+    label: string;
 }
+
+
 
 export default function Items() {
     return (
@@ -19,7 +21,7 @@ export default function Items() {
                         <ItemsTitle isLunch={true} label={"Lunch " + "\n" + "Items"}></ItemsTitle>
                     </View>
                     
-                    <GoIcon item={"Lunch"}></GoIcon>
+                    <GoIcon item={{id: "1"}}></GoIcon>
                 </ImageBackground>
             </View>
             <View style={styles.itmesContainer2}>
@@ -32,7 +34,7 @@ export default function Items() {
                         <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Breakfast"}></ItemsTitle>
                         </View>
-                        <GoIcon item={"Breakfast"}></GoIcon>
+                        <GoIcon item={{id: "2"}}></GoIcon>
                     </ImageBackground>
                 </View>
                 <View style={styles.itemsImageContainer}>
@@ -45,7 +47,7 @@ export default function Items() {
                         <View style={{ position: 'absolute', top: 19,width: "100%", alignItems: "center", }}>
                             <ItemsTitle label={"Dinner"}></ItemsTitle>
                         </View>
-                        <GoIcon item={"Dinner"}></GoIcon>
+                        <GoIcon item={{id: "3"}}></GoIcon>
                     </ImageBackground>
 
                 </View>

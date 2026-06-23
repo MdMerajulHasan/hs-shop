@@ -1,13 +1,18 @@
+import ModalChangePass from "@/components/ModalChangePass";
+import ModalDeliveryAddress from "@/components/ModalDeliveryAddress";
 import ModalNotificationSettings from "@/components/ModalNotificationSettings";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile() {
     const [theme, setTheme] = useState<"light" | "dark">("light");
     const [menuVisible, setMenuVisible] = useState(false);
+    const [changePassVisible, setChangePassVisible] = useState(false);
+    const [addressVisible, setAddressVisible] = useState(false);
 
 
     const user = {
@@ -17,8 +22,9 @@ export default function Profile() {
     }
 
     return (
-        <ScrollView
-            showsVerticalScrollIndicator={false}
+        <SafeAreaView
+            style={{ flex: 1 }}
+            edges={["left", "right", "bottom"]}
         >
             <View
                 style={styles.userContainer}
@@ -66,173 +72,196 @@ export default function Profile() {
                     </Pressable>
                 </View>
             </View>
-
-            {/* point and girft card cards */}
-            <View style={styles.parentContainer}>
-                <View
-                    style={styles.pointsContainer}
-                >
-                    <Image
-                        style={styles.pointImage}
-                        source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Group-35761.png" }}
-                    ></Image>
-                    <View>
-                        <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Reward Points</Text>
-                        <Text style={{ textAlign: "center", color: "#06A316", fontSize: 12, fontWeight: "500" }}>2,850</Text>
-                    </View>
-                </View>
-                <View
-                    style={styles.cardsContainer}
-                >
-                    <Image
-                        style={styles.giftCardImage}
-                        source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/gift.png" }}
-                    ></Image>
-                    <View>
-                        <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Gift Card</Text>
-                        <Text style={{ textAlign: "center", color: "#E38800", fontSize: 12, fontWeight: "500" }}>Eid gift card are available</Text>
-                    </View>
-                </View>
-
-            </View>
-
-            {/* all  settings container */}
-            <View style={{ gap: 20, marginHorizontal: 10 }}>
-                {/* general settings */}
-                <View style={styles.generalContainer}>
-                    <Text style={styles.settingsTitle}>
-                        General Settings
-                    </Text>
-
-                    <View style={{ gap: 20 }}>
-                        <View style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Language Settings</Text>
-                            <Pressable
-                                style={styles.language}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: "400",
-                                        color: "#272727",
-                                        textAlign: "center"
-                                    }}>
-                                    English
-                                </Text>
-                                <Ionicons color={"#272727"} size={18} name="chevron-down-outline"></Ionicons>
-                            </Pressable>
-                        </View>
-                        {/* theme settings */}
-                        <View style={styles.container}>
-                            <Text style={styles.settingsText}>Theme Mode</Text>
-                            <View style={styles.toggleContainer}>
-                                <Pressable
-                                    onPress={() => setTheme("light")}
-                                    style={[
-                                        styles.iconButton,
-                                        theme === "light" && styles.activeButton,
-                                    ]}
-                                >
-                                    <Ionicons
-                                        name="sunny"
-                                        size={20}
-                                        color={theme === "light" ? "#FFFFFF" : "#828282"}
-                                    />
-                                </Pressable>
-
-                                <Pressable
-                                    onPress={() => setTheme("dark")}
-                                    style={[
-                                        styles.iconButton,
-                                        theme === "dark" && styles.activeButton,
-                                    ]}
-                                >
-                                    <Ionicons
-                                        name="moon"
-                                        size={20}
-                                        color={theme === "dark" ? "#FFFFFF" : "#828282"}
-                                    />
-                                </Pressable>
-                            </View>
-                        </View>
-                        {/* --------------------------------------------- */}
-
-                        <Pressable onPress={()=>router.push({
-                            pathname: "/changePassword"
-                        })} style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Change Password</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                        <Pressable
-                            onPress={() => setMenuVisible(true)}
-                            style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Notification Setting</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                        <Pressable style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Delivery Address</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                    </View>
-
-                </View>
-
-                {/* support */}
-                <View style={styles.generalContainer}>
-                    <Text style={styles.settingsTitle}>
-                        Supports
-                    </Text>
-
-                    <View style={{ gap: 20 }}>
-
-                        <Pressable style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Security</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                        <Pressable style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>FAQs</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                        <Pressable style={styles.settingsBar}>
-                            <Text style={styles.settingsText}>Help Center</Text>
-                            <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
-                        </Pressable>
-                    </View>
-                </View>
-
-                {/* rating + logout */}
-                <View style={styles.bottonsContainer}>
-                    <Pressable
-                        style={[styles.Button, { backgroundColor: "#E9E9E9", borderColor: "#D5D5D5" }]}
-                    >
-                        <FontAwesome6
-                            name="star"
-                            size={24}
-                            color="#272727"
-                        />
-                        <Text style={styles.settingsText}>Rating</Text>
-                    </Pressable>
-                    <Pressable
-                        style={[styles.Button, { backgroundColor: "#E930371A", borderColor: "#E93037" }]}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{
+                    zIndex: 1,
+                    paddingTop: 20,
+                    backgroundColor: "#F5F5F5",
+                    marginTop: -20,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20
+                }}>
+                {/* point and girft card cards */}
+                <View style={styles.parentContainer}>
+                    <View
+                        style={styles.pointsContainer}
                     >
                         <Image
-                            tintColor={"#E93037"}
-                            style={{ width: 24, height: 24 }}
-                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/logout-1.png" }}
+                            style={styles.pointImage}
+                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Group-35761.png" }}
                         ></Image>
-                        <Text style={[styles.settingsText, { color: "#E93037" }]}>Log Out</Text>
-                    </Pressable>
+                        <View>
+                            <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Reward Points</Text>
+                            <Text style={{ textAlign: "center", color: "#06A316", fontSize: 12, fontWeight: "500" }}>2,850</Text>
+                        </View>
+                    </View>
+                    <View
+                        style={styles.cardsContainer}
+                    >
+                        <Image
+                            style={styles.giftCardImage}
+                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/gift.png" }}
+                        ></Image>
+                        <View>
+                            <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Gift Card</Text>
+                            <Text style={{ textAlign: "center", color: "#E38800", fontSize: 12, fontWeight: "500" }}>Eid gift card are available</Text>
+                        </View>
+                    </View>
                 </View>
-            </View>
 
-            <Text style={[styles.versionText, { textAlign: "center" }]}>Version: RS.0.0.1</Text>
+                {/* all  settings container */}
+                <View style={{ gap: 20, marginHorizontal: 10 }}>
+                    {/* general settings */}
+                    <View style={styles.generalContainer}>
+                        <Text style={styles.settingsTitle}>
+                            General Settings
+                        </Text>
 
+                        <View style={{ gap: 20 }}>
+                            <View style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Language Settings</Text>
+                                <Pressable
+                                    style={styles.language}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 14,
+                                            fontWeight: "400",
+                                            color: "#272727",
+                                            textAlign: "center"
+                                        }}>
+                                        English
+                                    </Text>
+                                    <Ionicons color={"#272727"} size={18} name="chevron-down-outline"></Ionicons>
+                                </Pressable>
+                            </View>
+                            {/* theme settings */}
+                            <View style={styles.container}>
+                                <Text style={styles.settingsText}>Theme Mode</Text>
+                                <View style={styles.toggleContainer}>
+                                    <Pressable
+                                        onPress={() => setTheme("light")}
+                                        style={[
+                                            styles.iconButton,
+                                            theme === "light" && styles.activeButton,
+                                        ]}
+                                    >
+                                        <Ionicons
+                                            name="sunny"
+                                            size={20}
+                                            color={theme === "light" ? "#FFFFFF" : "#828282"}
+                                        />
+                                    </Pressable>
+
+                                    <Pressable
+                                        onPress={() => setTheme("dark")}
+                                        style={[
+                                            styles.iconButton,
+                                            theme === "dark" && styles.activeButton,
+                                        ]}
+                                    >
+                                        <Ionicons
+                                            name="moon"
+                                            size={20}
+                                            color={theme === "dark" ? "#FFFFFF" : "#828282"}
+                                        />
+                                    </Pressable>
+                                </View>
+                            </View>
+                            {/* --------------------------------------------- */}
+
+                            <Pressable onPress={() => setChangePassVisible(true)}
+                                style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Change Password</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => setMenuVisible(true)}
+                                style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Notification Settings</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                            <Pressable
+                            onPress={()=>setAddressVisible(true)}
+                            style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Delivery Address</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                        </View>
+
+                    </View>
+
+                    {/* support */}
+                    <View style={styles.generalContainer}>
+                        <Text style={styles.settingsTitle}>
+                            Supports
+                        </Text>
+
+                        <View style={{ gap: 20 }}>
+
+                            <Pressable style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Security</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                            <Pressable style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>FAQs</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                            <Pressable style={styles.settingsBar}>
+                                <Text style={styles.settingsText}>Help Center</Text>
+                                <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
+                            </Pressable>
+                        </View>
+                    </View>
+
+                    {/* rating + logout */}
+                    <View style={styles.bottonsContainer}>
+                        <Pressable
+                            style={[styles.Button, { backgroundColor: "#E9E9E9", borderColor: "#D5D5D5" }]}
+                        >
+                            <FontAwesome6
+                                name="star"
+                                size={24}
+                                color="#272727"
+                            />
+                            <Text style={styles.settingsText}>Rating</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.Button, { backgroundColor: "#E930371A", borderColor: "#E93037" }]}
+                        >
+                            <Image
+                                tintColor={"#E93037"}
+                                style={{ width: 24, height: 24 }}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/logout-1.png" }}
+                            ></Image>
+                            <Text style={[styles.settingsText, { color: "#E93037" }]}>Log Out</Text>
+                        </Pressable>
+                    </View>
+                </View>
+
+                <Text style={[styles.versionText, { textAlign: "center" }]}>Version: RS.0.0.1</Text>
+
+
+            </ScrollView>
             {/* notification settings modal */}
             <ModalNotificationSettings
                 visible={menuVisible}
                 onClose={() => setMenuVisible(false)}
             ></ModalNotificationSettings>
-        </ScrollView>
+
+            {/* change password modal */}
+            <ModalChangePass
+             visible={changePassVisible}
+             onClose={()=> setChangePassVisible(false)}
+            ></ModalChangePass>
+
+            {/* change address modal */}
+            <ModalDeliveryAddress 
+             visible={addressVisible}
+             onClose={()=>setAddressVisible(false)}
+            ></ModalDeliveryAddress>
+        </SafeAreaView>
     )
 }
 
@@ -241,8 +270,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#D76527",
         paddingTop: 15,
         paddingHorizontal: 10,
+        paddingBottom: 40,
         zIndex: 0,
-        paddingBottom: 40
     },
     profileTitle: {
         flexDirection: "row",
@@ -263,8 +292,7 @@ const styles = StyleSheet.create({
         borderColor: "#06A31680",
         borderRadius: 10,
         gap: 6,
-        width: "45%"
-
+        width: "45%",
     },
     cardsContainer: {
         paddingVertical: 20,
@@ -295,12 +323,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 20,
         justifyContent: "center",
-        paddingVertical: 20,
-        zIndex: 1,
-        marginTop: -20,
-        backgroundColor: "#F5F5F5",
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
+        marginBottom: 20
     }, versionText: {
         fontSize: 14,
         fontWeight: "500",

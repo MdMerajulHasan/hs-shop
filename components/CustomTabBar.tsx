@@ -2,10 +2,9 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import ImageViewer from "./ImageViewer";
 
-type TabRouteName = "index" | "booking" | "shopping" | "order" | "profile";
+type TabRouteName = "index" | "shopping" | "order" | "profile" | "wishlist";
 
-const { width } = Dimensions.get("window");
-const Width = width;
+const { width: Width } = Dimensions.get("screen");
 
 export default function CustomTabBar({
     state,
@@ -18,10 +17,6 @@ export default function CustomTabBar({
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Vector.png" },
             inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/home-2.png" },
         },
-        booking: {
-            active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/book-1-1.png" },
-            inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/book-1.png" },
-        },
         shopping: {
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Bag.png" },
             inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag-2.png" },
@@ -29,6 +24,10 @@ export default function CustomTabBar({
         order: {
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Shipping-Car.png" },
             inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Shipping-Car-fast.png" },
+        },
+        wishlist: {
+            active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/heart-1.png" },
+            inactive: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/heart.png" },
         },
         profile: {
             active: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/user-1.png" },
