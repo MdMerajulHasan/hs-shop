@@ -1,11 +1,10 @@
-import { FlatList, Pressable, View } from "react-native";
+import { FlatList, View } from "react-native";
 import FoodCard from "./FoodCard";
 import TitleBar from "./TitleBar";
-import { Link, router } from "expo-router";
 
 
 export type FoodItem = {
-    id: number;
+    id: string;
     name: string;
     image: string;
     price: number;
@@ -20,7 +19,7 @@ export type FoodItem = {
 export default function BestDeals() {
     const bestDealsData: FoodItem[] = [
         {
-            id: 1,
+            id: "1",
             name: "Delicious And Crispy Potato French Fries",
             image: "https://d.hs-bd.com/wp-content/uploads/2026/06/pizza-no-bg.png",
             price: 18.88,
@@ -30,7 +29,7 @@ export default function BestDeals() {
             isFavorite: false
         },
         {
-            id: 2,
+            id: "2",
             name: "Classic Cheese Pizza",
             image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
             price: 15.99,
@@ -40,7 +39,7 @@ export default function BestDeals() {
             isFavorite: true
         },
         {
-            id: 3,
+            id: "3",
             name: "Spicy Chicken Burger",
             image: "https://d.hs-bd.com/wp-content/uploads/2026/06/pizza-no-bg.png",
             price: 12.50,
@@ -50,7 +49,7 @@ export default function BestDeals() {
             isFavorite: false
         },
         {
-            id: 4,
+            id: "4",
             name: "Grilled Kebab Platter",
             image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
             price: 21.99,

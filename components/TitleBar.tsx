@@ -1,14 +1,15 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import FilterIcon from "./FilterIcon";
 
 type Props = {
     label: string;
     isAllItemPage?: boolean;
+    itemName?: string;
 };
 
-export default function TitleBar({ isAllItemPage, label }: Props) {
+export default function TitleBar({ isAllItemPage, label, itemName }: Props) {
     return (
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>{label}</Text>
@@ -20,7 +21,7 @@ export default function TitleBar({ isAllItemPage, label }: Props) {
                         onPress={() => router.push({
                             pathname: "/(tabs)/allItems",
                             params: {
-                                filter: `${label}`
+                                filter: itemName ? itemName : label
                             }
                         })}
                         style={{ flexDirection: "row" }}>

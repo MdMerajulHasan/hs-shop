@@ -10,6 +10,12 @@ import {
 import { useLocalSearchParams, router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { PRODUCTS } from "@/assets/products";
+import { RESTAURANT } from "@/assets/restaurant";
+import { REVIEWS } from "@/assets/reviews";
+import { getTimeAgo } from "@/utils/getTimeAgo";
+import StarRating from "@/components/StarRating";
+import FoodCard from "@/components/FoodCard";
+import TitleBar from "@/components/TitleBar";
 
 type Size = {
     id: string;
@@ -18,22 +24,37 @@ type Size = {
 };
 
 export default function Details() {
+    const [qty, setQty] = useState(1);
+    const [selectedSize, setSelectedSize] = useState<Size | null>(null);
     const { id } = useLocalSearchParams<{ id: string }>();
 
+    // getting the product by id from products data
     const product = useMemo(() => {
         if (!id) return null;
         return PRODUCTS.find((p) => String(p.id) === String(id));
     }, [id]);
 
-    const [qty, setQty] = useState(1);
-    const [selectedSize, setSelectedSize] = useState<Size | null>(null);
+    // getting the reviews  under the product
+    const productReview = useMemo(() => {
+        return REVIEWS.filter((review) => review.productId === product?.id);
+    }, [product]);
 
+    // initial value of product size is the first size
     React.useEffect(() => {
         if (product?.sizes?.length) {
             setSelectedSize(product.sizes[0]);
         }
     }, [product]);
 
+    const similarItems = useMemo(() => {
+        return PRODUCTS.filter(
+            (item) =>
+                item.id !== product?.id &&
+                item.name === product?.name
+        ).slice(0, 10);
+    }, [product]);
+
+    // if id not matched return product not found
     if (!product) {
         return (
             <View style={styles.center}>
@@ -44,64 +65,78 @@ export default function Details() {
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                {/* IMAGE */}
-                <View style={styles.imageBox}>
-                    <Image source={{ uri: product.image }} style={styles.image} />
-                    {/* TOP BAR */}
-                    <View style={styles.topBar}>
-                        <Pressable
-                            style={styles.backButtonContainer}
-                            onPress={() => router.back()}>
-                            <Ionicons name="arrow-back" size={24} color="#272727" />
-                        </Pressable>
+            <View style={styles.imageBox}>
+                {/* product image */}
+                <Image source={{ uri: product.image }} style={styles.image} />
+                {/* top nav bar */}
+                <View style={styles.topBar}>
+                    <Pressable
+                        style={styles.backButtonContainer}
+                        onPress={() => router.back()}>
+                        <Ionicons name="arrow-back" size={24} color="#272727" />
+                    </Pressable>
 
-                        <View style={{ flexDirection: "row", gap: 15 }}>
-                            <View style={styles.backButtonContainer}>
-                                <Image style={{ width: 24, height: 24 }}
-                                    tintColor={"#272727"}
-                                    source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/heart.png" }}>
-                                </Image>
-                            </View>
-                            <View 
-                            style={styles.backButtonContainer}
-                            >
-                            <Ionicons name="share-social-outline" size={24} color="#272727" />
-                            </View>
+                    <View style={{ flexDirection: "row", gap: 15 }}>
+                        <View style={styles.backButtonContainer}>
+                            <Image style={{ width: 24, height: 24 }}
+                                tintColor={"#272727"}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/heart.png" }}>
+                            </Image>
                         </View>
-                    </View>
-
-                    {/* BADGE */}
-                    <View style={styles.badge}>
-                        <Text style={styles.badgeText}>
-                            {product.discount}% OFF
-                        </Text>
-                        <Text style={styles.badgeText}>{product.badge}</Text>
+                        <View
+                            style={styles.backButtonContainer}
+                        >
+                            <Ionicons name="share-social-outline" size={24} color="#272727" />
+                        </View>
                     </View>
                 </View>
 
-                {/* DETAILS CARD */}
-                <View style={styles.card}>
-
-                    {/* TITLE ROW */}
+                {/* badges */}
+                <View style={styles.badgeContainer}>
+                    <View style={[styles.badge, { backgroundColor: "#E93037" }]}>
+                        <Text style={styles.badgeText}>
+                            -{product.discount}% OFF
+                        </Text>
+                    </View>
+                    <View style={[styles.badge, { backgroundColor: "#06A316" }]}>
+                        <Text style={styles.badgeText}>{product.badge}</Text>
+                    </View>
+                </View>
+            </View>
+            {/* details card */}
+            <ScrollView
+                style={styles.card}
+                showsVerticalScrollIndicator={false}>
+                <View style={{ marginHorizontal: 10 }}>
+                    {/* name and rating */}
                     <View style={styles.row}>
                         <Text style={styles.name}>{product.name}</Text>
-                        <Text>
-                            ⭐ {product.rating} ({product.totalReviews} Reviews)
-                        </Text>
+                        <View style={{ flexDirection: "row", gap: 4 }}>
+                            <Image
+                                style={{ width: 24, height: 24 }}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}>
+                            </Image>
+                            <Text style={styles.ratingText}>
+                                {product.rating} ({product.totalReviews} Reviews)
+                            </Text>
+                        </View>
                     </View>
 
                     <Text style={styles.title}>{product.title}</Text>
 
                     <Text style={styles.desc}>{product.description}</Text>
 
-                    {/* SIZE */}
-                    <Text style={styles.section}>Size</Text>
+                    <View
+                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 16 }}
+                    ></View>
 
+                    {/* size */}
+                    <Text style={{ fontSize: 14, fontWeight: "500", color: "#1D1D1D", marginBottom: 10 }}>Size:</Text>
                     <View style={styles.sizeRow}>
                         {product.sizes.map((s) => (
                             <Pressable
                                 key={s.id}
+                                // onclick updating the product size
                                 onPress={() => setSelectedSize(s)}
                                 style={[
                                     styles.sizeBox,
@@ -115,20 +150,43 @@ export default function Details() {
                                         styles.activeSizeText,
                                     ]}
                                 >
-                                    {s.label}
+                                    {s.label} in
                                 </Text>
                             </Pressable>
                         ))}
                     </View>
 
+                    <View
+                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
+                    ></View>
+
                     {/* SKU / STOCK */}
                     <View style={styles.row}>
-                        <Text>SKU: {product.sku}</Text>
-                        <Text>{product.stock} In Stock</Text>
+                        <Text style={{ fontSize: 14, fontWeight: "500", color: "#272727" }}>
+                            SKU: {product.sku}
+                        </Text>
+                        {
+                            product.stock ?
+                                <View style={styles.inStock}>
+                                    <Text style={{ color: "#D76527", fontSize: 12, fontWeight: "500" }}>
+                                        {product.stock} In Stock
+                                    </Text>
+                                </View>
+                                : <View style={styles.stockOut}>
+                                    <Text style={{ color: "#a71d1d", fontSize: 12, fontWeight: "500" }}>
+                                        Stock Out
+                                    </Text>
+                                </View>
+                        }
+
                     </View>
 
+                    <View
+                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
+                    ></View>
+
                     {/* INGREDIENTS */}
-                    <Text style={styles.section}>Ingredients</Text>
+                    <Text style={styles.section}>Products Ingredients</Text>
 
                     <View style={styles.grid}>
                         {product.ingredients.map((i, index) => (
@@ -138,63 +196,107 @@ export default function Details() {
                         ))}
                     </View>
 
-                    {/* REVIEWS */}
-                    <Text style={styles.section}>Reviews</Text>
-
-                    {product.reviews.map((r) => (
-                        <View key={r.id} style={styles.reviewCard}>
-                            <Image source={{ uri: r.image }} style={styles.avatar} />
-                            <View style={{ flex: 1 }}>
-                                <Text>
-                                    {r.name} ⭐ {r.rating}
-                                </Text>
-                                <Text>{r.review}</Text>
+                    {/* shipping cards */}
+                    <View style={styles.shippingContainer}>
+                        <View style={{ width: "49%" }}>
+                            <View style={styles.shippingIcon}>
+                                <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/group-1.png" }}></Image>
+                            </View>
+                            <View>
+                                <Text style={styles.shippingCardTitle}>Shipping & Returns:</Text>
+                                <Text style={styles.shippingText}>Available on all orders over ${RESTAURANT.minimumOrder}</Text>
                             </View>
                         </View>
-                    ))}
+                        <View style={{ width: "49%" }}>
+                            <View style={styles.shippingIcon}>
+                                <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/box.png" }}></Image>
+                            </View>
+                            <Text style={styles.shippingCardTitle}>Estimated Delivery:</Text>
+                            <Text style={styles.shippingText}>
+                                Orders are typically dispatched within  {RESTAURANT.estimatedDeliveryTime}
+                            </Text>
+
+                        </View>
+                    </View>
+
+                    {/* REVIEWS */}
+
+                    {
+                        productReview.length ?
+                            <View style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", paddingBottom: 16 }}>
+                                <Text style={[styles.section, { marginBottom: 0 }]}>Client Feedback</Text>
+                            </View>
+                            : null
+                    }
+
+                    {productReview ? productReview.map((r) => (
+                        <View key={r.id} style={styles.reviewCard}>
+                            <Image source={{ uri: r.userImage }} style={styles.avatar} />
+                            <View style={{ flex: 1 }}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <Text style={{ fontSize: 14, fontWeight: "600", color: "#272727" }}>{r.userName}</Text>
+                                    <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{getTimeAgo(r.createdAt)}</Text>
+                                </View>
+                                <Text style={{ marginTop: 4, marginBottom: 10 }}>
+                                    <StarRating rating={r.rating} />
+                                </Text>
+                                <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{r.review}</Text>
+                            </View>
+                        </View>
+                    )) : null}
 
                     {/* SIMILAR ITEMS (FIXED - NO FLATLIST) */}
-                    <Text style={styles.section}>Similar Items</Text>
-
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        {product.similarItems.map((item) => (
-                            <View key={item.id} style={styles.cardItem}>
-                                <Image source={{ uri: item.image }} style={styles.itemImg} />
-                                <Text>{item.name}</Text>
-                                <Text>${item.price}</Text>
+                    <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
+                    <ScrollView
+                        style={{ marginBottom: 40 }}
+                        horizontal showsHorizontalScrollIndicator={false}>
+                        {similarItems.map((item, index) => (
+                            <View key={index}
+                                style={{ marginRight: 20 }}
+                            >
+                                <FoodCard item={item} index={index}></FoodCard>
                             </View>
                         ))}
                     </ScrollView>
 
                 </View>
+
+                {/* BOTTOM BAR */}
+                <View style={styles.bottom}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 20 }}>
+                        <View style={styles.qtyBox}>
+                            <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
+                                <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
+                            </Pressable>
+
+                            <Text style={{ fontSize: 20, fontWeight: "600", color: "#272727" }}>{qty}</Text>
+
+                            <Pressable onPress={() => setQty(qty + 1)}>
+                                <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
+                            </Pressable>
+                        </View>
+                        <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>${selectedSize?.price ?? product.price}</Text>
+                    </View>
+
+                    <View style={styles.actions}>
+                        <Pressable style={styles.cartContainer}>
+                            <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                                style={{ width: 24, height: 24 }}
+                                tintColor={"#111111"}
+                            ></Image>
+                            <Text style={{ color: '#111111', fontSize: 16, fontWeight: "500" }}>Add To Cart</Text>
+                        </Pressable>
+
+                        <Pressable style={styles.buy}>
+                            <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                                style={{ width: 24, height: 24 }}
+                                tintColor={"#F5F5F5"}
+                            ></Image>
+                            <Text style={{ color: "#F5F5F5", fontSize: 16, fontWeight: "500" }}>Buy Now</Text>
+                        </Pressable>
+                    </View>
+                </View>
             </ScrollView>
-
-            {/* BOTTOM BAR */}
-            <View style={styles.bottom}>
-                <View style={styles.qtyBox}>
-                    <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
-                        <Text style={styles.btn}>-</Text>
-                    </Pressable>
-
-                    <Text>{qty}</Text>
-
-                    <Pressable onPress={() => setQty(qty + 1)}>
-                        <Text style={styles.btn}>+</Text>
-                    </Pressable>
-                </View>
-
-                <Text>${selectedSize?.price ?? product.price}</Text>
-
-                <View style={styles.actions}>
-                    <Pressable style={styles.cart}>
-                        <Text style={{ color: "#fff" }}>Add To Cart</Text>
-                    </Pressable>
-
-                    <Pressable style={styles.buy}>
-                        <Text style={{ color: "#fff" }}>Buy Now</Text>
-                    </Pressable>
-                </View>
-            </View>
         </View>
     );
 }
@@ -208,13 +310,13 @@ const styles = StyleSheet.create({
         borderColor: "#D5D5D5", borderWidth: 1
     },
     loveBox: {
-        padding: 10, 
+        padding: 10,
         borderRadius: 30,
-        borderWidth: 1, 
-        borderColor: "#D5D5D5", 
+        borderWidth: 1,
+        borderColor: "#D5D5D5",
         backgroundColor: '#F5F5F5'
     },
-    imageBox: { height: 250 },
+    imageBox: { height: 200 },
     image: { width: "100%", height: "100%" },
     topBar: {
         position: "absolute",
@@ -225,44 +327,60 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
 
-    badge: {
+    badgeContainer: {
         position: "absolute",
         top: 70,
         left: 10,
-        backgroundColor: "#D76527",
-        padding: 8,
-        borderRadius: 8,
+        gap: 8
     },
-
-    badgeText: { color: "#fff" },
-
+    badge: {
+        paddingHorizontal: 6,
+        paddingVertical: 4,
+        borderRadius: 40
+    },
+    badgeText: {
+        color: "#F5F5F5",
+        fontSize: 12,
+        fontWeight: "500",
+        textAlign: "center"
+    },
+    ratingText: {
+        color: "#575757",
+        fontSize: 16,
+        fontWeight: "500"
+    },
     card: {
         marginTop: -20,
         backgroundColor: "#fff",
-        padding: 15,
+        paddingVertical: 15,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        marginBottom: 40
     },
 
     row: {
         flexDirection: "row",
         justifyContent: "space-between",
+        marginBottom: 16,
+        alignItems: "center"
     },
 
-    name: { color: "#D76527", fontWeight: "600" },
+    name: { color: "#D76527", fontWeight: "600", fontSize: 16 },
 
-    title: { fontSize: 24, fontWeight: "500", marginVertical: 5 },
+    title: { color: "#272727", fontSize: 28, fontWeight: "500", marginBottom: 10 },
 
-    desc: { color: "#555" },
+    desc: { color: "#575757", fontSize: 14, fontWeight: "400" },
 
-    section: { marginTop: 15, fontWeight: "600" },
+    section: { fontSize: 22, color: "#1D1D1D", fontWeight: "700", marginBottom: 10 },
 
-    sizeRow: { flexDirection: "row", gap: 10 },
+    sizeRow: { flexDirection: "row", gap: 12 },
 
     sizeBox: {
         borderWidth: 1,
-        padding: 8,
+        paddingVertical: 6,
+        paddingHorizontal: 8,
         borderRadius: 6,
+        marginBottom: 16
     },
 
     activeSize: {
@@ -275,11 +393,11 @@ const styles = StyleSheet.create({
 
     grid: { flexDirection: "row", flexWrap: "wrap" },
 
-    ing: { width: "50%", color: "#555" },
+    ing: { width: "50%", color: "#272727", fontSize: 14, fontWeight: "400" },
 
     reviewCard: {
         flexDirection: "row",
-        marginVertical: 5,
+        marginTop: 16,
         gap: 10,
     },
 
@@ -295,12 +413,17 @@ const styles = StyleSheet.create({
     bottom: {
         padding: 10,
         borderTopWidth: 1,
-        borderColor: "#eee",
+        borderBottomColor: "#0000",
+        borderColor: "#D5D5D5",
+        borderWidth: 1,
+        marginTop: -20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        zIndex: 1,
+        marginBottom: 20
     },
 
-    qtyBox: { flexDirection: "row", gap: 10 },
-
-    btn: { fontSize: 20 },
+    qtyBox: { flexDirection: "row", gap: 15, justifyContent: "space-between", alignItems: "center" },
 
     actions: {
         flexDirection: "row",
@@ -308,17 +431,56 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-    cart: {
-        flex: 1,
-        backgroundColor: "#D76527",
-        padding: 10,
-        alignItems: "center",
-    },
-
     buy: {
         flex: 1,
         backgroundColor: "#000",
         padding: 10,
         alignItems: "center",
+        paddingVertical: 12,
+        borderRadius: 66,
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 8
+    },
+    inStock: {
+        backgroundColor: "#D7652729",
+        borderWidth: 1,
+        borderColor: "#D76527",
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 6
+    },
+    stockOut: {
+        backgroundColor: "#a71d1d29",
+        borderWidth: 1,
+        borderColor: "#a71d1d",
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 6
+    },
+    shippingIcon: { backgroundColor: "#272727", padding: 8, borderRadius: 60, width: 34, marginHorizontal: "auto", marginBottom: 14 },
+    shippingContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 20,
+        borderWidth: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 4,
+        borderColor: "#E9E9E9",
+        borderRadius: 10
+    },
+    shippingCardTitle: {
+        textAlign: "center", fontSize: 16, fontWeight: "600", marginBottom: 4
+    },
+    shippingText: { textAlign: "center", fontSize: 14, fontWeight: "400" },
+    cartContainer: {
+        flex: 1,
+        backgroundColor: "#D76527",
+        paddingVertical: 12,
+        borderRadius: 66,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 8
     },
 });

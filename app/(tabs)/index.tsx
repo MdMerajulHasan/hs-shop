@@ -11,163 +11,9 @@ import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
 import { FlatList, View } from "react-native";
+import {PRODUCTS} from "@/assets/products";
 
 export default function Index() {
-
-
-  const allItemsData = [
-    {
-      id: 1,
-      name: "Delicious And Crispy Potato French Fries",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 18.88,
-      oldPrice: 32.88,
-      rating: 4.9,
-      discount: 54,
-      isFavorite: false
-    },
-    {
-      id: 2,
-      name: "Classic Cheese Pizza",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 15.99,
-      oldPrice: 24.99,
-      rating: 4.8,
-      discount: 36,
-      isFavorite: true
-    },
-    {
-      id: 3,
-      name: "Spicy Chicken Burger",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 12.50,
-      oldPrice: 18.50,
-      rating: 4.7,
-      discount: 32,
-      isFavorite: false
-    },
-    {
-      id: 4,
-      name: "Delicious And Crispy Potato French Fries",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 18.88,
-      oldPrice: 32.88,
-      rating: 4.9,
-      discount: 54,
-      isFavorite: false
-    },
-    {
-      id: 5,
-      name: "Classic Cheese Pizza",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 15.99,
-      oldPrice: 24.99,
-      rating: 4.8,
-      discount: 36,
-      isFavorite: true
-    },
-    {
-      id: 6,
-      name: "Spicy Chicken Burger",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 12.50,
-      oldPrice: 18.50,
-      rating: 4.7,
-      discount: 32,
-      isFavorite: false
-    },
-    {
-      id: 7,
-      name: "Delicious And Crispy Potato French Fries",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 18.88,
-      oldPrice: 32.88,
-      rating: 4.9,
-      discount: 54,
-      isFavorite: false
-    },
-    {
-      id: 8,
-      name: "Classic Cheese Pizza",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 15.99,
-      oldPrice: 24.99,
-      rating: 4.8,
-      discount: 36,
-      isFavorite: true
-    },
-    {
-      id: 9,
-      name: "Spicy Chicken Burger",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 12.50,
-      oldPrice: 18.50,
-      rating: 4.7,
-      discount: 32,
-      isFavorite: false
-    },
-    {
-      id: 10,
-      name: "Delicious And Crispy Potato French Fries",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 18.88,
-      oldPrice: 32.88,
-      rating: 4.9,
-      discount: 54,
-      isFavorite: false
-    },
-    {
-      id: 11,
-      name: "Classic Cheese Pizza",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 15.99,
-      oldPrice: 24.99,
-      rating: 4.8,
-      discount: 36,
-      isFavorite: true
-    },
-    {
-      id: 12,
-      name: "Spicy Chicken Burger",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 12.50,
-      oldPrice: 18.50,
-      rating: 4.7,
-      discount: 32,
-      isFavorite: false
-    },
-    {
-      id: 13,
-      name: "Delicious And Crispy Potato French Fries",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 18.88,
-      oldPrice: 32.88,
-      rating: 4.9,
-      discount: 54,
-      isFavorite: false
-    },
-    {
-      id: 14,
-      name: "Classic Cheese Pizza",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-      price: 15.99,
-      oldPrice: 24.99,
-      rating: 4.8,
-      discount: 36,
-      isFavorite: true
-    },
-    {
-      id: 15,
-      name: "Spicy Chicken Burger",
-      image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-      price: 12.50,
-      oldPrice: 18.50,
-      rating: 4.7,
-      discount: 32,
-      isFavorite: false
-    },
-
-  ]
 
   return (
     <View>
@@ -232,7 +78,7 @@ export default function Index() {
             </>
           }
 
-          data={allItemsData}
+          data={PRODUCTS}
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: "space-between",
@@ -243,7 +89,7 @@ export default function Index() {
             paddingBottom: 190, // space for bottom nav
           }}
           renderItem={({ item, index }) =>
-            (<FoodCard isVertical={true} key={index} item={item} index={item.id} ></FoodCard>)}
+            (<FoodCard isVertical={true} key={index} item={item} index={index} ></FoodCard>)}
         >
         </FlatList>
       </View>

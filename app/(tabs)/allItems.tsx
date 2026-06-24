@@ -8,216 +8,12 @@ import TitleBar from "@/components/TitleBar";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, SectionList } from "react-native";
-
-const allItemsData = [
-    {
-        id: 1,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 2,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 3,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 4,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 5,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 6,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 7,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 8,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 9,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 10,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 11,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 12,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 13,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 14,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 15,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 16,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 17,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 18,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 19,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-
-]
-
-type FoodItem = {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-    oldPrice: number;
-    rating: number;
-    discount: number;
-    isFavorite: boolean;
-};
+import { PRODUCTS, Product } from "@/assets/products";
 
 export default function AllItems() {
 
-    const chunk = (array: FoodItem[], size: number): FoodItem[][] => {
-        const result = [];
+    const chunk = (array: Product[], size: number): Product[][] => {
+        const result: Product[][] = [];
 
         for (let i = 0; i < array.length; i += size) {
             result.push(array.slice(i, i + size));
@@ -229,7 +25,7 @@ export default function AllItems() {
     const sections = [
         {
             type: "cards",
-            data: chunk(allItemsData.slice(0, 8), 2),
+            data: chunk(PRODUCTS.slice(0, 8), 2),
         },
         {
             type: "itemsSlider",
@@ -237,7 +33,7 @@ export default function AllItems() {
         },
         {
             type: "cards",
-            data: chunk(allItemsData.slice(8, 16), 2),
+            data: chunk(PRODUCTS.slice(8, 16), 2),
         },
         {
             type: "comboSlider",
@@ -245,7 +41,7 @@ export default function AllItems() {
         },
         {
             type: "cards",
-            data: chunk(allItemsData.slice(16), 2),
+            data: chunk(PRODUCTS.slice(16), 2),
         },
     ];
 
@@ -319,7 +115,7 @@ export default function AllItems() {
 
                         return null;
                     }}
-                    renderItem={({ item, section }) => {
+                    renderItem={({ item, section, index }) => {
                         if (section.type !== "cards") return null;
 
                         return (
@@ -333,14 +129,14 @@ export default function AllItems() {
                             >
                                 <FoodCard
                                     item={item[0]}
-                                    index={item[0].id}
+                                    index={index}
                                     isVertical
                                 />
 
                                 {item[1] ? (
                                     <FoodCard
                                         item={item[1]}
-                                        index={item[1].id}
+                                        index={index}
                                         isVertical
                                     />
                                 ) : (

@@ -50,7 +50,6 @@ export default function FoodCard({ item, index, isVertical }: Props) {
                     </View>
                 </View>
 
-
                 <Pressable style={styles.cartContainer}>
                     <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
                         style={{ width: 24, height: 24 }}
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     cardImageContainre: {
-        backgroundColor: "#E9E9E91A",
          borderRadius: 10,
           borderColor: "#E9E9E9", 
           borderWidth: 1
