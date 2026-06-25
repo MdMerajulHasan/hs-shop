@@ -11,9 +11,41 @@ import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
 import { FlatList, View } from "react-native";
-import {PRODUCTS} from "@/assets/products";
+import { PRODUCTS } from "@/assets/products";
+import { useMemo } from "react";
 
 export default function Index() {
+
+  const specialItems = useMemo(() => {
+    return PRODUCTS.filter((food) => {
+      return food.itemType === "Special";
+    })
+  }, []);
+
+  const productsToShow = useMemo(() => {
+    return PRODUCTS.filter(
+      (p) => p.itemType !== "Special" && !p.isCombo
+    );
+  }, []);
+
+  const comboData = useMemo(
+    () => PRODUCTS.filter((p) => p.isCombo),
+    []
+  );
+
+  const bestDeals = useMemo(() => {
+    return productsToShow
+      .filter((item) => item.isAvailable)
+      .sort((a, b) => b.discount - a.discount)
+      .slice(0, 5);
+  }, [productsToShow]);
+
+  const popularItems = useMemo(() => {
+    return productsToShow
+      .filter((item) => item.isPopular)
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 5);
+  }, [productsToShow]);
 
   return (
     <View>
@@ -55,10 +87,10 @@ export default function Index() {
               <Category></Category>
 
               {/* best deals */}
-              <BestDeals></BestDeals>
+              <BestDeals bestDeals={bestDeals}></BestDeals>
 
               {/* items */}
-              <Items></Items>
+              <Items specialItems={specialItems}></Items>
 
               {/* book your table */}
               <View style={{ marginHorizontal: 10, backgroundColor: "#070C12", borderRadius: 20 }}>
@@ -67,9 +99,9 @@ export default function Index() {
               </View>
 
               {/* polular items */}
-              <PopularItems></PopularItems>
+              <PopularItems popularItems={popularItems}></PopularItems>
               {/* combo */}
-              <ComboSlider></ComboSlider>
+              <ComboSlider comboItems={comboData}></ComboSlider>
 
               {/* all items title */}
               <View style={{ marginHorizontal: 10 }}>
@@ -78,7 +110,7 @@ export default function Index() {
             </>
           }
 
-          data={PRODUCTS}
+          data={productsToShow}
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: "space-between",
@@ -89,7 +121,7 @@ export default function Index() {
             paddingBottom: 190, // space for bottom nav
           }}
           renderItem={({ item, index }) =>
-            (<FoodCard isVertical={true} key={index} item={item} index={index} ></FoodCard>)}
+            (<FoodCard isVertical={true} item={item} index={index} ></FoodCard>)}
         >
         </FlatList>
       </View>

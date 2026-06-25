@@ -7,21 +7,26 @@ type Props = {
     label: string;
     isAllItemPage?: boolean;
     itemName?: string;
+    onFilterPress?: () => void;
+    filter?: string;
 };
 
-export default function TitleBar({ isAllItemPage, label, itemName }: Props) {
+export default function TitleBar({ isAllItemPage, label, itemName, onFilterPress, filter }: Props) {
     return (
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>{label}</Text>
             {
                 isAllItemPage ?
-                    <FilterIcon></FilterIcon>
+                    <Pressable onPress={onFilterPress}>
+                        <FilterIcon />
+                    </Pressable>
                     :
                     <Pressable
                         onPress={() => router.push({
                             pathname: "/(tabs)/allItems",
                             params: {
-                                filter: itemName ? itemName : label
+                                filter: itemName ? itemName : label,
+                                sort: filter === "Best Deals" ? "discount" : filter === "Popular Items" ? "rating" : undefined,
                             }
                         })}
                         style={{ flexDirection: "row" }}>

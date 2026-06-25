@@ -1,16 +1,25 @@
-import { Text, View, StyleSheet, Image } from "react-native";
-import { menuItemType } from "./Menu";
-
+import { Text, View, StyleSheet, Image, Pressable } from "react-native";
+import { Product } from "@/assets/products";
+import { router } from "expo-router";
 type Props = {
-    item: menuItemType;
+    item: Product;
 }
 
 export default function MenuCard({ item }: Props) {
     return (
-        <View style={styles.menuCard}>
+        <Pressable
+            onPress={() => {
+                router.push({
+                    pathname: "/Details",
+                    params: {
+                        id: item.id
+                    }
+                })
+            }}
+            style={styles.menuCard}>
             <Image
                 style={styles.cardImage}
-                source={item.image}
+                source={{ uri: item.image }}
             ></Image>
             <View style={styles.textContainer}>
                 <Text style={styles.nameText}>{item.name}</Text>
@@ -21,15 +30,15 @@ export default function MenuCard({ item }: Props) {
                     </View>
                     <View style={styles.ratingContainer}>
                         <Image
-                        style={styles.ratingImage}
-                        source={{uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png"}}
+                            style={styles.ratingImage}
+                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}
                         >
                         </Image>
                         <Text style={styles.ratingText}>{item.rating}</Text>
                     </View>
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
 
@@ -42,7 +51,7 @@ const styles = StyleSheet.create({
         borderColor: "#272727",
         marginBottom: 10,
         flexDirection: "row",
-        gap: 16, 
+        gap: 16,
         alignItems: "center"
     },
     textContainer: {
@@ -76,12 +85,12 @@ const styles = StyleSheet.create({
         fontWeight: "400"
     },
     ratingImage: {
-        width: 18, 
+        width: 18,
         height: 18
     },
     priceRatingContainer: {
         flexDirection: "row",
-        justifyContent: "space-between", 
+        justifyContent: "space-between",
         alignItems: "center"
     },
     priceContainer: {
@@ -92,7 +101,7 @@ const styles = StyleSheet.create({
     },
     ratingContainer: {
         flexDirection: "row",
-        gap: 4, 
+        gap: 4,
         alignItems: "center",
     }
 })

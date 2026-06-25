@@ -1,19 +1,17 @@
 import { router } from "expo-router";
 import { FlatList, ImageBackground, Pressable, StyleSheet, Text, View } from "react-native";
+import { Product } from "@/assets/products";
 
-export default function ComboSlider() {
+type Props = {
+    comboItems: Product[];
+};
 
-    const imageData = [
-        { id: 1, name: "Meals" + "\n" + "Box", image: "https://d.hs-bd.com/wp-content/uploads/2026/06/combo1.jpg" },
-        { id: 2, name: "Meals" + "\n" + "Box", image: "https://d.hs-bd.com/wp-content/uploads/2026/06/combo2.jpg" },
-        { id: 3, name: "Meals" + "\n" + "Box", image: "https://d.hs-bd.com/wp-content/uploads/2026/06/combo3.jpg" },
-        { id: 4, name: "Meals" + "\n" + "Box", image: "https://d.hs-bd.com/wp-content/uploads/2026/06/combo4.jpg" },
-    ]
+export default function ComboSlider({ comboItems }: Props) {
 
     return (
         <FlatList
             showsHorizontalScrollIndicator={false}
-            data={imageData}
+            data={comboItems}
             renderItem={({ item }) => (
                 <ImageBackground
                     source={{ uri: item.image }}
@@ -21,16 +19,23 @@ export default function ComboSlider() {
                     imageStyle={{ borderRadius: 10 }}
                 >
                     <View style={styles.textButtonContainer}>
-                        <Text style={styles.nameText}>{item.name}</Text>
+                        <Text style={styles.nameText}>
+                            {item.name.split(" ")[0]}
+                            {"\n"}
+                            {item.name.split(" ").slice(1).join(" ")}
+                        </Text>
                         <Pressable
-                            onPress={()=>router.push({
+                            onPress={() => router.push({
                                 pathname: "/Details",
                                 params: {
-                                    id: `${item.name}`
+                                    id: `${item.id}`
                                 }
                             })}
-                         style={styles.viewDeatilsButton}>
-                            <Text style={{ color: "#F5F5F5", textAlign: "center", fontSize: 16, fontWeight: "500" }}>View Details</Text>
+                            style={styles.viewDeatilsButton}>
+                            <Text
+                                style={{ color: "#F5F5F5", textAlign: "center", fontSize: 16, fontWeight: "500" }}>
+                                View Details
+                            </Text>
                         </Pressable>
                     </View>
                 </ImageBackground>
@@ -65,6 +70,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#272727",
         paddingHorizontal: 16,
         paddingVertical: 12,
-        borderRadius: 66
+        borderRadius: 66,
+        maxWidth: 127,
+        marginHorizontal: "auto"
     }
 })

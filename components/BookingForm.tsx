@@ -3,10 +3,14 @@ import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "./PrimaryButton";
+import { BRANCHES, Branch } from "@/assets/brunches";
 
 export default function BookingForm() {
 
-    const [branch, setBranch] = useState("");
+    const [name, setName] = useState("MD Merajul Hasan"); // Replace with logged-in user's name
+    const [email, setEmail] = useState("merajul@example.com"); // Replace with logged-in user's email
+    const [phone, setPhone] = useState("");
+    const [branch, setBranch] = useState<Branch | undefined>();
     const [guest, setGuest] = useState(2);
     const [date, setDate] = useState(new Date());
     const [showDate, setShowDate] = useState(false);
@@ -26,29 +30,98 @@ export default function BookingForm() {
         hour12: true,
     }).format(time);
 
+    const parseTime = (time: string) => {
+        const [hourMinute, period] = time.split(" ");
+        let [hour, minute] = hourMinute.split(":").map(Number);
+
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
+
+        return { hour, minute };
+    };
 
 
+    const getBranchHours = () => {
+        if (!branch) return null;
+
+        const day = date.getDay();
+
+        switch (day) {
+            case 0:
+                return branch.hours.sunday;
+
+            case 6:
+                return branch.hours.saturday;
+
+            default:
+                return branch.hours.weekday;
+        }
+    };
+
+
+    const handleBooking = () => {
+        if (!name.trim()) {
+            alert("Name is required.");
+            return;
+        }
+
+        if (!phone.trim()) {
+            alert("Phone number is required.");
+            return;
+        }
+
+        if (!branch) {
+            alert("Please select a branch.");
+            return;
+        }
+
+        if (!time) {
+            alert("Please select a time.");
+            return;
+        }
+
+        console.log({
+            name,
+            email,
+            phone,
+            branch,
+            date,
+            time,
+            guest,
+        });
+    };
     return (
         <View style={styles.formContainer}>
 
             <Text style={styles.text}>Name</Text>
-            <TextInput style={styles.inputContainer}
+            <TextInput
+                style={styles.inputContainer}
                 placeholder="Full Name"
-                placeholderTextColor={"#E9E9E9"}
-            ></TextInput>
+                placeholderTextColor="#E9E9E9"
+                value={name}
+                onChangeText={setName}
+            />
 
             <Text style={styles.text}>Email</Text>
-            <TextInput style={styles.inputContainer}
+            <TextInput
+                style={styles.inputContainer}
                 placeholder="Email Address"
-                placeholderTextColor={"#E9E9E9"}
-            ></TextInput>
+                placeholderTextColor="#E9E9E9"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
 
             <Text style={styles.text}>Phone</Text>
             <TextInput
                 style={styles.inputContainer}
-                placeholder="Phone number"
-                placeholderTextColor={"#E9E9E9"}
-            ></TextInput>
+                placeholder="Phone Number"
+                placeholderTextColor="#E9E9E9"
+                value={phone}
+                onChangeText={setPhone}
+                keyboardType="phone-pad"
+            />
 
             <Text style={styles.text}>Branch</Text>
             <View
@@ -62,12 +135,25 @@ export default function BookingForm() {
 
                 >
                     <Picker.Item label="Select Branch" value="" />
-                    <Picker.Item label="Mirpur 10" value="Mirpur 10" />
-                    <Picker.Item label="Mirpur 1" value="Mirpur 1" />
-                    <Picker.Item label="Dhanmondi" value="Dhanmondi" />
-                    <Picker.Item label="Gulshan" value="Gulshan" />
+                    {
+                        BRANCHES.map((branch, index) => {
+                            return <Picker.Item key={index} label={branch.name} value={branch} />
+                        })
+                    }
                 </Picker>
             </View>
+            {branch && (
+                <Text
+                    style={{
+                        color: "#ADADAD",
+                        marginTop: -12,
+                        marginBottom: 16,
+                        textAlign: "center"
+                    }}
+                >
+                    Open Hours: {getBranchHours()}
+                </Text>
+            )}
 
             <View style={styles.dateTimeContainer}>
                 <View>
@@ -80,7 +166,7 @@ export default function BookingForm() {
                 <Image style={{ width: 10, height: 2, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Vector-3053.png" }}></Image>
                 <View>
                     <Text style={styles.text}>Time</Text>
-                    <Pressable onPress={() => { setShowTime(true) }} style={styles.inputContainer}>
+                    <Pressable disabled={!branch} onPress={() => { setShowTime(true) }} style={[styles.inputContainer, { opacity: branch ? 1 : 0.5, }]}>
                         <Text style={{ color: "#E9E9E9" }}>{currentTime}</Text>
                         <Image style={{ width: 18, height: 18, tintColor: "#ADADAD" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/clock.png" }}></Image>
                     </Pressable>
@@ -105,7 +191,11 @@ export default function BookingForm() {
                     <Picker.Item label="4" value={4} />
                 </Picker>
             </View>
-            <PrimaryButton label={"Booking Now"}></PrimaryButton>
+            <Pressable
+                onPress={handleBooking}
+            >
+                <PrimaryButton label={"Booking Now"}></PrimaryButton>
+            </Pressable>
 
             {showDate && (
                 <DateTimePicker
@@ -127,10 +217,26 @@ export default function BookingForm() {
                     value={time}
                     mode="time"
                     is24Hour={false}
-                    onChange={(event, selectedTime?: Date) => {
+                    onChange={(event, selectedTime) => {
                         setShowTime(false);
 
                         if (!selectedTime) return;
+
+                        // Branch must be selected
+                        if (!branch) {
+                            alert("Please select a branch first.");
+                            return;
+                        }
+
+                        const hours = getBranchHours();
+
+                        // Branch closed
+                        if (hours === "Close") {
+                            alert("This branch is closed on the selected day.");
+                            return;
+                        }
+
+                        if (!hours) return;
 
                         const now = new Date();
 
@@ -142,11 +248,37 @@ export default function BookingForm() {
                             0
                         );
 
-                        const isToday =
-                            date.toDateString() === now.toDateString();
+                        // Prevent past time today
+                        if (
+                            date.toDateString() === now.toDateString() &&
+                            selectedDateTime < now
+                        ) {
+                            alert("Please select a future time.");
+                            return;
+                        }
 
-                        if (isToday && selectedDateTime < now) {
-                            alert("Invalid Time, Please select a future time.");
+                        const [open, close] = hours.split(" - ");
+
+                        const openTime = parseTime(open);
+                        const closeTime = parseTime(close);
+
+                        const selectedMinutes =
+                            selectedTime.getHours() * 60 +
+                            selectedTime.getMinutes();
+
+                        const openMinutes =
+                            openTime.hour * 60 +
+                            openTime.minute;
+
+                        const closeMinutes =
+                            closeTime.hour * 60 +
+                            closeTime.minute;
+
+                        if (
+                            selectedMinutes < openMinutes ||
+                            selectedMinutes > closeMinutes
+                        ) {
+                            alert(`Branch hours are ${open} - ${close}`);
                             return;
                         }
 
@@ -186,7 +318,7 @@ const styles = StyleSheet.create({
         color: "#E9E9E9",
         fontSize: 16,
         fontWeight: "400",
-        marginBottom: 20
+        marginBottom: 20,
     },
     pickerContainer: {
         borderWidth: 1,

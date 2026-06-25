@@ -50,7 +50,7 @@ export default function Details() {
         return PRODUCTS.filter(
             (item) =>
                 item.id !== product?.id &&
-                item.name === product?.name
+                (item.name === product?.name || item.itemType === "Special")
         ).slice(0, 10);
     }, [product]);
 
@@ -245,19 +245,25 @@ export default function Details() {
                         </View>
                     )) : null}
 
-                    {/* SIMILAR ITEMS (FIXED - NO FLATLIST) */}
-                    <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
-                    <ScrollView
-                        style={{ marginBottom: 40 }}
-                        horizontal showsHorizontalScrollIndicator={false}>
-                        {similarItems.map((item, index) => (
-                            <View key={index}
-                                style={{ marginRight: 20 }}
-                            >
-                                <FoodCard item={item} index={index}></FoodCard>
-                            </View>
-                        ))}
-                    </ScrollView>
+                    {
+                        similarItems.length > 0 ? <>
+                            <TitleBar  itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
+                            <ScrollView
+                                style={{ marginBottom: 40 }}
+                                horizontal showsHorizontalScrollIndicator={false}>
+                                {similarItems.map((item, index) => (
+                                    <View key={index}
+                                        style={{ marginRight: 20 }}
+                                    >
+                                        <FoodCard item={item} index={index}></FoodCard>
+                                    </View>
+                                ))}
+                            </ScrollView>
+                        </> : <View 
+                        style={{paddingTop: 1, marginTop: 19}}
+                        >
+                        </View>
+                    }
 
                 </View>
 

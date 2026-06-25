@@ -31,6 +31,7 @@ export default function CategroyItem({
                 pathname: "/(tabs)/allItems",
                 params: {
                     filter: item.id,
+                    category: item.id,
                 }
             });
         }}
