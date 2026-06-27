@@ -1,67 +1,14 @@
-import FilterIcon from "@/components/FilterIcon";
 import Header from "@/components/Header";
 import PrimaryButton from "@/components/PrimaryButton";
 import SmallFoodCard from "@/components/SmallFoodCard";
 import { router } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-
-export type CartDataType = {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-    oldPrice: number;
-    rating: number;
-    discount: number,
-    isFavorite: boolean;
-}
+import { useAppSelector } from "@/store/hooks";
 
 
 export default function Shopping() {
 
-    const cartData = [
-        {
-            id: 1,
-            name: "Delicious And Crispy Potato French Fries",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-            price: 18.88,
-            oldPrice: 32.88,
-            rating: 4.9,
-            discount: 54,
-            isFavorite: false
-        },
-        {
-            id: 2,
-            name: "Classic Cheese Pizza",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-            price: 15.99,
-            oldPrice: 24.99,
-            rating: 4.8,
-            discount: 36,
-            isFavorite: true
-        },
-        {
-            id: 3,
-            name: "Spicy Chicken Burger",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-            price: 12.50,
-            oldPrice: 18.50,
-            rating: 4.7,
-            discount: 32,
-            isFavorite: false
-        },
-        {
-            id: 4,
-            name: "Delicious And Crispy Potato French Fries",
-            image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-            price: 18.88,
-            oldPrice: 32.88,
-            rating: 4.9,
-            discount: 54,
-            isFavorite: false
-        },
-    ]
-
+    const cartData = useAppSelector((state) => state.cart.items);
 
     return (
         <View style={{ flex: 1 }}>
@@ -70,9 +17,6 @@ export default function Shopping() {
                 style={styles.header}
             >
                 <Header count={cartData.length} page={"cart"}></Header>
-                <Pressable>
-                    <FilterIcon></FilterIcon>
-                </Pressable>
             </View>
             {/* body */}
             <FlatList
@@ -211,7 +155,7 @@ const styles = StyleSheet.create({
         color: "#272727"
     },
     voucherItemText3: {
-        fontSize: 28,
+        fontSize: 22,
         fontWeight: "500",
         color: "#272727"
     }

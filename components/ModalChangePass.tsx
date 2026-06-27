@@ -29,7 +29,7 @@ export default function ModalChangePass({ visible, onClose }: Props) {
                 style={{
                     flex: 1,
                     backgroundColor: "rgba(0,0,0,0.4)",
-                    justifyContent: "flex-start"
+                    justifyContent: "flex-end"
                 }}
             >
                 <View

@@ -1,21 +1,17 @@
-import React, { useState, useMemo } from "react";
-import {
-    View,
-    Text,
-    Image,
-    ScrollView,
-    Pressable,
-    StyleSheet,
-} from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { PRODUCTS } from "@/assets/products";
 import { RESTAURANT } from "@/assets/restaurant";
 import { REVIEWS } from "@/assets/reviews";
-import { getTimeAgo } from "@/utils/getTimeAgo";
-import StarRating from "@/components/StarRating";
 import FoodCard from "@/components/FoodCard";
+import StarRating from "@/components/StarRating";
 import TitleBar from "@/components/TitleBar";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getTimeAgo } from "@/utils/getTimeAgo";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useMemo, useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View, } from "react-native";
+import { addToCart } from "@/features/cart/cartSlice";
+import { addToWishlist, removeFromWishlist } from "@/features/wishlist/wishlistSlice";
 
 type Size = {
     id: string;
@@ -24,6 +20,7 @@ type Size = {
 };
 
 export default function Details() {
+
     const [qty, setQty] = useState(1);
     const [selectedSize, setSelectedSize] = useState<Size | null>(null);
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -33,6 +30,10 @@ export default function Details() {
         if (!id) return null;
         return PRODUCTS.find((p) => String(p.id) === String(id));
     }, [id]);
+
+    const dispatch = useAppDispatch();
+    const wishlist = useAppSelector((state) => state.wishlist.items);
+    const isWishlisted = wishlist.some((p) => p.id === product?.id);
 
     // getting the reviews  under the product
     const productReview = useMemo(() => {
@@ -77,12 +78,18 @@ export default function Details() {
                     </Pressable>
 
                     <View style={{ flexDirection: "row", gap: 15 }}>
-                        <View style={styles.backButtonContainer}>
-                            <Image style={{ width: 24, height: 24 }}
-                                tintColor={"#272727"}
-                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/heart.png" }}>
-                            </Image>
-                        </View>
+                        <Pressable
+                            style={styles.backButtonContainer}
+                            onPress={() => {
+                                if (isWishlisted) {
+                                    dispatch(removeFromWishlist(product.id))
+                                } else {
+                                    dispatch(addToWishlist(product))
+                                }
+                            }}
+                        >
+                            <Ionicons name={isWishlisted ? "heart" : "heart-outline"} size={24} color={isWishlisted ? "#E93037" : "#575757"}></Ionicons>
+                        </Pressable>
                         <View
                             style={styles.backButtonContainer}
                         >
@@ -247,7 +254,7 @@ export default function Details() {
 
                     {
                         similarItems.length > 0 ? <>
-                            <TitleBar  itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
+                            <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
                             <ScrollView
                                 style={{ marginBottom: 40 }}
                                 horizontal showsHorizontalScrollIndicator={false}>
@@ -259,8 +266,8 @@ export default function Details() {
                                     </View>
                                 ))}
                             </ScrollView>
-                        </> : <View 
-                        style={{paddingTop: 1, marginTop: 19}}
+                        </> : <View
+                            style={{ paddingTop: 1, marginTop: 19 }}
                         >
                         </View>
                     }
@@ -285,7 +292,10 @@ export default function Details() {
                     </View>
 
                     <View style={styles.actions}>
-                        <Pressable style={styles.cartContainer}>
+                        <Pressable
+                            style={styles.cartContainer}
+                            onPress={() => dispatch(addToCart(product))}
+                        >
                             <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
                                 style={{ width: 24, height: 24 }}
                                 tintColor={"#111111"}
@@ -322,7 +332,7 @@ const styles = StyleSheet.create({
         borderColor: "#D5D5D5",
         backgroundColor: '#F5F5F5'
     },
-    imageBox: { height: 200 },
+    imageBox: { height: 300 },
     image: { width: "100%", height: "100%" },
     topBar: {
         position: "absolute",

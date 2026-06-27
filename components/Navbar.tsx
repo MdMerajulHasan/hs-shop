@@ -8,7 +8,7 @@ import ImageViewer from './ImageViewer';
 export default function Navbar() {
 
     return (
-        
+
         <View style={styles.navbarContainer}>
             <View>
                 <Pressable>
@@ -36,7 +36,7 @@ export default function Navbar() {
 
                 <Link href={"/(tabs)/shopping"}>
                     <View style={styles.iconContainer}>
-                        <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Buy.png" }}></ImageViewer>
+                        <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag-2.png" }}></ImageViewer>
                         <NotiNumber Number={6}></NotiNumber>
                     </View>
                 </Link>

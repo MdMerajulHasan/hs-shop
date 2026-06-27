@@ -1,18 +1,40 @@
-import { CartDataType } from "@/app/(tabs)/shopping";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Product } from "@/assets/products";
+import { useAppDispatch } from "@/store/hooks";
+import { removeFromWishlist } from "@/features/wishlist/wishlistSlice";
+import { addToCart, removeFromCart } from "@/features/cart/cartSlice";
+
+
 
 type Props = {
-    item: CartDataType;
+    item: Product;
     page: string;
 }
 
 export default function SmallFoodCard({ item, page }: Props) {
+
+    const dispatch = useAppDispatch();
+
+
     return (
         <View style={styles.cartCardContainer}>
-            <View style={{ backgroundColor: "#5757571A", height: 30, width: 30, padding: 6, borderRadius: 30 }}>
-                <Image tintColor={"#130F26"} style={{ width: 18, height: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Delete.png" }}></Image>
-            </View>
+            <Pressable
+                style={{ backgroundColor: "#5757571A", height: 30, width: 30, padding: 6, borderRadius: 30 }}
+                onPress={() => {
+
+                    if (page === "cart") {
+                        dispatch(removeFromCart(item.id))
+                    } else if (page === "wishlist") {
+                        dispatch(removeFromWishlist(item.id));
+                    }
+                }}
+            >
+                <Image
+                    tintColor={"#130F26"} style={{ width: 18, height: 18 }}
+                    source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Delete.png" }}>
+                </Image>
+            </Pressable>
 
             <View style={[styles.cardImageContainre]}>
                 <View style={styles.offerTextContainer}>
@@ -21,7 +43,7 @@ export default function SmallFoodCard({ item, page }: Props) {
                         -{item.discount}%
                     </Text>
                 </View>
-                <Image style={{ width: "95%", height: "95%" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png" }}></Image>
+                <Image style={{ width: "100%", height: "100%", borderRadius: 10 }} source={{ uri: item.image }}></Image>
             </View>
 
             <View style={{ flex: 1, gap: 3 }}>
@@ -47,11 +69,15 @@ export default function SmallFoodCard({ item, page }: Props) {
             }
 
             {
-                page === "wishlist" ? <Pressable style={styles.cartContainer}>
-                    <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
-                        style={{ width: 24, height: 24 }}
-                    ></Image>
-                </Pressable> : null
+                page === "wishlist" ?
+                    <Pressable
+                        style={styles.cartContainer}
+                        onPress={() => dispatch(addToCart(item))}
+                    >
+                        <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                            style={{ width: 24, height: 24 }}
+                        ></Image>
+                    </Pressable> : null
             }
         </View>
     )

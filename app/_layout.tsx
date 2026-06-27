@@ -1,10 +1,12 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 export default function RootLayout() {
 
   return (
-    <>
+    <Provider store={store}>
       <StatusBar hidden />
       <Stack>
         <Stack.Screen
@@ -27,12 +29,12 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-        name="Details"
-        options={{
-          headerShown: false
-        }}
+          name="Details"
+          options={{
+            headerShown: false
+          }}
         />
       </Stack>
-    </>
+    </Provider>
   );
 }
