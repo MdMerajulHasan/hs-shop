@@ -66,253 +66,255 @@ export default function Details() {
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
-            <View style={styles.imageBox}>
-                {/* product image */}
-                <Image source={{ uri: product.image }} style={styles.image} />
-                {/* top nav bar */}
-                <View style={styles.topBar}>
-                    <Pressable
-                        style={styles.backButtonContainer}
-                        onPress={() => router.back()}>
-                        <Ionicons name="arrow-back" size={24} color="#272727" />
-                    </Pressable>
-
-                    <View style={{ flexDirection: "row", gap: 15 }}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.imageBox}>
+                    {/* product image */}
+                    <Image source={{ uri: product.image }} style={styles.image} />
+                    {/* top nav bar */}
+                    <View style={styles.topBar}>
                         <Pressable
                             style={styles.backButtonContainer}
-                            onPress={() => {
-                                if (isWishlisted) {
-                                    dispatch(removeFromWishlist(product.id))
-                                } else {
-                                    dispatch(addToWishlist(product))
-                                }
-                            }}
-                        >
-                            <Ionicons name={isWishlisted ? "heart" : "heart-outline"} size={24} color={isWishlisted ? "#E93037" : "#575757"}></Ionicons>
+                            onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={24} color="#272727" />
                         </Pressable>
-                        <View
-                            style={styles.backButtonContainer}
-                        >
-                            <Ionicons name="share-social-outline" size={24} color="#272727" />
+
+                        <View style={{ flexDirection: "row", gap: 15 }}>
+                            <Pressable
+                                style={styles.backButtonContainer}
+                                onPress={() => {
+                                    if (isWishlisted) {
+                                        dispatch(removeFromWishlist(product.id))
+                                    } else {
+                                        dispatch(addToWishlist(product))
+                                    }
+                                }}
+                            >
+                                <Ionicons name={isWishlisted ? "heart" : "heart-outline"} size={24} color={isWishlisted ? "#E93037" : "#575757"}></Ionicons>
+                            </Pressable>
+                            <View
+                                style={styles.backButtonContainer}
+                            >
+                                <Ionicons name="share-social-outline" size={24} color="#272727" />
+                            </View>
                         </View>
                     </View>
-                </View>
 
-                {/* badges */}
-                <View style={styles.badgeContainer}>
-                    <View style={[styles.badge, { backgroundColor: "#E93037" }]}>
-                        <Text style={styles.badgeText}>
-                            -{product.discount}% OFF
-                        </Text>
-                    </View>
-                    <View style={[styles.badge, { backgroundColor: "#06A316" }]}>
-                        <Text style={styles.badgeText}>{product.badge}</Text>
-                    </View>
-                </View>
-            </View>
-            {/* details card */}
-            <ScrollView
-                style={styles.card}
-                showsVerticalScrollIndicator={false}>
-                <View style={{ marginHorizontal: 10 }}>
-                    {/* name and rating */}
-                    <View style={styles.row}>
-                        <Text style={styles.name}>{product.name}</Text>
-                        <View style={{ flexDirection: "row", gap: 4 }}>
-                            <Image
-                                style={{ width: 24, height: 24 }}
-                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}>
-                            </Image>
-                            <Text style={styles.ratingText}>
-                                {product.rating} ({product.totalReviews} Reviews)
+                    {/* badges */}
+                    <View style={styles.badgeContainer}>
+                        <View style={[styles.badge, { backgroundColor: "#E93037", maxWidth: 80, marginHorizontal: "auto" }]}>
+                            <Text style={styles.badgeText}>
+                                -{product.discount}% OFF
                             </Text>
                         </View>
+                        <View style={[styles.badge, { backgroundColor: "#06A316" }]}>
+                            <Text style={styles.badgeText}>{product.badge}</Text>
+                        </View>
                     </View>
+                </View>
+                {/* details card */}
+                <View
+                    style={styles.card}>
+                    <View style={{ marginHorizontal: 10 }}>
+                        {/* name and rating */}
+                        <View style={styles.row}>
+                            <Text style={styles.name}>{product.name}</Text>
+                            <View style={{ flexDirection: "row", gap: 4 }}>
+                                <Image
+                                    style={{ width: 24, height: 24 }}
+                                    source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}>
+                                </Image>
+                                <Text style={styles.ratingText}>
+                                    {product.rating} ({product.totalReviews} Reviews)
+                                </Text>
+                            </View>
+                        </View>
 
-                    <Text style={styles.title}>{product.title}</Text>
+                        <Text style={styles.title}>{product.title}</Text>
 
-                    <Text style={styles.desc}>{product.description}</Text>
+                        <Text style={styles.desc}>{product.description}</Text>
 
-                    <View
-                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 16 }}
-                    ></View>
+                        <View
+                            style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 16 }}
+                        ></View>
 
-                    {/* size */}
-                    <Text style={{ fontSize: 14, fontWeight: "500", color: "#1D1D1D", marginBottom: 10 }}>Size:</Text>
-                    <View style={styles.sizeRow}>
-                        {product.sizes.map((s) => (
-                            <Pressable
-                                key={s.id}
-                                // onclick updating the product size
-                                onPress={() => setSelectedSize(s)}
-                                style={[
-                                    styles.sizeBox,
-                                    selectedSize?.id === s.id && styles.activeSize,
-                                ]}
-                            >
-                                <Text
+                        {/* size */}
+                        <Text style={{ fontSize: 14, fontWeight: "500", color: "#1D1D1D", marginBottom: 10 }}>Size:</Text>
+                        <View style={styles.sizeRow}>
+                            {product.sizes.map((s) => (
+                                <Pressable
+                                    key={s.id}
+                                    // onclick updating the product size
+                                    onPress={() => setSelectedSize(s)}
                                     style={[
-                                        styles.sizeText,
-                                        selectedSize?.id === s.id &&
-                                        styles.activeSizeText,
+                                        styles.sizeBox,
+                                        selectedSize?.id === s.id && styles.activeSize,
                                     ]}
                                 >
-                                    {s.label} in
+                                    <Text
+                                        style={[
+                                            styles.sizeText,
+                                            selectedSize?.id === s.id &&
+                                            styles.activeSizeText,
+                                        ]}
+                                    >
+                                        {s.label} in
+                                    </Text>
+                                </Pressable>
+                            ))}
+                        </View>
+
+                        <View
+                            style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
+                        ></View>
+
+                        {/* SKU / STOCK */}
+                        <View style={styles.row}>
+                            <Text style={{ fontSize: 14, fontWeight: "500", color: "#272727" }}>
+                                SKU: {product.sku}
+                            </Text>
+                            {
+                                product.stock ?
+                                    <View style={styles.inStock}>
+                                        <Text style={{ color: "#D76527", fontSize: 12, fontWeight: "500" }}>
+                                            {product.stock} In Stock
+                                        </Text>
+                                    </View>
+                                    : <View style={styles.stockOut}>
+                                        <Text style={{ color: "#a71d1d", fontSize: 12, fontWeight: "500" }}>
+                                            Stock Out
+                                        </Text>
+                                    </View>
+                            }
+
+                        </View>
+
+                        <View
+                            style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
+                        ></View>
+
+                        {/* INGREDIENTS */}
+                        <Text style={styles.section}>Products Ingredients</Text>
+
+                        <View style={styles.grid}>
+                            {product.ingredients.map((i, index) => (
+                                <Text key={index} style={styles.ing}>
+                                    • {i}
                                 </Text>
-                            </Pressable>
-                        ))}
-                    </View>
+                            ))}
+                        </View>
 
-                    <View
-                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
-                    ></View>
+                        {/* shipping cards */}
+                        <View style={styles.shippingContainer}>
+                            <View style={{ width: "49%" }}>
+                                <View style={styles.shippingIcon}>
+                                    <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/group-1.png" }}></Image>
+                                </View>
+                                <View>
+                                    <Text style={styles.shippingCardTitle}>Shipping & Returns:</Text>
+                                    <Text style={styles.shippingText}>Available on all orders over ${RESTAURANT.minimumOrder}</Text>
+                                </View>
+                            </View>
+                            <View style={{ width: "49%" }}>
+                                <View style={styles.shippingIcon}>
+                                    <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/box.png" }}></Image>
+                                </View>
+                                <Text style={styles.shippingCardTitle}>Estimated Delivery:</Text>
+                                <Text style={styles.shippingText}>
+                                    Orders are typically dispatched within  {RESTAURANT.estimatedDeliveryTime}
+                                </Text>
 
-                    {/* SKU / STOCK */}
-                    <View style={styles.row}>
-                        <Text style={{ fontSize: 14, fontWeight: "500", color: "#272727" }}>
-                            SKU: {product.sku}
-                        </Text>
+                            </View>
+                        </View>
+
+                        {/* REVIEWS */}
+
                         {
-                            product.stock ?
-                                <View style={styles.inStock}>
-                                    <Text style={{ color: "#D76527", fontSize: 12, fontWeight: "500" }}>
-                                        {product.stock} In Stock
-                                    </Text>
+                            productReview.length ?
+                                <View style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", paddingBottom: 16 }}>
+                                    <Text style={[styles.section, { marginBottom: 0 }]}>Client Feedback</Text>
                                 </View>
-                                : <View style={styles.stockOut}>
-                                    <Text style={{ color: "#a71d1d", fontSize: 12, fontWeight: "500" }}>
-                                        Stock Out
+                                : null
+                        }
+
+                        {productReview ? productReview.map((r) => (
+                            <View key={r.id} style={styles.reviewCard}>
+                                <Image source={{ uri: r.userImage }} style={styles.avatar} />
+                                <View style={{ flex: 1 }}>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 14, fontWeight: "600", color: "#272727" }}>{r.userName}</Text>
+                                        <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{getTimeAgo(r.createdAt)}</Text>
+                                    </View>
+                                    <Text style={{ marginTop: 4, marginBottom: 10 }}>
+                                        <StarRating rating={r.rating} />
                                     </Text>
+                                    <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{r.review}</Text>
                                 </View>
+                            </View>
+                        )) : null}
+
+                        {
+                            similarItems.length > 0 ? <>
+                                <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
+                                <ScrollView
+                                    style={{ marginBottom: 40 }}
+                                    horizontal showsHorizontalScrollIndicator={false}>
+                                    {similarItems.map((item, index) => (
+                                        <View key={index}
+                                            style={{ marginRight: 20 }}
+                                        >
+                                            <FoodCard item={item} index={index}></FoodCard>
+                                        </View>
+                                    ))}
+                                </ScrollView>
+                            </> : <View
+                                style={{ paddingTop: 1, marginTop: 19 }}
+                            >
+                            </View>
                         }
 
                     </View>
 
-                    <View
-                        style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", marginVertical: 20 }}
-                    ></View>
 
-                    {/* INGREDIENTS */}
-                    <Text style={styles.section}>Products Ingredients</Text>
-
-                    <View style={styles.grid}>
-                        {product.ingredients.map((i, index) => (
-                            <Text key={index} style={styles.ing}>
-                                • {i}
-                            </Text>
-                        ))}
-                    </View>
-
-                    {/* shipping cards */}
-                    <View style={styles.shippingContainer}>
-                        <View style={{ width: "49%" }}>
-                            <View style={styles.shippingIcon}>
-                                <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/group-1.png" }}></Image>
-                            </View>
-                            <View>
-                                <Text style={styles.shippingCardTitle}>Shipping & Returns:</Text>
-                                <Text style={styles.shippingText}>Available on all orders over ${RESTAURANT.minimumOrder}</Text>
-                            </View>
-                        </View>
-                        <View style={{ width: "49%" }}>
-                            <View style={styles.shippingIcon}>
-                                <Image tintColor={"#F5F5F5"} style={{ height: 18, width: 18 }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/box.png" }}></Image>
-                            </View>
-                            <Text style={styles.shippingCardTitle}>Estimated Delivery:</Text>
-                            <Text style={styles.shippingText}>
-                                Orders are typically dispatched within  {RESTAURANT.estimatedDeliveryTime}
-                            </Text>
-
-                        </View>
-                    </View>
-
-                    {/* REVIEWS */}
-
-                    {
-                        productReview.length ?
-                            <View style={{ borderBottomWidth: 1, borderBottomColor: "#E9E9E9", paddingBottom: 16 }}>
-                                <Text style={[styles.section, { marginBottom: 0 }]}>Client Feedback</Text>
-                            </View>
-                            : null
-                    }
-
-                    {productReview ? productReview.map((r) => (
-                        <View key={r.id} style={styles.reviewCard}>
-                            <Image source={{ uri: r.userImage }} style={styles.avatar} />
-                            <View style={{ flex: 1 }}>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: "600", color: "#272727" }}>{r.userName}</Text>
-                                    <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{getTimeAgo(r.createdAt)}</Text>
-                                </View>
-                                <Text style={{ marginTop: 4, marginBottom: 10 }}>
-                                    <StarRating rating={r.rating} />
-                                </Text>
-                                <Text style={{ fontSize: 12, fontWeight: "400", color: "#575757" }}>{r.review}</Text>
-                            </View>
-                        </View>
-                    )) : null}
-
-                    {
-                        similarItems.length > 0 ? <>
-                            <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>
-                            <ScrollView
-                                style={{ marginBottom: 40 }}
-                                horizontal showsHorizontalScrollIndicator={false}>
-                                {similarItems.map((item, index) => (
-                                    <View key={index}
-                                        style={{ marginRight: 20 }}
-                                    >
-                                        <FoodCard item={item} index={index}></FoodCard>
-                                    </View>
-                                ))}
-                            </ScrollView>
-                        </> : <View
-                            style={{ paddingTop: 1, marginTop: 19 }}
-                        >
-                        </View>
-                    }
-
-                </View>
-
-                {/* BOTTOM BAR */}
-                <View style={styles.bottom}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 20 }}>
-                        <View style={styles.qtyBox}>
-                            <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
-                                <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
-                            </Pressable>
-
-                            <Text style={{ fontSize: 20, fontWeight: "600", color: "#272727" }}>{qty}</Text>
-
-                            <Pressable onPress={() => setQty(qty + 1)}>
-                                <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
-                            </Pressable>
-                        </View>
-                        <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>${selectedSize?.price ?? product.price}</Text>
-                    </View>
-
-                    <View style={styles.actions}>
-                        <Pressable
-                            style={styles.cartContainer}
-                            onPress={() => dispatch(addToCart(product))}
-                        >
-                            <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
-                                style={{ width: 24, height: 24 }}
-                                tintColor={"#111111"}
-                            ></Image>
-                            <Text style={{ color: '#111111', fontSize: 16, fontWeight: "500" }}>Add To Cart</Text>
-                        </Pressable>
-
-                        <Pressable style={styles.buy}>
-                            <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
-                                style={{ width: 24, height: 24 }}
-                                tintColor={"#F5F5F5"}
-                            ></Image>
-                            <Text style={{ color: "#F5F5F5", fontSize: 16, fontWeight: "500" }}>Buy Now</Text>
-                        </Pressable>
-                    </View>
                 </View>
             </ScrollView>
+            {/* BOTTOM BAR */}
+            <View style={styles.bottom}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 20 }}>
+                    <View style={styles.qtyBox}>
+                        <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
+                            <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
+                        </Pressable>
+
+                        <Text style={{ fontSize: 20, fontWeight: "600", color: "#272727" }}>{qty}</Text>
+
+                        <Pressable onPress={() => setQty(qty + 1)}>
+                            <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
+                        </Pressable>
+                    </View>
+                    <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>${selectedSize?.price ?? product.price}</Text>
+                </View>
+
+                <View style={styles.actions}>
+                    <Pressable
+                        style={styles.cartContainer}
+                        onPress={() => dispatch(addToCart(product))}
+                    >
+                        <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                            style={{ width: 24, height: 24 }}
+                            tintColor={"#111111"}
+                        ></Image>
+                        <Text style={{ color: '#111111', fontSize: 16, fontWeight: "500" }}>Add To Cart</Text>
+                    </Pressable>
+                    <Pressable style={styles.buy}>
+                        <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                            style={{ width: 24, height: 24 }}
+                            tintColor={"#F5F5F5"}
+                        ></Image>
+                        <Text style={{ color: "#F5F5F5", fontSize: 16, fontWeight: "500" }}>Buy Now</Text>
+                    </Pressable>
+                </View>
+            </View>
         </View>
     );
 }
@@ -436,7 +438,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         zIndex: 1,
-        marginBottom: 20
+        marginBottom: 20,
+        backgroundColor: "#fff"
     },
 
     qtyBox: { flexDirection: "row", gap: 15, justifyContent: "space-between", alignItems: "center" },

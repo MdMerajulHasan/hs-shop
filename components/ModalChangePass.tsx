@@ -1,51 +1,42 @@
 import Header from "@/components/Header";
 import PrimaryButton from "@/components/PrimaryButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useState } from "react";
-import { Dimensions, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 type Props = {
-    visible: boolean;
     onClose: () => void;
 };
 
-const { width: Width } = Dimensions.get("screen");
-
-export default function ModalChangePass({ visible, onClose }: Props) {
+export default function ModalChangePass({ onClose }: Props) {
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
 
     return (
-        <Modal
-            visible={visible}
-            transparent
-            animationType="slide"
-        >
-            <View
-                style={{
-                    flex: 1,
-                    backgroundColor: "rgba(0,0,0,0.4)",
-                    justifyContent: "flex-end"
-                }}
-            >
-                <View
-                    style={{
-                        width: Width,
-                        backgroundColor: "#fff",
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                        paddingHorizontal: 10,
+
+        <>
+            <View style={{ paddingHorizontal: 20 }}>
+                <View style={styles.header}>
+                    <Header
+                        page="changepassword"
+                        isModal
+                        onClose={onClose}
+                    />
+                </View>
+
+                <BottomSheetScrollView
+                    contentContainerStyle={{
+                        paddingBottom: 30,
+                        flex: 1
                     }}
+                    showsVerticalScrollIndicator={false}
                 >
-                    {/* header */}
-                    <View
-                        style={styles.header}>
-                        <Header onClose={onClose}  isModal={true} page={"changepassword"}></Header>
-                    </View>
+
                     <Text
                         style={styles.descriptionText}
                     >
@@ -110,22 +101,26 @@ export default function ModalChangePass({ visible, onClose }: Props) {
                             </Pressable>
 
                             <Text
-                                style={{ color: "#575757", fontSize: 14, fontWeight: "400", }}>
+                                style={{ color: "#575757", fontSize: 12, fontWeight: "400", textAlign: "left", flexWrap: "wrap" }}>
                                 By signing up, you agree to our{" "}
                                 <Text style={{ color: "#111111", textDecorationLine: "underline" }}>
-                                    Terms of Service {" "}
+                                    Terms of Service
                                 </Text>
-                                and {" "}
+                                {" "}and {" "}
                                 <Text style={{ color: "#111111", textDecorationLine: "underline" }}>
                                     Privacy Policy
                                 </Text>
                             </Text>
                         </View>
-                        <PrimaryButton label={"Submit"}></PrimaryButton>
+                        <Pressable
+                            onPress={() => { }}
+                        >
+                            <PrimaryButton label={"Submit"}></PrimaryButton>
+                        </Pressable>
                     </View>
-                </View>
+                </BottomSheetScrollView>
             </View>
-        </Modal>
+        </>
     )
 }
 
@@ -135,7 +130,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: "center",
         marginTop: 20,
-        marginHorizontal: 10,
         paddingBottom: 20,
         borderBottomWidth: 1,
         borderBottomColor: "#D5D5D5"
@@ -149,8 +143,8 @@ const styles = StyleSheet.create({
         color: "#272727",
         fontSize: 14,
         fontWeight: "400",
-        textAlign: "center",
-        margin: 20
+        textAlign: "left",
+        marginVertical: 20
     },
     inputField: {
         paddingVertical: 10,
@@ -168,7 +162,6 @@ const styles = StyleSheet.create({
     },
     inputsContainer: {
         gap: 20,
-        marginHorizontal: 20,
         marginBottom: 10
     }
 })

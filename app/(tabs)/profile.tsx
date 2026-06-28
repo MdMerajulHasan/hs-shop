@@ -1,111 +1,93 @@
+import BottomSheetWrapper from "@/components/BottomSheetWrapper";
 import ModalChangePass from "@/components/ModalChangePass";
 import ModalDeliveryAddress from "@/components/ModalDeliveryAddress";
 import ModalNotificationSettings from "@/components/ModalNotificationSettings";
+import { useAppSelector } from "@/store/hooks";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router } from "expo-router";
-import { useState } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useRef, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile() {
     const [theme, setTheme] = useState<"light" | "dark">("light");
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [changePassVisible, setChangePassVisible] = useState(false);
-    const [addressVisible, setAddressVisible] = useState(false);
-
-
-    const user = {
-        image: { uri: "https://scontent.fdac3-2.fna.fbcdn.net/v/t39.30808-6/671830664_1764717098216705_5702402513238370206_n.jpg?stp=dst-jpg_tt6&cstp=mx1056x1066&ctp=s1056x1066&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=rY8SLAoBPccQ7kNvwEgVLyE&_nc_oc=AdqshCKnr28D2jIMfRnVKEgKOQqqE4HCnpRi8ye0eDbQprskceeEVo-XnuK-fr0-_Mo&_nc_zt=23&_nc_ht=scontent.fdac3-2.fna&_nc_gid=eqaD8WVu0Ies2Sof053t0A&_nc_ss=7b289&oh=00_Af9EnkwTU-yRZv2RjxieK_9swQjfBew4JWTm3lfxIlTQ8Q&oe=6A37FFB6" },
-        name: "Merajul Hasan",
-        email: "merajuljim@gmail.com"
-    }
+    const userData = useAppSelector((state) => state.auth.currentUser);
+    // const dispatch = useAppDispatch();
+    const addressRef = useRef<BottomSheet>(null);
+    const changePassRef = useRef<BottomSheet>(null);
+    const notificationRef = useRef<BottomSheet>(null);
 
     return (
-        <SafeAreaView
-            style={{ flex: 1 }}
-            edges={["left", "right", "bottom"]}
-        >
-            <View
-                style={styles.userContainer}
-            >
-                {/* back button and title */}
-                <View style={styles.profileTitle}>
-                    <Pressable
-                        onPress={() => router.back()}
-                        style={{
-                            padding: 8,
-                            borderWidth: 1,
-                            borderColor: "#D5D5D5",
-                            borderRadius: 30,
-                            backgroundColor: "#C45C23"
-                        }}
-                    >
-                        <Ionicons name="arrow-back" size={24} color="#F5F5F5" />
-                    </Pressable>
-                    <Text style={{
-                        color: "#F5F5F5",
-                        fontWeight: "500",
-                        fontSize: 18
-                    }}>
-                        User Profile & Setting</Text>
-                </View>
+        <>
 
-                {/* user photo, name , email and edit icon */}
-                <View style={styles.userInfo}>
-                    <Image
-                        style={{ width: 80, height: 80, borderRadius: 90 }}
-                        source={user.image}
-                    ></Image>
-                    <View style={{ flex: 1 }}>
-                        <Text style={{ color: "#F5F5F5", fontSize: 22, fontWeight: "700" }}>{user.name}</Text>
-                        <Text style={{ color: "#D5D5D5", fontSize: 16, fontWeight: "400" }}>{user.email}</Text>
-                    </View>
-
-                    <Pressable>
-                        <Image
-                            style={{ height: 24, width: 24 }}
-                            tintColor={"#D5D5D5"}
-                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/edit.png" }}
-                        >
-                        </Image>
-                    </Pressable>
-                </View>
-            </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{
-                    zIndex: 1,
-                    paddingTop: 20,
                     backgroundColor: "#F5F5F5",
-                    marginTop: -20,
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20
+                    flex: 1
                 }}>
-                {/* point and girft card cards */}
-                <View style={styles.parentContainer}>
-                    <View
-                        style={styles.pointsContainer}
-                    >
+                <View
+                    style={styles.userContainer}
+                >
+                    {/* title */}
+                    <Text style={{
+                        color: "#F5F5F5",
+                        fontWeight: "500",
+                        fontSize: 18,
+                        textAlign: "center",
+                        marginTop: 5,
+                        marginBottom: 40
+                    }}>
+                        User Profile & Setting</Text>
+                    {/* user photo, name , email and edit icon */}
+                    <View style={styles.userInfo}>
                         <Image
-                            style={styles.pointImage}
-                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Group-35761.png" }}
+                            style={{ width: 80, height: 80, borderRadius: 90 }}
+                            source={{ uri: userData?.image }}
                         ></Image>
-                        <View>
-                            <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Reward Points</Text>
-                            <Text style={{ textAlign: "center", color: "#06A316", fontSize: 12, fontWeight: "500" }}>2,850</Text>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ color: "#F5F5F5", fontSize: 22, fontWeight: "700" }}>{userData?.name}</Text>
+                            <Text style={{ color: "#D5D5D5", fontSize: 16, fontWeight: "400" }}>{userData?.email}</Text>
                         </View>
+
+                        <Pressable>
+                            <Image
+                                style={{ height: 24, width: 24 }}
+                                tintColor={"#D5D5D5"}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/edit.png" }}
+                            >
+                            </Image>
+                        </Pressable>
                     </View>
-                    <View
-                        style={styles.cardsContainer}
-                    >
-                        <Image
-                            style={styles.giftCardImage}
-                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/gift.png" }}
-                        ></Image>
-                        <View>
-                            <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Gift Card</Text>
-                            <Text style={{ textAlign: "center", color: "#E38800", fontSize: 12, fontWeight: "500" }}>Eid gift card are available</Text>
+                </View>
+                <View style={styles.bodyContainer}>
+
+                    {/* point and girft card cards */}
+                    <View style={styles.parentContainer}>
+                        <View
+                            style={styles.pointsContainer}
+                        >
+                            <Image
+                                style={styles.pointImage}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Group-35761.png" }}
+                            ></Image>
+                            <View>
+                                <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Reward Points</Text>
+                                <Text style={{ textAlign: "center", color: "#06A316", fontSize: 12, fontWeight: "500" }}>2,850</Text>
+                            </View>
+                        </View>
+                        <View
+                            style={styles.cardsContainer}
+                        >
+                            <Image
+                                style={styles.giftCardImage}
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/gift.png" }}
+                            ></Image>
+                            <View>
+                                <Text style={[styles.pointsTitle, { textAlign: "center" }]}>Gift Card</Text>
+                                <Text style={{ textAlign: "center", color: "#E38800", fontSize: 12, fontWeight: "500" }}>Eid gift card are available</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -171,25 +153,25 @@ export default function Profile() {
                             </View>
                             {/* --------------------------------------------- */}
 
-                            <Pressable onPress={() => setChangePassVisible(true)}
+                            <Pressable onPress={() => { changePassRef.current?.snapToIndex(0); }}
                                 style={styles.settingsBar}>
                                 <Text style={styles.settingsText}>Change Password</Text>
                                 <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                             </Pressable>
                             <Pressable
-                                onPress={() => setMenuVisible(true)}
+                                onPress={() => { notificationRef.current?.snapToIndex(0); }}
                                 style={styles.settingsBar}>
                                 <Text style={styles.settingsText}>Notification Settings</Text>
                                 <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                             </Pressable>
                             <Pressable
-                            onPress={()=>setAddressVisible(true)}
-                            style={styles.settingsBar}>
+                                onPress={() => { addressRef.current?.snapToIndex(0); }}
+                                style={styles.settingsBar}
+                            >
                                 <Text style={styles.settingsText}>Delivery Address</Text>
                                 <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                             </Pressable>
                         </View>
-
                     </View>
 
                     {/* support */}
@@ -244,24 +226,36 @@ export default function Profile() {
 
 
             </ScrollView>
-            {/* notification settings modal */}
-            <ModalNotificationSettings
-                visible={menuVisible}
-                onClose={() => setMenuVisible(false)}
-            ></ModalNotificationSettings>
+            {/* notification settings bottomsheet */}
+            <BottomSheetWrapper
+                ref={notificationRef}
+                snapPoints={["50%", "100%"]}
+            >
+                <ModalNotificationSettings
+                    onClose={() => notificationRef.current?.close()}
+                ></ModalNotificationSettings>
+            </BottomSheetWrapper>
 
-            {/* change password modal */}
-            <ModalChangePass
-             visible={changePassVisible}
-             onClose={()=> setChangePassVisible(false)}
-            ></ModalChangePass>
+            {/* change password bottomsheet */}
+            <BottomSheetWrapper
+                ref={changePassRef}
+                snapPoints={["75%", "100%"]}
+            >
+                <ModalChangePass
+                    onClose={() => changePassRef.current?.close()}
+                ></ModalChangePass>
+            </BottomSheetWrapper>
 
-            {/* change address modal */}
-            <ModalDeliveryAddress 
-             visible={addressVisible}
-             onClose={()=>setAddressVisible(false)}
-            ></ModalDeliveryAddress>
-        </SafeAreaView>
+            {/* change address bottomsheet */}
+            <BottomSheetWrapper
+                ref={addressRef}
+                snapPoints={["75%", "100%"]}
+            >
+                <ModalDeliveryAddress
+                    onClose={() => addressRef.current?.close()}
+                ></ModalDeliveryAddress>
+            </BottomSheetWrapper>
+        </>
     )
 }
 
@@ -272,12 +266,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingBottom: 40,
         zIndex: 0,
-    },
-    profileTitle: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        marginBottom: 40
     },
     userInfo: {
         flexDirection: "row",
@@ -292,7 +280,7 @@ const styles = StyleSheet.create({
         borderColor: "#06A31680",
         borderRadius: 10,
         gap: 6,
-        width: "45%",
+        width: "44%",
     },
     cardsContainer: {
         paddingVertical: 20,
@@ -302,7 +290,7 @@ const styles = StyleSheet.create({
         borderColor: "#FFA92780",
         borderRadius: 10,
         gap: 6,
-        width: "45%"
+        width: "44%"
     },
     pointImage: {
         width: 52,
@@ -321,9 +309,15 @@ const styles = StyleSheet.create({
     },
     parentContainer: {
         flexDirection: "row",
-        gap: 20,
+        gap: 18,
         justifyContent: "center",
-        marginBottom: 20
+        marginBottom: 20,
+        marginTop: -20,
+        zIndex: 1,
+        backgroundColor: "#F5F5F5",
+        paddingTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
     }, versionText: {
         fontSize: 14,
         fontWeight: "500",
@@ -394,5 +388,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 20,
         justifyContent: "space-between"
+    },
+    bodyContainer: {
+        
     }
 })

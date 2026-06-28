@@ -4,11 +4,16 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "./PrimaryButton";
 import { BRANCHES, Branch } from "@/assets/brunches";
+import { useAppSelector } from "@/store/hooks";
+import Toast from "react-native-toast-message";
+
+
 
 export default function BookingForm() {
 
-    const [name, setName] = useState("MD Merajul Hasan"); // Replace with logged-in user's name
-    const [email, setEmail] = useState("merajul@example.com"); // Replace with logged-in user's email
+    const userData = useAppSelector((state) => state.auth.currentUser);
+    const [name, setName] = useState(userData?.name); // Replace with logged-in user's name
+    const email = userData?.email; // Replace with logged-in user's email
     const [phone, setPhone] = useState("");
     const [branch, setBranch] = useState<Branch | undefined>();
     const [guest, setGuest] = useState(2);
@@ -16,6 +21,7 @@ export default function BookingForm() {
     const [showDate, setShowDate] = useState(false);
     const [time, setTime] = useState(new Date());
     const [showTime, setShowTime] = useState(false);
+
 
 
     const currentDate = {
@@ -58,9 +64,17 @@ export default function BookingForm() {
         }
     };
 
+    const showToast = () => {
+        Toast.show({
+            type: 'success',
+            text1: 'Booking Inprogress',
+            text2: 'You will get an email soon!',
+            position: "bottom",
+        });
+    }
 
     const handleBooking = () => {
-        if (!name.trim()) {
+        if (!name?.trim()) {
             alert("Name is required.");
             return;
         }
@@ -89,11 +103,12 @@ export default function BookingForm() {
             time,
             guest,
         });
+        showToast();
     };
     return (
         <View style={styles.formContainer}>
 
-            <Text style={styles.text}>Name</Text>
+            <Text style={styles.text}>Name*</Text>
             <TextInput
                 style={styles.inputContainer}
                 placeholder="Full Name"
@@ -107,13 +122,13 @@ export default function BookingForm() {
                 style={styles.inputContainer}
                 placeholder="Email Address"
                 placeholderTextColor="#E9E9E9"
-                value={email}
-                onChangeText={setEmail}
+                defaultValue={email}
+                readOnly
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
 
-            <Text style={styles.text}>Phone</Text>
+            <Text style={styles.text}>Phone*</Text>
             <TextInput
                 style={styles.inputContainer}
                 placeholder="Phone Number"
@@ -123,7 +138,7 @@ export default function BookingForm() {
                 keyboardType="phone-pad"
             />
 
-            <Text style={styles.text}>Branch</Text>
+            <Text style={styles.text}>Branch*</Text>
             <View
                 style={styles.pickerContainer}
             >
@@ -165,7 +180,7 @@ export default function BookingForm() {
                 </View>
                 <Image style={{ width: 10, height: 2, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Vector-3053.png" }}></Image>
                 <View>
-                    <Text style={styles.text}>Time</Text>
+                    <Text style={styles.text}>Time*</Text>
                     <Pressable disabled={!branch} onPress={() => { setShowTime(true) }} style={[styles.inputContainer, { opacity: branch ? 1 : 0.5, }]}>
                         <Text style={{ color: "#E9E9E9" }}>{currentTime}</Text>
                         <Image style={{ width: 18, height: 18, tintColor: "#ADADAD" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/clock.png" }}></Image>
@@ -286,6 +301,7 @@ export default function BookingForm() {
                     }}
                 />
             )}
+            <Toast></Toast>
         </View>
     )
 }
@@ -328,12 +344,12 @@ const styles = StyleSheet.create({
         height: 44,
         overflow: "hidden",
         justifyContent: "center",
-        paddingHorizontal: 16
+        paddingHorizontal: 10
     },
     dateTimeContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
         gap: 4
     }
 })

@@ -1,112 +1,81 @@
-import { useEffect, useRef, useCallback } from "react";
-import { Dimensions, ImageSourcePropType, View } from "react-native";
-import Animated, { SharedValue, useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
-import SliderItem from "./SliderItem";
-import Pagination from "./Pagination";
+import { Dimensions, Image, View } from "react-native";
+import Carousel, { Pagination } from "react-native-reanimated-carousel";
+import { useSharedValue } from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
-const _imageWidth = width;
 
-
-export type SliderData = {
-    item: ImageSourcePropType,
-    index: number,
-    scrollX: SharedValue<number>
-}
+const offers = [
+    {
+        id: "1",
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg",
+    },
+    {
+        id: "2",
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg",
+    },
+    {
+        id: "3",
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg",
+    },
+    {
+        id: "4",
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg",
+    },
+];
 
 export default function Slider() {
-    const offers = [
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-        { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/slider-offer-pic-scaled.jpg" },
-    ];
-
-    const flatListRef = useRef<Animated.FlatList<ImageSourcePropType>>(null);
-    const currentIndex = useRef(0);
-    const autoScroll = useRef<ReturnType<typeof setInterval> | null>(null);
-
-    const scrollX = useSharedValue(0);
-    const onScroll = useAnimatedScrollHandler((e) => {
-        scrollX.value = e.contentOffset.x / _imageWidth;
-    });
-
-    const stopAutoScroll = useCallback(() => {
-        if (autoScroll.current) {
-            clearInterval(autoScroll.current);
-            autoScroll.current = null;
-        }
-    }, []);
-
-    const startAutoScroll = useCallback(() => {
-        stopAutoScroll();
-
-        autoScroll.current = setInterval(() => {
-            let next = currentIndex.current + 1;
-
-            if (next >= offers.length) {
-                next = 0;
-            }
-
-            flatListRef.current?.scrollToIndex({
-                index: next,
-                animated: true
-            });
-
-            currentIndex.current = next;
-        }, 4000)
-    }, [offers.length, stopAutoScroll]);
-
-    useEffect(() => {
-        startAutoScroll();
-        return () => stopAutoScroll();
-    }, [startAutoScroll, stopAutoScroll])
+    const progress = useSharedValue(0);
 
     return (
-        <View>
-            <Animated.FlatList
-                ref={flatListRef}
-                bounces
+        <View style={{ position: "relative" }}>
+            <Carousel
+                loop
+                width={width}
+                height={200}
+                autoPlay
                 data={offers}
-                keyExtractor={(_, index) => index.toString()}
-                snapToInterval={_imageWidth}
-                renderItem={({ item, index }) =>
-                    <SliderItem
-                        item={item}
-                        index={index}
-                        scrollX={scrollX}
+                onProgressChange={progress}
+                autoPlayInterval={4000}
+                renderItem={({ item }) => (
+                    <Image
+                        source={{ uri: item.uri }}
+                        style={{
+                            width,
+                            height: 200,
+                        }}
                     />
-                }
-                horizontal
-                decelerationRate={"fast"}
-                style={{ flexGrow: 0 }}
-                showsHorizontalScrollIndicator={false}
-                onScroll={onScroll}
-                scrollEventThrottle={1000 / 60}
-                onScrollBeginDrag={stopAutoScroll}
-                onMomentumScrollEnd={(e) => {
-                    currentIndex.current = Math.round(e.nativeEvent.contentOffset.x / _imageWidth);
-                    startAutoScroll();
-                }
-                }
+                )}
             />
 
-            <View style={{
-                position: "absolute",
-                bottom: 10,
-                width: "100%",
-                alignItems: "center",
-            }}>
-                <Pagination
-                    scrollX={scrollX}
-                    length={offers.length}
+            <View
+                style={{
+                    position: "absolute",
+                    bottom: 10,
+                    left: 0,
+                    right: 0,
+                    alignItems: "center",
+                }}
+            >
+                <Pagination.Basic
+                    progress={progress}
+                    data={offers}
+                    dotStyle={{
+                        width: 15,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor: "rgba(255,255,255,0.5)",
+                    }}
+                    activeDotStyle={{
+                        width: 15,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor: "#F5F5F5",
+                    }}
+                    containerStyle={{
+                        gap: 6,
+                    }}
                 />
             </View>
-
         </View>
-    )
+    );
 }

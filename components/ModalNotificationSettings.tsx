@@ -1,26 +1,13 @@
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useState } from "react";
-import {
-    Modal,
-    View,
-    Text,
-    Pressable,
-    Switch,
-    Dimensions,
-    StyleSheet
-} from "react-native";
+import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import Header from "./Header";
 
-const { width: Width } = Dimensions.get("screen");
-
 type Props = {
-    visible: boolean;
     onClose: () => void;
 };
 
-export default function ModalNotificationSettings({
-    visible,
-    onClose,
-}: Props) {
+export default function ModalNotificationSettings({ onClose }: Props) {
     const [isEnabledNoti, setIsEnabledNoti] = useState(true);
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
@@ -41,88 +28,78 @@ export default function ModalNotificationSettings({
     };
 
     return (
-        <Modal
-            visible={visible}
-            transparent
-            animationType="slide"
+        <View
+            style={{ paddingHorizontal: 20, flex: 1 }}
         >
-            <View
-                style={{
-                    flex: 1,
-                    backgroundColor: "rgba(0,0,0,0.4)",
-                    justifyContent: "flex-start"
-                }}
-            >
-                <View
+            {/* Header */}
+            <View style={styles.header}>
+                <Header onClose={onClose} isModal={true} page="notificationsettings"></Header>
+                <Switch
+                    value={isEnabledNoti}
+                    onValueChange={() => setIsEnabledNoti(!isEnabledNoti)}
+                    trackColor={{ false: "#828282", true: "#D76527" }}
+                    thumbColor={"#F5F5F5"}
                     style={{
-                        width: Width,
-                        backgroundColor: "#fff",
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                        paddingHorizontal: 10,
+                        transform: [
+                            { scaleX: 1.5 },
+                            { scaleY: 1.5 },
+                        ],
                     }}
-                >
-                    {/* Header */}
-                    <View style={styles.header}>
-                        <Header onClose={onClose} isModal={true} page="notificationsettings"></Header>
-                        <Switch
-                            value={isEnabledNoti}
-                            onValueChange={() => setIsEnabledNoti(!isEnabledNoti)}
-                            trackColor={{ false: "#828282", true: "#D76527" }}
-                            thumbColor={"#F5F5F5"}
+                />
+            </View>
+
+            <BottomSheetScrollView
+                contentContainerStyle={{
+                    gap: 20,
+                    marginTop: 20,
+                    flex: 1
+                }}
+                showsVerticalScrollIndicator={false}
+            >
+
+                {options.map((item) => {
+                    const selected = selectedOptions.includes(item);
+
+                    return (
+                        <Pressable
+                            key={item}
+                            onPress={() => toggleOption(item)}
                             style={{
-                                transform: [
-                                    { scaleX: 1.5 },
-                                    { scaleY: 1.5 },
-                                ],
+                                flexDirection: "row",
+                                justifyContent: "space-between",
                             }}
-                        />
-                    </View>
-
-                    {options.map((item) => {
-                        const selected = selectedOptions.includes(item);
-
-                        return (
-                            <Pressable
-                                key={item}
-                                onPress={() => toggleOption(item)}
+                        >
+                            <Text>{item}</Text>
+                            <View
                                 style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    paddingVertical: 14,
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: 12,
+                                    borderWidth: 2,
+                                    borderColor: selected ? "#D76527" : "#BDBDBD",
+                                    justifyContent: "center",
+                                    alignItems: "center",
                                 }}
                             >
-                                <Text>{item}</Text>
+                                {selected && (
+                                    <View
+                                        style={{
+                                            width: 12,
+                                            height: 12,
+                                            borderRadius: 6,
+                                            backgroundColor: "#D76527",
+                                        }}
+                                    />
+                                )}
+                            </View>
+                        </Pressable>
+                    );
+                })}
 
-                                <View
-                                    style={{
-                                        width: 24,
-                                        height: 24,
-                                        borderRadius: 12,
-                                        borderWidth: 2,
-                                        borderColor: selected ? "#D76527" : "#BDBDBD",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    {selected && (
-                                        <View
-                                            style={{
-                                                width: 12,
-                                                height: 12,
-                                                borderRadius: 6,
-                                                backgroundColor: "#D76527",
-                                            }}
-                                        />
-                                    )}
-                                </View>
-                            </Pressable>
-                        );
-                    })}
-                </View>
-            </View>
-        </Modal>
-    );
+            </BottomSheetScrollView>
+        </View>
+    )
+
 }
 
 const styles = StyleSheet.create({
@@ -131,7 +108,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: "center",
         marginTop: 20,
-        marginHorizontal: 10,
         paddingBottom: 20,
         borderBottomWidth: 1,
         borderBottomColor: "#D5D5D5"

@@ -1,9 +1,21 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Product } from "@/assets/products";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addToCart } from "@/features/cart/cartSlice";
 import { addToWishlist, removeFromWishlist } from "@/features/wishlist/wishlistSlice";
+import { useState } from "react";
+import { router } from "expo-router";
+
+const createTwoButtonAlert = () =>
+    Alert.alert('Added to wishlist', '', [
+        {
+            text: 'Stay Here',
+            onPress: () => { },
+            style: 'cancel',
+        },
+        { text: 'See Wishlist', onPress: () => router.push("/wishlist") },
+    ]);
 
 export type Props = {
     item: Product,
@@ -20,6 +32,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
     const dispatch = useAppDispatch();
     const wishlist = useAppSelector((state) => state.wishlist.items);
     const isWishlisted = wishlist.some((p) => p.id === item.id);
+    const [visible, setVisible] = useState(false);
 
     return (
         <View style={[styles.cardContainer, { width: isVertical ? verticalCardWidth : 200, height: isVertical ? 280 : 330 }]}>
@@ -34,11 +47,12 @@ export default function FoodCard({ item, index, isVertical }: Props) {
             <Pressable
                 style={styles.loveIcon}
                 onPress={() => {
-                    if(isWishlisted){
+                    if (isWishlisted) {
                         dispatch(removeFromWishlist(item.id));
-                    }else{
-                    dispatch(addToWishlist(item));
-                    }           
+                    } else {
+                        dispatch(addToWishlist(item));
+                        createTwoButtonAlert();
+                    }
                 }}
             >
                 <Ionicons name={isWishlisted ? "heart" : "heart-outline"} size={24} color={isWishlisted ? "#E93037" : "#575757"}></Ionicons>
@@ -76,7 +90,24 @@ export default function FoodCard({ item, index, isVertical }: Props) {
                     ></Image>
                 </Pressable>
             </View>
-
+            <Modal
+                visible={visible}
+            >
+                <View
+                    style={{ backgroundColor: "#FEFEFE", width: "80%", height: "25%" }}
+                >
+                    <Text>The item is added to wishlist!</Text>
+                    <Pressable
+                        onPress={() => {
+                            router.push("/wishlist");
+                            setVisible(false);
+                        }}
+                    ><Text>See Wishlist</Text></Pressable>
+                    <Pressable
+                        onPress={() => setVisible(false)}
+                    ><Text>Ok</Text></Pressable>
+                </View>
+            </Modal>
         </View>
     )
 }
