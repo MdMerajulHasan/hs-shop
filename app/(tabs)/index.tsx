@@ -11,26 +11,28 @@ import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
 import { FlatList, View } from "react-native";
-import { PRODUCTS } from "@/assets/products";
 import { useMemo } from "react";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Index() {
+
+  const PRODUCTS = useAppSelector((s) => s.products.items)
 
   const specialItems = useMemo(() => {
     return PRODUCTS.filter((food) => {
       return food.itemType === "Special";
     })
-  }, []);
+  }, [PRODUCTS]);
 
   const productsToShow = useMemo(() => {
     return PRODUCTS.filter(
       (p) => p.itemType !== "Special" && !p.isCombo
     );
-  }, []);
+  }, [PRODUCTS]);
 
   const comboData = useMemo(
     () => PRODUCTS.filter((p) => p.isCombo),
-    []
+    [PRODUCTS]
   );
 
   const bestDeals = useMemo(() => {

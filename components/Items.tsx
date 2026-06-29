@@ -13,8 +13,8 @@ export default function Items({ specialItems }: Props) {
 
 
     const lunchItem = specialItems.find((item) => item?.name === "Special Lunch");
-    const dinnerItem = specialItems.find((item) => item?.name === "Special Breakfast");
-    const breakfastItem = specialItems.find((item) => item?.name === "Special Dinner");
+    const dinnerItem = specialItems.find((item) => item?.name === "Special Dinner");
+    const breakfastItem = specialItems.find((item) => item?.name === "Special Breakfast");
 
 
     return (

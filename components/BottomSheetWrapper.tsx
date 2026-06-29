@@ -3,7 +3,7 @@ import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
 type Props = {
     children: React.ReactNode;
-    snapPoints: string[];
+    snapPoints?: string[];
 };
 
 const BottomSheetWrapper = forwardRef<BottomSheet, Props>(
@@ -30,6 +30,12 @@ const BottomSheetWrapper = forwardRef<BottomSheet, Props>(
                 snapPoints={snapPoints}
                 enablePanDownToClose
                 backdropComponent={renderBackdrop}
+                onChange={(index) => {
+                    console.log("BottomSheet index:", index);
+                }}
+                onAnimate={(fromIndex, toIndex) => {
+                    console.log(fromIndex, "->", toIndex);
+                }}
             >
                 {children}
             </BottomSheet>

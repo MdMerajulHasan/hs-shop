@@ -1,4 +1,3 @@
-import { PRODUCTS } from "@/assets/products";
 import { RESTAURANT } from "@/assets/restaurant";
 import { REVIEWS } from "@/assets/reviews";
 import FoodCard from "@/components/FoodCard";
@@ -20,6 +19,7 @@ type Size = {
 };
 
 export default function Details() {
+    const PRODUCTS = useAppSelector((s) => s.products.items);
 
     const [qty, setQty] = useState(1);
     const [selectedSize, setSelectedSize] = useState<Size | null>(null);
@@ -29,7 +29,7 @@ export default function Details() {
     const product = useMemo(() => {
         if (!id) return null;
         return PRODUCTS.find((p) => String(p.id) === String(id));
-    }, [id]);
+    }, [id, PRODUCTS]);
 
     const dispatch = useAppDispatch();
     const wishlist = useAppSelector((state) => state.wishlist.items);
@@ -48,12 +48,52 @@ export default function Details() {
     }, [product]);
 
     const similarItems = useMemo(() => {
-        return PRODUCTS.filter(
-            (item) =>
-                item.id !== product?.id &&
-                (item.name === product?.name || item.itemType === "Special")
-        ).slice(0, 10);
-    }, [product]);
+        if (!product) return [];
+
+        return PRODUCTS
+            .filter(item => item.id !== product.id)
+            .map(item => {
+                let score = 0;
+
+                // Same item type
+                if (item.itemType === product.itemType) score += 3;
+
+                // Same meal
+                if (item.mealType === product.mealType) score += 2;
+
+                // Same category
+                if (item.category === product.category) score += 2;
+
+                // Same menu
+                if (item.menu === product.menu) score += 1;
+
+                // Name contains each other
+                if (
+                    item.name.toLowerCase().includes(product.name.toLowerCase()) ||
+                    product.name.toLowerCase().includes(item.name.toLowerCase())
+                ) {
+                    score += 4;
+                }
+
+                // Shared ingredients
+                const commonIngredients = item.ingredients.filter(ingredient =>
+                    product.ingredients.some(
+                        p =>
+                            p.toLowerCase() === ingredient.toLowerCase()
+                    )
+                );
+
+                score += commonIngredients.length * 2;
+
+                return {
+                    ...item,
+                    score,
+                };
+            })
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 10);
+    }, [product, PRODUCTS]);
 
     // if id not matched return product not found
     if (!product) {
@@ -158,7 +198,7 @@ export default function Details() {
                                             styles.activeSizeText,
                                         ]}
                                     >
-                                        {s.label} in
+                                        {s.label}
                                     </Text>
                                 </Pressable>
                             ))}
@@ -253,6 +293,7 @@ export default function Details() {
                             </View>
                         )) : null}
 
+                        {/* similar items */}
                         {
                             similarItems.length > 0 ? <>
                                 <TitleBar itemName={similarItems[0].name} label={"Similar Items"}></TitleBar>

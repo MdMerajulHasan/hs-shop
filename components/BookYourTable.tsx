@@ -1,6 +1,6 @@
-import { View, StyleSheet } from "react-native";
-import MenuFormTitle from "./MenuFormTitle";
+import { StyleSheet, View } from "react-native";
 import BookingForm from "./BookingForm";
+import MenuFormTitle from "./MenuFormTitle";
 
 export default function BookYourTable(){
     return (
