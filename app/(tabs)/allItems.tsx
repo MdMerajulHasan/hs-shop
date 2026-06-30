@@ -1,4 +1,4 @@
-import { PRODUCTS, Product, Category } from "@/assets/products";
+import { Product, Category } from "@/assets/products";
 import ComboSlider from "@/components/ComboSlider";
 import FilterDrawer from "@/components/FilterDrawer";
 import FoodCard from "@/components/FoodCard";
@@ -10,13 +10,11 @@ import TitleBar from "@/components/TitleBar";
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SectionList, SectionListData, SectionListRenderItem, View } from "react-native";
+import { useAppSelector } from "@/store/hooks";
 
-type SortType =
-    | ""
-    | "rating"
-    | "priceLow"
-    | "priceHigh"
-    | "discount";
+type SortType = | "" | "rating" | "priceLow" | "priceHigh" | "discount";
+
+type AvailabilityType = | "" | "available" | "instock" | "unavailable";
 
 type CardSection = {
     type: "cards";
@@ -32,10 +30,20 @@ type Section = CardSection | SliderSection;
 
 export default function AllItems() {
 
+    const BRANCHES = useAppSelector((state) => state.branch.items);
+    const PRODUCTS = useAppSelector((state) => state.products.items);
     const [filterItem, setFilterItem] = useState("All");
     const [showFilter, setShowFilter] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
     const [selectedSort, setSelectedSort] = useState<SortType>("");
+    const [selectedBranch, setSelectedBranch] = useState<string>("");
+    const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+    const [selectedAvailability, setSelectedAvailability] =
+        useState<AvailabilityType>("");
+    const [priceRange, setPriceRange] = useState({
+        min: 0,
+        max: 100,
+    });
 
     const showSpecial = ![
         "Special Breakfast",
@@ -67,14 +75,35 @@ export default function AllItems() {
         return PRODUCTS.filter(
             (p) => p.itemType !== "Special" && !p.isCombo
         );
-    }, []);
+    }, [PRODUCTS]);
+
+    const minPrice = useMemo(() => {
+        if (!baseProducts.length) return 0;
+        return Math.floor(
+            Math.min(...baseProducts.map(item => item.price))
+        );
+    }, [baseProducts]);
+
+    const maxPrice = useMemo(() => {
+        if (!baseProducts.length) return 0;
+        return Math.ceil(
+            Math.max(...baseProducts.map(item => item.price))
+        );
+    }, [baseProducts]);
+
+    useEffect(() => {
+        setPriceRange({
+            min: minPrice,
+            max: maxPrice,
+        });
+    }, [minPrice, maxPrice]);
 
     const productsToShow = useMemo(() => {
         let data = [...baseProducts];
 
         if (filterItem === "Best Deals") {
             data = data.filter(item => item.isAvailable)
-            .sort((a, b) => b.discount - a.discount);
+                .sort((a, b) => b.discount - a.discount);
 
         } else if (filterItem === "Popular Items") {
             data = data.filter(
@@ -99,6 +128,50 @@ export default function AllItems() {
                 item => item.category === selectedCategory
             );
         }
+
+        if (selectedBranch) {
+            data = data.filter(product => {
+                return product.branches.some(
+                    branch => branch.branchId === selectedBranch
+                );
+            });
+        }
+
+        if (selectedSizes.length) {
+            data = data.filter(product =>
+                product.sizes.some(size =>
+                    selectedSizes.includes(size.value)
+                )
+            );
+        }
+
+        if (selectedAvailability === "available") {
+            data = data.filter(product =>
+                product.branches.some(branch => branch.available)
+            );
+        }
+
+        if (selectedAvailability === "instock") {
+            data = data.filter(product =>
+                product.branches.some(
+                    branch => branch.available && branch.stock > 0
+                )
+            );
+        }
+
+        if (selectedAvailability === "unavailable") {
+            data = data.filter(product =>
+                product.branches.every(
+                    branch => !branch.available
+                )
+            );
+        }
+
+        data = data.filter(
+            product =>
+                product.price >= priceRange.min &&
+                product.price <= priceRange.max
+        );
 
         switch (selectedSort) {
 
@@ -125,7 +198,7 @@ export default function AllItems() {
         return data;
 
 
-    }, [baseProducts, filterItem, selectedCategory, selectedSort]);
+    }, [baseProducts, filterItem, selectedCategory, selectedSort, selectedBranch, selectedSizes, selectedAvailability, priceRange,]);
 
     const chunk = useCallback((array: Product[], size: number) => {
         const result: Product[][] = [];
@@ -167,13 +240,36 @@ export default function AllItems() {
         return PRODUCTS.filter((food) => {
             return food.itemType === "Special";
         })
-    }, []);
+    }, [PRODUCTS]);
 
 
     const comboData = useMemo(
         () => PRODUCTS.filter((p) => p.isCombo),
-        []
+        [PRODUCTS]
     );
+
+    const sizeOptions = useMemo(() => {
+        return Array.from(
+            new Map(
+                PRODUCTS.flatMap(product =>
+                    product.sizes.map(size => [
+                        size.value,
+                        {
+                            value: size.value,
+                            label: size.label,
+                        },
+                    ])
+                )
+            ).values()
+        );
+    }, [PRODUCTS]);
+
+    const branchOptions = useMemo(() => {
+        return BRANCHES.map(branch => ({
+            value: branch.id,
+            label: branch.name,
+        }));
+    }, [BRANCHES]);
 
     const renderItem: SectionListRenderItem<Product[], Section> = useCallback(
         ({ item, section, index }) => {
@@ -233,11 +329,23 @@ export default function AllItems() {
     };
 
     const handleResetFilter = () => {
+
         setFilterItem("All");
 
         setSelectedCategory("");
 
         setSelectedSort("");
+
+        setSelectedBranch("");
+
+        setSelectedSizes([]);
+
+        setSelectedAvailability("");
+
+        setPriceRange({
+            min: minPrice,
+            max: maxPrice,
+        });
 
         setShowFilter(false);
 
@@ -299,10 +407,32 @@ export default function AllItems() {
                 <FilterDrawer
                     visible={showFilter}
                     onClose={() => setShowFilter(false)}
+
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
+
                     selectedSort={selectedSort}
                     setSelectedSort={setSelectedSort}
+
+                    selectedBranch={selectedBranch}
+                    setSelectedBranch={setSelectedBranch}
+
+                    selectedSizes={selectedSizes}
+                    setSelectedSizes={setSelectedSizes}
+
+                    selectedAvailability={selectedAvailability}
+                    setSelectedAvailability={setSelectedAvailability}
+
+                    branchOptions={branchOptions}
+
+                    sizeOptions={sizeOptions}
+
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+
                     onApply={handleApplyFilter}
                     onReset={handleResetFilter}
                 />

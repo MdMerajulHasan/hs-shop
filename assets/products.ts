@@ -23,8 +23,15 @@ export type MenuType =
 
 export interface ProductSize {
     id: string;
+    value: string;
     label: string;
     price: number;
+}
+
+export interface Branch {
+    branchId: string,
+    available: boolean,
+    stock: number,
 }
 
 export interface Product {
@@ -66,6 +73,7 @@ export interface Product {
     preparationTime: number;
 
     sizes: ProductSize[];
+    branches: Branch[];
 }
 
 export const PRODUCTS: Product[] = [
@@ -114,15 +122,49 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 12.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 16.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "5",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "6",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "2",
@@ -168,15 +210,61 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
-                label: "6 Inch",
+                value: "4.5",
+                label: "4.5 Inch",
                 price: 18.88,
             },
             {
                 id: "2",
-                label: "9 Inch",
+                value: "6",
+                label: "6 Inch",
                 price: 24.88,
             },
+            {
+                id: "3",
+                value: "8",
+                label: "8 Inch",
+                price: 32.88,
+            },
+            {
+                id: "4",
+                value: "12",
+                label: "12 Inch",
+                price: 42.88,
+            },
         ],
+        branches: [
+            {
+                branchId: "7",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "8",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "9",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "10",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "11",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "1",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "3",
@@ -222,10 +310,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 15.99,
             },
         ],
+        branches: [
+            {
+                branchId: "2",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "3",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "4",
@@ -271,10 +377,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "6-pieces",
                 label: "6 Pieces",
                 price: 14.99,
             },
         ],
+        branches: [
+            {
+                branchId: "5",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "6",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "7",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "5",
@@ -318,14 +442,33 @@ export const PRODUCTS: Product[] = [
             {
                 id: "1",
                 label: "Medium",
+                value: "medium",
                 price: 6.49,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 8.49,
             },
         ],
+        branches: [
+            {
+                branchId: "8",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "9",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "10",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "6",
@@ -371,10 +514,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "single",
                 label: "Single",
                 price: 5.99,
             },
         ],
+        branches: [
+            {
+                branchId: "11",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "1",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "2",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "7",
@@ -419,15 +580,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "small",
                 label: "Small",
                 price: 4.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 6.49,
             },
         ],
+        branches: [
+            {
+                branchId: "3",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "4",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "5",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "8",
@@ -471,15 +651,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "300-ml",
                 label: "300ml",
                 price: 5.99,
             },
             {
                 id: "2",
+                value: "500-ml",
                 label: "500ml",
                 price: 7.99,
             },
         ],
+        branches: [
+            {
+                branchId: "6",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "7",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "8",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "9",
@@ -526,15 +725,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 12.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 16.99,
             },
         ],
+        branches: [
+            {
+                branchId: "9",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "10",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "10",
@@ -580,15 +798,76 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
-                label: "6 Inch",
+                value: "4.5",
+                label: "4.5 Inch",
                 price: 18.88,
             },
             {
                 id: "2",
-                label: "9 Inch",
+                value: "6",
+                label: "6 Inch",
                 price: 24.88,
             },
+            {
+                id: "3",
+                value: "8",
+                label: "8 Inch",
+                price: 32.88,
+            },
+            {
+                id: "4",
+                value: "12",
+                label: "12 Inch",
+                price: 42.88,
+            },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "5",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "6",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "7",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "8",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "9",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "11",
@@ -634,10 +913,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 15.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "12",
@@ -683,10 +980,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "6-pieces",
                 label: "6 Pieces",
                 price: 14.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "13",
@@ -729,15 +1044,74 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "medium",
                 label: "Medium",
                 price: 6.49,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 8.49,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "5",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "6",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "7",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "8",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "9",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "10",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "14",
@@ -783,10 +1157,58 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "single",
                 label: "Single",
                 price: 5.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "9",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "10",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "5",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "6",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "15",
@@ -831,15 +1253,49 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "small",
                 label: "Small",
                 price: 4.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 6.49,
             },
         ],
+        branches: [
+            {
+                branchId: "7",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "9",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "4",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "5",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "16",
@@ -883,15 +1339,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "300-ml",
                 label: "300ml",
                 price: 5.99,
             },
             {
                 id: "2",
+                value: "500-ml",
                 label: "500ml",
                 price: 7.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "17",
@@ -938,15 +1413,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 12.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 16.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "18",
@@ -992,15 +1486,46 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
-                label: "6 Inch",
+                value: "4.5",
+                label: "4.5 Inch",
                 price: 18.88,
             },
             {
                 id: "2",
-                label: "9 Inch",
+                value: "6",
+                label: "6 Inch",
                 price: 24.88,
             },
+            {
+                id: "3",
+                value: "8",
+                label: "8 Inch",
+                price: 32.88,
+            },
+            {
+                id: "4",
+                value: "12",
+                label: "12 Inch",
+                price: 42.88,
+            },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "19",
@@ -1046,10 +1571,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 15.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "20",
@@ -1095,10 +1638,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "6-pieces",
                 label: "6 Pieces",
                 price: 14.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "21",
@@ -1141,15 +1702,49 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "medium",
                 label: "Medium",
                 price: 6.49,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 8.49,
             },
         ],
+        branches: [
+            {
+                branchId: "6",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "7",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "8",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "9",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "10",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "22",
@@ -1195,10 +1790,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "single",
                 label: "Single",
                 price: 5.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "23",
@@ -1243,15 +1856,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "small",
                 label: "Small",
                 price: 4.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 6.49,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "24",
@@ -1295,15 +1927,64 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "300-ml",
                 label: "300ml",
                 price: 5.99,
             },
             {
                 id: "2",
+                value: "500-ml",
                 label: "500ml",
                 price: 7.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "5",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "6",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "7",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "8",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "9",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "25",
@@ -1350,15 +2031,69 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 12.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 16.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "4",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "6",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "7",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "8",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "9",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "10",
+                available: true,
+                stock: 18,
+            },
+            {
+                branchId: "11",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "26",
@@ -1404,15 +2139,46 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
-                label: "6 Inch",
+                value: "4.5",
+                label: "4.5 Inch",
                 price: 18.88,
             },
             {
                 id: "2",
-                label: "9 Inch",
+                value: '6',
+                label: "6 Inch",
                 price: 24.88,
             },
+            {
+                id: "3",
+                value: "8",
+                label: "8 Inch",
+                price: 32.88,
+            },
+            {
+                id: "4",
+                value: "12",
+                label: "12 Inch",
+                price: 42.88,
+            },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "27",
@@ -1458,10 +2224,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 15.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "28",
@@ -1507,10 +2291,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "6-pieces",
                 label: "6 Pieces",
                 price: 14.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "29",
@@ -1553,15 +2355,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "medium",
                 label: "Medium",
                 price: 6.49,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 8.49,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "30",
@@ -1607,10 +2428,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "single",
                 label: "Single",
                 price: 5.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "31",
@@ -1655,15 +2494,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "small",
                 label: "Small",
                 price: 4.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 6.49,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "32",
@@ -1707,15 +2565,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "300-ml",
                 label: "300ml",
                 price: 5.99,
             },
             {
                 id: "2",
+                value: "500-ml",
                 label: "500ml",
                 price: 7.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "33",
@@ -1768,15 +2645,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 24.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 29.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "34",
@@ -1829,15 +2725,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 24.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 29.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "35",
@@ -1890,15 +2805,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 24.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 29.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "36",
@@ -1951,15 +2885,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 24.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 29.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "37",
@@ -2002,15 +2955,34 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: 'regular',
                 label: "Regular",
                 price: 21.99,
             },
             {
                 id: "2",
+                value: 'large',
                 label: "Large",
                 price: 25.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "38",
@@ -2067,10 +3039,28 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 11.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
     {
         id: "39",
@@ -2128,14 +3118,33 @@ export const PRODUCTS: Product[] = [
         sizes: [
             {
                 id: "1",
+                value: "regular",
                 label: "Regular",
                 price: 23.99,
             },
             {
                 id: "2",
+                value: "large",
                 label: "Large",
                 price: 27.99,
             },
         ],
+        branches: [
+            {
+                branchId: "1",
+                available: true,
+                stock: 30,
+            },
+            {
+                branchId: "2",
+                available: false,
+                stock: 0,
+            },
+            {
+                branchId: "3",
+                available: true,
+                stock: 18,
+            },
+        ]
     },
 ];

@@ -1,43 +1,82 @@
 import { Category } from "@/assets/products";
 import React, { useEffect, useRef } from "react";
 import { Animated, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import FilterSection from "./FilterSection";
+import FilterCheckbox from "./FilterCheckBox";
+import PriceRangeSlider from "@/components/PriceRangeSlider";
+
+
+type AvailabilityType = | "" | "available" | "instock" | "unavailable";
 
 type Props = {
     visible: boolean;
     onClose: () => void;
 
+    // Category
     selectedCategory: Category | "";
     setSelectedCategory: React.Dispatch<
         React.SetStateAction<Category | "">
     >;
 
+    // Sort
     selectedSort: SortType;
     setSelectedSort: React.Dispatch<
         React.SetStateAction<SortType>
+    >;
+
+    // Branch
+    selectedBranch: string;
+    setSelectedBranch: React.Dispatch<
+        React.SetStateAction<string>
+    >;
+
+    // Size
+    selectedSizes: string[];
+    setSelectedSizes: React.Dispatch<
+        React.SetStateAction<string[]>
+    >;
+
+    // Availability
+    selectedAvailability: AvailabilityType;
+    setSelectedAvailability: React.Dispatch<
+        React.SetStateAction<AvailabilityType>
+    >;
+
+    // Dynamic Options
+    branchOptions: {
+        value: string;
+        label: string;
+    }[];
+
+    sizeOptions: {
+        value: string;
+        label: string;
+    }[];
+
+    // Price
+    minPrice: number;
+    maxPrice: number;
+
+    priceRange: {
+        min: number;
+        max: number;
+    };
+
+    setPriceRange: React.Dispatch<
+        React.SetStateAction<{
+            min: number;
+            max: number;
+        }>
     >;
 
     onApply: () => void;
     onReset: () => void;
 };
 
-type SortType =
-    | ""
-    | "rating"
-    | "priceLow"
-    | "priceHigh"
-    | "discount";
+type SortType = | "" | "rating" | "priceLow" | "priceHigh" | "discount";
 
 
-const categories: Category[] = [
-    "Burger",
-    "Pizza",
-    "Chinese",
-    "Coffee",
-    "Juice",
-    "Kebab",
-    "Snacks",
-    "Donuts",
-];
+const categories: Category[] = ["Burger", "Pizza", "Chinese", "Coffee", "Juice", "Kebab", "Snacks", "Donuts",];
 
 const sortOptions = [
     {
@@ -58,14 +97,48 @@ const sortOptions = [
     },
 ];
 
+const availabilityOptions = [
+    {
+        value: "available",
+        label: "Available",
+    },
+    {
+        value: "instock",
+        label: "In Stock",
+    },
+    {
+        value: "unavailable",
+        label: "Not Available",
+    },
+];
+
 export default function FilterDrawer({
     visible,
     onClose,
+
     selectedCategory,
     setSelectedCategory,
 
     selectedSort,
     setSelectedSort,
+
+    selectedBranch,
+    setSelectedBranch,
+
+    selectedSizes,
+    setSelectedSizes,
+
+    selectedAvailability,
+    setSelectedAvailability,
+
+    branchOptions,
+    sizeOptions,
+
+    minPrice,
+    maxPrice,
+
+    priceRange,
+    setPriceRange,
 
     onApply,
     onReset,
@@ -93,7 +166,9 @@ export default function FilterDrawer({
         <Modal
             visible={visible}
             transparent
-            animationType="none"
+            animationType="fade"
+        // statusBarTranslucent={true}
+        // navigationBarTranslucent={true}
         >
             <View style={styles.container}>
 
@@ -101,7 +176,6 @@ export default function FilterDrawer({
                     style={styles.backdrop}
                     onPress={onClose}
                 />
-
                 <Animated.View
                     style={[
                         styles.drawer,
@@ -115,92 +189,117 @@ export default function FilterDrawer({
                     ]}
                 >
 
-                    <Text style={styles.title}>
-                        Filter & Sort
-                    </Text>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <Text style={styles.title}>
+                            Filter By
+                        </Text>
 
-                    {/* Category */}
+                        {/* Category */}
+                        <FilterSection
+                            title="Category"
+                            scrollable
+                            maxHeight={150}
+                        >
+                            {categories.map((item) => (
+                                <FilterCheckbox
+                                    key={item}
+                                    label={item}
+                                    checked={selectedCategory === item}
+                                    onPress={() =>
+                                        setSelectedCategory(prev =>
+                                            prev === item ? "" : item
+                                        )
+                                    }
+                                />
+                            ))}
+                        </FilterSection>
 
-                    <Text style={styles.heading}>
-                        Category
-                    </Text>
+                        {/* filter branch */}
+                        <FilterSection
+                            title="Select Branch"
+                            scrollable
+                            maxHeight={170}
+                        >
+                            {branchOptions.map(branch => (
+                                <FilterCheckbox
+                                    key={branch.value}
+                                    label={branch.label}
+                                    checked={selectedBranch === branch.value}
+                                    onPress={() =>
+                                        setSelectedBranch(prev =>
+                                            prev === branch.value ? "" : branch.value
+                                        )
+                                    }
+                                />
+                            ))}
+                        </FilterSection>
 
-                    <View style={styles.chipContainer}>
-                        {categories.map((item) => (
-                            <Pressable
-                                key={item}
-                                onPress={() => setSelectedCategory(item)}
-                                style={[
-                                    styles.chip,
-                                    selectedCategory === item && styles.selectedChip,
-                                ]}
-                            >
-                                <Text style={[
-                                    styles.chipText,
-                                    selectedCategory === item &&
-                                    styles.selectedChipText,
-                                ]}>
-                                    {item}
-                                </Text>
-                            </Pressable>
-                        ))}
-                    </View>
+                        {/* availability filter */}
+                        <FilterSection
+                            title="Availability"
+                        >
+                            {availabilityOptions.map(item => (
+                                <FilterCheckbox
+                                    key={item.value}
+                                    label={item.label}
+                                    checked={selectedAvailability === item.value}
+                                    onPress={() =>
+                                        setSelectedAvailability(prev =>
+                                            prev === item.value
+                                                ? ""
+                                                : item.value as AvailabilityType
+                                        )
+                                    }
+                                />
+                            ))}
+                        </FilterSection>
 
-                    {/* Sort */}
+                        {/* price range */}
+                        <FilterSection title="Price">
+                            <PriceRangeSlider
+                                minPrice={minPrice}
+                                maxPrice={maxPrice}
+                                value={priceRange}
+                                onChange={setPriceRange}
+                            />
+                        </FilterSection>
+                        {/* size filter */}
+                        <FilterSection
+                            title="Size"
+                            scrollable
+                            maxHeight={170}
+                        >
+                            {sizeOptions.map(size => (
+                                <FilterCheckbox
+                                    key={size.value}
+                                    label={size.label}
+                                    checked={selectedSizes.includes(size.value)}
+                                    onPress={() => {
+                                        setSelectedSizes(prev =>
+                                            prev.includes(size.value)
+                                                ? prev.filter(value => value !== size.value)
+                                                : [...prev, size.value]
+                                        );
+                                    }}
+                                />
+                            ))}
+                        </FilterSection>
 
-                    <Text style={styles.heading}>
-                        Sort By
-                    </Text>
+                        {/* Sort */}
 
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                    >
-                        {sortOptions.map((item) => (
-                            <Pressable
-                                key={item.value}
-                                style={styles.radioRow}
-                                onPress={() =>
-                                    setSelectedSort(item.value as any)
-                                }
-                            >
-                                <View
-                                    style={[
-                                        styles.radio,
-                                        selectedSort === item.value &&
-                                        styles.selectedRadio,
-                                    ]}
-                                ></View>
-                                <Text
-                                    style={styles.radioText}
-                                >
-                                    {item.label}
-                                </Text>
-                            </Pressable>
-                        ))}
+                        {/* <FilterSection
+                            title="Sort"
+                        >
+                            {sortOptions.map(item => (
+                                <FilterCheckbox
+                                    key={item.value}
+                                    label={item.label}
+                                    checked={selectedSort === item.value}
+                                    onPress={() => { }}
+                                />
+                            ))}
+                        </FilterSection> */}
                     </ScrollView>
-
-                    <View style={styles.bottomButtons}>
-
-                        <Pressable
-                            style={styles.resetBtn}
-                            onPress={onReset}
-                        >
-                            <Text style={styles.resetText}>
-                                Reset
-                            </Text>
-                        </Pressable>
-
-                        <Pressable
-                            style={styles.applyBtn}
-                            onPress={onApply}
-                        >
-                            <Text style={styles.applyText}>
-                                Apply
-                            </Text>
-                        </Pressable>
-
-                    </View>
-
                 </Animated.View>
 
             </View>
@@ -221,9 +320,9 @@ const styles = StyleSheet.create({
     },
 
     drawer: {
-        width: 320,
+        width: 250,
         backgroundColor: "#FEFEFE",
-        paddingTop: 60,
+        paddingTop: 20,
         paddingHorizontal: 20,
         paddingBottom: 30,
         elevation: 15,
@@ -233,7 +332,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: "700",
         color: "#272727",
-        marginBottom: 30,
+        marginBottom: 10,
     },
 
     heading: {
