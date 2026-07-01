@@ -1,12 +1,12 @@
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { forwardRef, useCallback } from "react";
-import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
 type Props = {
     children: React.ReactNode;
     snapPoints?: string[];
 };
 
-const BottomSheetWrapper = forwardRef<BottomSheet, Props>(
+const BottomSheetWrapper = forwardRef<BottomSheetModal, Props>(
     ({ children, snapPoints }, ref) => {
 
         const renderBackdrop = useCallback(
@@ -24,21 +24,14 @@ const BottomSheetWrapper = forwardRef<BottomSheet, Props>(
         );
 
         return (
-            <BottomSheet
+            <BottomSheetModal
                 ref={ref}
-                index={-1}
                 snapPoints={snapPoints}
-                enablePanDownToClose
                 backdropComponent={renderBackdrop}
-                onChange={(index) => {
-                    console.log("BottomSheet index:", index);
-                }}
-                onAnimate={(fromIndex, toIndex) => {
-                    console.log(fromIndex, "->", toIndex);
-                }}
+                enablePanDownToClose
             >
                 {children}
-            </BottomSheet>
+            </BottomSheetModal>
         );
     }
 );

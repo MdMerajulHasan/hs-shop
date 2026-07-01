@@ -62,7 +62,7 @@ export default function FilterSection({
                             ? "chevron-up"
                             : "chevron-down"
                     }
-                    size={22}
+                    size={18}
                     color="#272727"
                 />
             </Pressable>
@@ -91,10 +91,10 @@ export default function FilterSection({
 const styles = StyleSheet.create({
 
     container: {
-        marginBottom: 22,
+        marginBottom: 10,
         borderBottomWidth: 1,
-        borderBottomColor: "#F3F3F3",
-        paddingBottom: 18,
+        borderBottomColor: "#CED2CE",
+        paddingBottom: 10,
     },
 
     header: {
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 17,
-        fontWeight: "700",
+        fontSize: 16,
+        fontWeight: "500",
         color: "#272727",
     },
 

@@ -251,7 +251,7 @@ export default function AllItems() {
     const sizeOptions = useMemo(() => {
         return Array.from(
             new Map(
-                PRODUCTS.flatMap(product =>
+                productsToShow.flatMap(product =>
                     product.sizes.map(size => [
                         size.value,
                         {
@@ -262,7 +262,7 @@ export default function AllItems() {
                 )
             ).values()
         );
-    }, [PRODUCTS]);
+    }, [productsToShow]);
 
     const branchOptions = useMemo(() => {
         return BRANCHES.map(branch => ({
@@ -319,14 +319,6 @@ export default function AllItems() {
         },
         [showSpecial, showCombo, specialItems, comboData]
     );
-
-    const handleApplyFilter = () => {
-        if (selectedCategory) {
-            setFilterItem(selectedCategory);
-        }
-
-        setShowFilter(false);
-    };
 
     const handleResetFilter = () => {
 
@@ -433,7 +425,6 @@ export default function AllItems() {
                     priceRange={priceRange}
                     setPriceRange={setPriceRange}
 
-                    onApply={handleApplyFilter}
                     onReset={handleResetFilter}
                 />
             </View>

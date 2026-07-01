@@ -9,12 +9,9 @@ export default function TabLayout() {
         tabBar={(props) => <CustomTabBar {...props}></CustomTabBar>}
         screenOptions={{
             tabBarActiveTintColor: '#D76527',
-            tabBarStyle: {
-                height: 100,
-                paddingHorizontal: 20,
-            },
+            // tabBarStyle: {
+            // },
             headerShown: false
-
         }}
     >
         <Tabs.Screen

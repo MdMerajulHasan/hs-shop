@@ -1,9 +1,10 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Product } from "@/assets/products";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { removeFromWishlist } from "@/features/wishlist/wishlistSlice";
-import { addToCart, removeFromCart } from "@/features/cart/cartSlice";
+import { addToCart, decreaseQuantity, removeFromCart } from "@/features/cart/cartSlice";
+import Toast from "react-native-toast-message";
 
 
 
@@ -15,6 +16,20 @@ type Props = {
 export default function SmallFoodCard({ item, page }: Props) {
 
     const dispatch = useAppDispatch();
+    const cartData = useAppSelector((state) => state.cart.items);
+    const itemCount = cartData.find((cartItem) => cartItem.id === item.id)?.quantity || 0;
+
+    const handleAddToCart = (item: Product) => {
+        dispatch(addToCart(item));
+        Toast.show({
+            type: 'success',
+            text1: 'Item added to cart',
+            text2: 'Your item has been added to the cart successfully.',
+            position: 'top',
+            visibilityTime: 3000,
+        });
+    };
+
 
 
     return (
@@ -62,9 +77,21 @@ export default function SmallFoodCard({ item, page }: Props) {
 
             {
                 page === "cart" ? <View style={styles.countContainer}>
-                    <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
-                    <Text style={styles.countNumber}>1</Text>
-                    <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
+                    <Pressable
+                        onPress={() => {
+                            dispatch(decreaseQuantity(item.id));
+                        }}
+                    >
+                        <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
+                    </Pressable>
+                    <Text style={styles.countNumber}>{itemCount}</Text>
+                    <Pressable
+                        onPress={() => {
+                            dispatch(addToCart(item));
+                        }}
+                    >
+                        <Ionicons size={18} color={"#272727"} name="add-circle-sharp"></Ionicons>
+                    </Pressable>
                 </View> : null
             }
 
@@ -72,13 +99,14 @@ export default function SmallFoodCard({ item, page }: Props) {
                 page === "wishlist" ?
                     <Pressable
                         style={styles.cartContainer}
-                        onPress={() => dispatch(addToCart(item))}
+                        onPress={() => handleAddToCart(item)}
                     >
                         <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
                             style={{ width: 24, height: 24 }}
                         ></Image>
                     </Pressable> : null
             }
+            <Toast />
         </View>
     )
 }
@@ -140,3 +168,4 @@ const styles = StyleSheet.create({
         borderRadius: 66
     },
 })
+

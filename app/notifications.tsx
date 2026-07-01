@@ -1,9 +1,12 @@
+import BottomSheetWrapper from "@/components/BottomSheetWrapper";
 import EmptyNotificationBox from "@/components/EmptyNotificationBox";
-import NotificationCard from "@/components/NotificationCard";
-import { useEffect, useState } from "react";
-import { Pressable,  View, StyleSheet, Image, FlatList } from "react-native";
-import ModalNotificationSettings from "@/components/ModalNotificationSettings";
 import Header from "@/components/Header";
+import ModalNotificationSettings from "@/components/ModalNotificationSettings";
+import NotificationCard from "@/components/NotificationCard";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useEffect, useRef, useState } from "react";
+import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
+
 
 // export type NotificationType =
 //     | "order_update"
@@ -108,9 +111,8 @@ export const notificationsData: NotificationItem[] = [
 
 export default function Notifications() {
 
-    const [menuVisible, setMenuVisible] = useState(false);
-
     const totalNotifications = notificationsData.length;
+    const notiSettingsRef = useRef<BottomSheetModal>(null);
     // const totalNotifications = 0;
 
     const [unread, setUnread] = useState(0);
@@ -118,9 +120,7 @@ export default function Notifications() {
 
     useEffect(() => {
         setUnread(unreads.length);
-    }, [unreads])
-
-
+    }, [unreads]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -128,7 +128,7 @@ export default function Notifications() {
             <View style={styles.header}>
                 <Header count={unread} page={"notifications"}></Header>
                 <Pressable
-                    onPress={() => setMenuVisible(true)}
+                    onPress={() => { notiSettingsRef.current?.present(); }}
                     style={{ paddingHorizontal: 9 }}
                 >
 
@@ -169,10 +169,14 @@ export default function Notifications() {
             }
 
             {/* notification settings modal */}
-            <ModalNotificationSettings 
-            visible={menuVisible}
-            onClose={() => setMenuVisible(false)}>
-            </ModalNotificationSettings>
+            <BottomSheetWrapper
+                ref={notiSettingsRef}
+                snapPoints={["50%", "100%"]}
+            >
+                <ModalNotificationSettings
+                    onClose={() => { notiSettingsRef.current?.close() }}>
+                </ModalNotificationSettings>
+            </BottomSheetWrapper>
         </View>
     )
 }

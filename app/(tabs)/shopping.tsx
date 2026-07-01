@@ -4,11 +4,30 @@ import SmallFoodCard from "@/components/SmallFoodCard";
 import { router } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useAppSelector } from "@/store/hooks";
+import Toast from "react-native-toast-message";
 
 
 export default function Shopping() {
 
     const cartData = useAppSelector((state) => state.cart.items);
+    const totalItems = cartData.reduce((total, item) => total + item.quantity, 0);
+    const totalPrice = cartData.reduce((total, item) => total + item.price * item.quantity, 0);
+    const deliveryCharge = totalItems ? 50 : 0;
+    const vatTax = totalItems ? 50 : 0;
+    const discount = totalItems ? 2 : 0;
+    const specialDiscount = totalItems ? 1 : 0;
+    const freeShippingDiscount = totalItems ? 1 : 0;
+    const totalAmount = totalPrice + deliveryCharge + vatTax - discount - specialDiscount - freeShippingDiscount;
+
+    const handleOrder = () => {
+        Toast.show({
+            type: 'error', 
+            text1: 'Cart is empty',
+            text2: 'Please add items to your cart before placing an order.',
+            position: 'top',
+            visibilityTime: 3000,
+        });
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -16,7 +35,7 @@ export default function Shopping() {
             <View
                 style={styles.header}
             >
-                <Header count={cartData.length} page={"cart"}></Header>
+                <Header count={totalItems} page={"cart"}></Header>
             </View>
             {/* body */}
             <FlatList
@@ -45,15 +64,15 @@ export default function Shopping() {
                         <View style={styles.voucherContainer}>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Subtotal</Text>
-                                <Text style={styles.voucherItemText}>$293.75</Text>
+                                <Text style={styles.voucherItemText}>${totalPrice.toFixed(2)}</Text>
                             </View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Delivery Charge</Text>
-                                <Text style={[styles.voucherItemText, { color: "#FE6568" }]}>+$50.00</Text>
+                                <Text style={[styles.voucherItemText, { color: "#FE6568" }]}>+${deliveryCharge.toFixed(2)}</Text>
                             </View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Vat./Tax</Text>
-                                <Text style={[styles.voucherItemText, { color: "#FE6568" }]}>+$50.00</Text>
+                                <Text style={[styles.voucherItemText, { color: "#FE6568" }]}>+${vatTax.toFixed(2)}</Text>
                             </View>
                             <View
                                 style={{
@@ -63,15 +82,15 @@ export default function Shopping() {
                             ></View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Discount</Text>
-                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-$130</Text>
+                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-${discount.toFixed(2)}</Text>
                             </View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Special Discount</Text>
-                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-$80</Text>
+                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-${specialDiscount.toFixed(2)}</Text>
                             </View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText}>Free Shipping Discount</Text>
-                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-$10</Text>
+                                <Text style={[styles.voucherItemText, { color: "#06A316" }]}>-${freeShippingDiscount.toFixed(2)}</Text>
                             </View>
                             <View
                                 style={{
@@ -81,36 +100,42 @@ export default function Shopping() {
                             ></View>
                             <View style={styles.voucherItem}>
                                 <Text style={styles.voucherItemText2}>Total:</Text>
-                                <Text style={[styles.voucherItemText2]}>$428.75</Text>
+                                <Text style={[styles.voucherItemText2]}>${totalAmount.toFixed(2)}</Text>
                             </View>
-                        </View>
-                    </View>
-
-                    <View
-                        style={{
-                            borderBottomColor: "#0000",
-                            borderColor: "#D5D5D5",
-                            borderWidth: 1,
-                            marginTop: -20,
-                            borderTopLeftRadius: 20,
-                            borderTopRightRadius: 20,
-                            zIndex: 1
-                        }}
-                    >
-                        <View style={{ paddingHorizontal: 10 }}>
-                            <View style={[styles.voucherItem, { paddingTop: 20, marginBottom: 10 }]}>
-                                <Text style={styles.voucherItemText3}>Total:</Text>
-                                <Text style={[styles.voucherItemText3]}>$428.75</Text>
-                            </View>
-                            <Pressable
-                                onPress={() => router.push("/placeOrder")}
-                                style={{ marginVertical: 20 }}>
-                                <PrimaryButton label={"Place Order"}></PrimaryButton>
-                            </Pressable>
                         </View>
                     </View>
                 </View>}
             ></FlatList>
+            <View
+                style={{
+                    borderBottomColor: "#0000",
+                    borderColor: "#D5D5D5",
+                    borderWidth: 1,
+                    marginTop: -20,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                    zIndex: 1
+                }}
+            >
+                <View style={{ paddingHorizontal: 10 }}>
+                    <View style={[styles.voucherItem, { paddingTop: 20, marginBottom: 10 }]}>
+                        <Text style={styles.voucherItemText3}>Total:</Text>
+                        <Text style={[styles.voucherItemText3]}>${totalAmount.toFixed(2)}</Text>
+                    </View>
+                    <Pressable
+                        onPress={() => {
+                            if (totalItems === 0) {
+                                handleOrder();
+                                return;
+                            }
+                            router.push("/placeOrder")
+                        }}
+                        style={{ marginVertical: 20 }}>
+                        <PrimaryButton label={"Place Order"}></PrimaryButton>
+                    </Pressable>
+                </View>
+            </View>
+            <Toast></Toast>
         </View>
     )
 }

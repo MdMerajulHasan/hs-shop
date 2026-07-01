@@ -3,9 +3,16 @@ import { Link } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import NotiNumber from "./NotiNumber";
 import ImageViewer from './ImageViewer';
+import { useAppSelector } from "@/store/hooks";
 
 
 export default function Navbar() {
+
+    const cartItems = useAppSelector((state) => state.cart.items);
+    const totalCartItems = cartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
 
     return (
 
@@ -37,7 +44,9 @@ export default function Navbar() {
                 <Link href={"/(tabs)/shopping"}>
                     <View style={styles.iconContainer}>
                         <ImageViewer notBottom={true} imgSource={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag-2.png" }}></ImageViewer>
-                        <NotiNumber Number={6}></NotiNumber>
+                        {
+                            totalCartItems > 0 && <NotiNumber Number={totalCartItems}></NotiNumber>
+                        }
                     </View>
                 </Link>
 

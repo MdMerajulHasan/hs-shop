@@ -1,11 +1,12 @@
 import AddNewAddress from "@/components/AddNewAddress";
-import FilterIcon from "@/components/FilterIcon";
 import Header from "@/components/Header";
 import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
+import { useAppSelector } from "@/store/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const cartData = [
@@ -123,9 +124,12 @@ export default function PlaceOrder() {
     const [showTime, setShowTime] = useState(false);
     const [date, setDate] = useState(new Date());
     const [showDate, setShowDate] = useState(false);
-    const [cashOn, setCashOn] = useState(false);
+    const [cashOn, setCashOn] = useState(true);
     const [payTypeId, setPayTypeId] = useState(0);
-    const [payType, setPayType] = useState("")
+    const [payType, setPayType] = useState("");
+
+    const orderedItems = useAppSelector((state) => state.cart.items);
+
 
     const currentDate = {
         day: date.getDate(),
@@ -140,235 +144,233 @@ export default function PlaceOrder() {
     }).format(time);
 
     return (
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-        >
-            {/* header section */}
-            <View style={styles.header}>
-                <Header count={cartData.length} page={"placeorder"}></Header>
-                <Pressable>
-                    <FilterIcon></FilterIcon>
-                </Pressable>
-            </View>
-            {/* products / ordered item list section */}
-            <View style={styles.orderedItemsList}>
-                <Text style={styles.listTitle}>Products</Text>
-                <View style={styles.itemContainer}>
-                    {
-                        cartData.map((item, index) => <View key={item.id} style={styles.item}>
-                            <View>
-                                <Text style={styles.itemTitle}>{item.name}</Text>
-                                <Text style={styles.itemTitle}>2 X 1</Text>
-                            </View>
-                            <Text style={styles.itemPrice}>${item.price}</Text>
-                        </View>)
-                    }
+        <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ }}
+            >
+                {/* header section */}
+                <View style={styles.header}>
+                    <Header count={orderedItems.length} page={"placeorder"}></Header>
                 </View>
-            </View>
-            {/* saved addresses section */}
-            <PreviousAddress></PreviousAddress>
-            {/* add a new address section */}
-            <AddNewAddress></AddNewAddress>
-            {/* custom / set delivery time section */}
-            <View style={styles.formContainer}>
-                <Text style={styles.listTitle}>Custom Delivery Time</Text>
-                <View style={{ gap: 16, marginTop: 24 }}>
-                    <View>
-                        <FlatList
-                            data={deliVeriTimes}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item, index }) => {
-                                const isSelected = item.id === focusedTime;
-
-                                return (
-                                    <Pressable
-                                        onPress={() => {
-                                            setFocusedTime(item.id);
-                                            setDate(new Date());
-                                            setTime(new Date());
-                                        }}
-                                        style={[styles.tagListContainer, { backgroundColor: isSelected ? "#D7652733" : "#F5F5F5", borderColor: isSelected ? "" : '#FEFEFE', marginRight: 10 }]}
-                                    >
-                                        <View style={[{
-                                            borderWidth: 2,
-                                            borderColor: isSelected ? "#D76527" : "#828282",
-                                            width: 24,
-                                            height: 24,
-                                            borderRadius: 50,
-                                        }]}>
-                                            {
-                                                isSelected &&
-                                                <View style={styles.radioButton}>
-
-                                                </View>
-                                            }
-                                        </View>
-                                        <Text
-                                            style={{ color: "#575757", fontSize: 14, fontWeight: "400" }}>
-                                            {item.label}
-                                        </Text>
-                                    </Pressable>
-                                )
-                            }}
-                        >
-                        </FlatList>
+                {/* products / ordered item list section */}
+                <View style={styles.orderedItemsList}>
+                    <Text style={styles.listTitle}>Products</Text>
+                    <View style={styles.itemContainer}>
+                        {
+                            orderedItems.map((item, index) => <View key={item.id} style={styles.item}>
+                                <View>
+                                    <Text style={styles.itemTitle}>{item.name}</Text>
+                                    <Text style={styles.itemTitle}>{item.quantity} X 1</Text>
+                                </View>
+                                <Text style={styles.itemPrice}>${(item.quantity * item.price).toFixed(2)}</Text>
+                            </View>)
+                        }
                     </View>
-                    <View>
-                        <View style={styles.dateTimeContainer}>
-                            <View style={{ width: "50%" }}>
-                                <Text style={styles.text}>Date*</Text>
-                                <Pressable
-                                    onPress={() => {
-                                        if (focusedTime === 3) {
-                                            setShowDate(true);
-                                        }
-                                    }} style={styles.inputContainer}>
-                                    <Text style={{ color: "#575757" }}>
-                                        {currentDate.day + "-" + currentDate.month + "-" + currentDate.year}
-                                    </Text>
-                                    <Image style={{ width: 18, height: 18, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/calendar-2.png" }}></Image>
-                                </Pressable>
-                            </View>
-                            <View style={{ width: "50%" }}>
-                                <Text style={styles.text}>Time*</Text>
-                                <Pressable onPress={() => {
-                                    if (!(focusedTime === 1)) {
-                                        setShowTime(true)
-                                    }
-                                }} style={styles.inputContainer}>
-                                    <Text style={{ color: "#575757" }}>{currentTime}</Text>
-                                    <Image style={{ width: 18, height: 18, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/clock.png" }}></Image>
-                                </Pressable>
-                            </View>
+                </View>
+                {/* saved addresses section */}
+                <PreviousAddress></PreviousAddress>
+                {/* add a new address section */}
+                <AddNewAddress></AddNewAddress>
+                {/* custom / set delivery time section */}
+                <View style={styles.formContainer}>
+                    <Text style={styles.listTitle}>Custom Delivery Time</Text>
+                    <View style={{ gap: 16, marginTop: 24 }}>
+                        <View>
+                            <FlatList
+                                data={deliVeriTimes}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={(item) => item.id.toString()}
+                                renderItem={({ item, index }) => {
+                                    const isSelected = item.id === focusedTime;
+
+                                    return (
+                                        <Pressable
+                                            onPress={() => {
+                                                setFocusedTime(item.id);
+                                                setDate(new Date());
+                                                setTime(new Date());
+                                            }}
+                                            style={[styles.tagListContainer, { backgroundColor: isSelected ? "#D7652733" : "#F5F5F5", borderColor: isSelected ? "" : '#FEFEFE', marginRight: 10 }]}
+                                        >
+                                            <View style={[{
+                                                borderWidth: 2,
+                                                borderColor: isSelected ? "#D76527" : "#828282",
+                                                width: 24,
+                                                height: 24,
+                                                borderRadius: 50,
+                                            }]}>
+                                                {
+                                                    isSelected &&
+                                                    <View style={styles.radioButton}>
+
+                                                    </View>
+                                                }
+                                            </View>
+                                            <Text
+                                                style={{ color: "#575757", fontSize: 14, fontWeight: "400" }}>
+                                                {item.label}
+                                            </Text>
+                                        </Pressable>
+                                    )
+                                }}
+                            >
+                            </FlatList>
                         </View>
                         <View>
-                            <Text style={[styles.inputTitle, { marginTop: 0 }]}>Order Notes<Text style={{ color: "#ADADAD" }}> (optional)</Text></Text>
-                            <TextInput
-                                value={orderNote}
-                                multiline={true}
-                                numberOfLines={2}
-                                placeholder="Write text...."
-                                placeholderTextColor={"#828282"}
-                                onChangeText={(text: string) => setOrderNote(text)}
-                                style={[styles.inputField, { height: 90, borderRadius: 20, textAlignVertical: "top" }]}
-                            />
+                            <View style={styles.dateTimeContainer}>
+                                <View style={{ width: "50%" }}>
+                                    <Text style={styles.text}>Date*</Text>
+                                    <Pressable
+                                        onPress={() => {
+                                            if (focusedTime === 3) {
+                                                setShowDate(true);
+                                            }
+                                        }} style={styles.inputContainer}>
+                                        <Text style={{ color: "#575757" }}>
+                                            {currentDate.day + "-" + currentDate.month + "-" + currentDate.year}
+                                        </Text>
+                                        <Image style={{ width: 18, height: 18, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/calendar-2.png" }}></Image>
+                                    </Pressable>
+                                </View>
+                                <View style={{ width: "50%" }}>
+                                    <Text style={styles.text}>Time*</Text>
+                                    <Pressable onPress={() => {
+                                        if (!(focusedTime === 1)) {
+                                            setShowTime(true)
+                                        }
+                                    }} style={styles.inputContainer}>
+                                        <Text style={{ color: "#575757" }}>{currentTime}</Text>
+                                        <Image style={{ width: 18, height: 18, tintColor: "#575757" }} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/clock.png" }}></Image>
+                                    </Pressable>
+                                </View>
+                            </View>
+                            <View>
+                                <Text style={[styles.inputTitle, { marginTop: 0 }]}>Order Notes<Text style={{ color: "#ADADAD" }}> (optional)</Text></Text>
+                                <TextInput
+                                    value={orderNote}
+                                    multiline={true}
+                                    numberOfLines={2}
+                                    placeholder="Write text...."
+                                    placeholderTextColor={"#828282"}
+                                    onChangeText={(text: string) => setOrderNote(text)}
+                                    style={[styles.inputField, { height: 90, borderRadius: 20, textAlignVertical: "top" }]}
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
-            <View style={{ marginBottom: 50, marginHorizontal: 10 }}>
-                <Text style={[styles.listTitle]}>Payment Method</Text>
-                <View style={styles.cashOnContainer}>
-                    <Pressable
-                        onPress={() => {
-                            setCashOn(!cashOn);
-                            setPayTypeId(0);
-                        }}
-                        style={{ width: 24, height: 28, padding: 2 }}
-                    >
-                        <View style={[{
-                            borderWidth: 2,
-                            borderColor: cashOn ? "#D76527" : "#828282",
-                            width: 24,
-                            height: 24,
-                            borderRadius: 50,
-                        }]}>
-
-                            {
-                                cashOn &&
-                                <View style={styles.radioButton}>
-
-                                </View>
-                            }
-                        </View>
-                    </Pressable>
-                    <View style={{ flex: 1, gap: 6, justifyContent: "flex-start", alignItems: "flex-start" }}>
-                        <Text
-                            style={{ color: "#404341", fontSize: 16, fontWeight: "600", textAlign: "left" }}>
-                            Cash on delivery (Time 8-12 Hours)
-                        </Text>
-                        <Text style={{ color: "#7F8280", fontSize: 14, fontWeight: "400", textAlign: "left" }}>
-                            Pay with cash upon delivery / পণ্য ডেলিভারির সময় নগদে মূল্য পরিশোধ
-                        </Text>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        justifyContent: "space-between",
-                    }}
-                >
-                    {paymentMethod.map((item) => {
-                        const isSelected = item.id === payTypeId;
-
-                        return (
-                            <Pressable
-                                key={item.id}
-                                onPress={() => {
-                                    setPayTypeId(item.id);
-                                    setCashOn(false);
-                                    setPayType(item.type);
-                                }}
-                                style={
-                                    {
-                                        width: item.type === "card" ? "100%" : "50%",
-                                        borderRadius: 8,
-                                        padding: 8
-                                    }
-                                }
-                            >
-                                <View style={[styles.tagListContainer, {borderColor: "#E9E9E9", backgroundColor: "#FEFEFE"}]}>
-                                    <View
-                                        style={{
-                                            borderWidth: 2,
-                                            borderColor: isSelected ? "#D76527" : "#828282",
-                                            width: 24,
-                                            height: 24,
-                                            borderRadius: 50,
-                                        }}
-                                    >
-                                        {isSelected && <View style={styles.radioButton} />}
-                                    </View>
-
-                                    <View style={{ flex: 1 }}>
-                                        <Image
-                                            style={{
-                                                height: 44,
-                                                width: "100%",
-                                            }}
-                                            source={item.image}
-                                        />
-                                    </View>
-                                </View>
-                            </Pressable>
-                        );
-                    })}
-                </View>
-            </View>
-            {
-                (cashOn || (payTypeId !== 0)) && <View
-                    style={{
-                        borderBottomColor: "#0000",
-                        borderColor: "#D5D5D5",
-                        borderWidth: 1,
-                        marginTop: -20,
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                        zIndex: 1
-                    }}
-                >
-                    <View style={{ paddingHorizontal: 10 }}>
+                <View style={{ marginBottom: 50, marginHorizontal: 10 }}>
+                    <Text style={[styles.listTitle]}>Payment Method</Text>
+                    <View style={styles.cashOnContainer}>
                         <Pressable
-                            style={{ marginTop: 20, marginBottom: 40 }}>
-                            <PrimaryButton label={"($59.28) Place Order"}></PrimaryButton>
+                            onPress={() => {
+                                setCashOn(!cashOn);
+                                setPayTypeId(0);
+                            }}
+                            style={{ width: 24, height: 28, padding: 2 }}
+                        >
+                            <View style={[{
+                                borderWidth: 2,
+                                borderColor: cashOn ? "#D76527" : "#828282",
+                                width: 24,
+                                height: 24,
+                                borderRadius: 50,
+                            }]}>
+
+                                {
+                                    cashOn &&
+                                    <View style={styles.radioButton}>
+
+                                    </View>
+                                }
+                            </View>
                         </Pressable>
+                        <View style={{ flex: 1, gap: 6, justifyContent: "flex-start", alignItems: "flex-start" }}>
+                            <Text
+                                style={{ color: "#404341", fontSize: 16, fontWeight: "600", textAlign: "left" }}>
+                                Cash on delivery (Time 8-12 Hours)
+                            </Text>
+                            <Text style={{ color: "#7F8280", fontSize: 14, fontWeight: "400", textAlign: "left" }}>
+                                Pay with cash upon delivery / পণ্য ডেলিভারির সময় নগদে মূল্য পরিশোধ
+                            </Text>
+                        </View>
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        {paymentMethod.map((item) => {
+                            const isSelected = item.id === payTypeId;
+
+                            return (
+                                <Pressable
+                                    key={item.id}
+                                    onPress={() => {
+                                        setPayTypeId(item.id);
+                                        setCashOn(false);
+                                        setPayType(item.type);
+                                    }}
+                                    style={
+                                        {
+                                            width: item.type === "card" ? "100%" : "50%",
+                                            borderRadius: 8,
+                                            padding: 8
+                                        }
+                                    }
+                                >
+                                    <View style={[styles.tagListContainer, { borderColor: "#E9E9E9", backgroundColor: "#FEFEFE" }]}>
+                                        <View
+                                            style={{
+                                                borderWidth: 2,
+                                                borderColor: isSelected ? "#D76527" : "#828282",
+                                                width: 24,
+                                                height: 24,
+                                                borderRadius: 50,
+                                            }}
+                                        >
+                                            {isSelected && <View style={styles.radioButton} />}
+                                        </View>
+
+                                        <View style={{ flex: 1 }}>
+                                            <Image
+                                                style={{
+                                                    height: 44,
+                                                    width: "100%",
+                                                }}
+                                                source={item.image}
+                                            />
+                                        </View>
+                                    </View>
+                                </Pressable>
+                            );
+                        })}
                     </View>
                 </View>
-            }
+            </ScrollView>
+            <View
+                style={{
+                    borderBottomColor: "#0000",
+                    borderColor: "#D5D5D5",
+                    backgroundColor: "#F5F5F5",
+                    borderWidth: 1,
+                    marginTop: -20,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                }}
+            >
+                <View style={{ paddingHorizontal: 10 }}>
+                    <Pressable
+                        style={{ paddingTop: 20, marginBottom: 10 }}>
+                        <PrimaryButton label={"($59.28) Place Order"}></PrimaryButton>
+                    </Pressable>
+                </View>
+            </View>
             {showDate && (
                 <DateTimePicker
                     value={date}
@@ -416,7 +418,7 @@ export default function PlaceOrder() {
                     }}
                 />
             )}
-        </ScrollView>
+        </SafeAreaView>
     )
 }
 
@@ -501,7 +503,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 8,
         borderWidth: 1,
-        
+
     },
     dateTimeContainer: {
         flexDirection: "row",
@@ -536,4 +538,4 @@ const styles = StyleSheet.create({
         gap: 8,
         marginVertical: 20
     }
-})
+});

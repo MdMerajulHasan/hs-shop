@@ -92,16 +92,6 @@ export default function BookingForm() {
             alert("Please select a time.");
             return;
         }
-
-        console.log({
-            name,
-            email,
-            phone,
-            branch,
-            date,
-            time,
-            guest,
-        });
         showToast();
     };
     return (

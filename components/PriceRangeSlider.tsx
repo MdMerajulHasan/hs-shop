@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     priceRow: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: 12,
+        marginBottom: 2,
     },
 
     price: {

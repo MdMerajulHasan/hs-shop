@@ -1,6 +1,7 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import ImageViewer from "./ImageViewer";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type TabRouteName = "index" | "shopping" | "order" | "profile" | "wishlist";
 
@@ -11,6 +12,7 @@ export default function CustomTabBar({
     descriptors,
     navigation,
 }: BottomTabBarProps) {
+    const insets = useSafeAreaInsets();
 
     const images = {
         index: {
@@ -36,9 +38,10 @@ export default function CustomTabBar({
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, 10), }]}>
             <View style={{
-                width: 277, height: 93,
+                minWidth: 277,
+                height: 93,
                 marginHorizontal: 'auto',
                 borderRadius: 65,
                 justifyContent: "center",
@@ -50,7 +53,7 @@ export default function CustomTabBar({
                     const title = options.title ?? route.name;
                     const routeName = route.name as TabRouteName;
                     const ITEM_WIDTH = 60;
-                    const GAP = 50;
+                    const GAP = 57;
                     const left = index * GAP;
 
                     const image = images[routeName as keyof typeof images];
@@ -112,6 +115,14 @@ const styles = StyleSheet.create({
         paddingBottom: 13,
         width: Width,
         marginHorizontal: "auto",
+    }, tabBar: {
+        width: Width * 0.88,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: "#111",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
     },
     text: {
         fontWeight: "400",

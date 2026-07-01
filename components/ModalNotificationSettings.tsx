@@ -1,4 +1,4 @@
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetScrollView, BottomSheetModal, BottomSheetModalProvider, } from "@gorhom/bottom-sheet";
 import { useState } from "react";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import Header from "./Header";
@@ -29,7 +29,7 @@ export default function ModalNotificationSettings({ onClose }: Props) {
 
     return (
         <View
-            style={{ paddingHorizontal: 20, flex: 1 }}
+            style={{ paddingHorizontal: 20, flex: 1, }}
         >
             {/* Header */}
             <View style={styles.header}>

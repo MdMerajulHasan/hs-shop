@@ -4,6 +4,7 @@ import { Animated, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "
 import FilterSection from "./FilterSection";
 import FilterCheckbox from "./FilterCheckBox";
 import PriceRangeSlider from "@/components/PriceRangeSlider";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 
 type AvailabilityType = | "" | "available" | "instock" | "unavailable";
@@ -69,7 +70,6 @@ type Props = {
         }>
     >;
 
-    onApply: () => void;
     onReset: () => void;
 };
 
@@ -78,24 +78,24 @@ type SortType = | "" | "rating" | "priceLow" | "priceHigh" | "discount";
 
 const categories: Category[] = ["Burger", "Pizza", "Chinese", "Coffee", "Juice", "Kebab", "Snacks", "Donuts",];
 
-const sortOptions = [
-    {
-        label: "Rating",
-        value: "rating",
-    },
-    {
-        label: "Price: Low to High",
-        value: "priceLow",
-    },
-    {
-        label: "Price: High to Low",
-        value: "priceHigh",
-    },
-    {
-        label: "Discount",
-        value: "discount",
-    },
-];
+// const sortOptions = [
+//     {
+//         label: "Rating",
+//         value: "rating",
+//     },
+//     {
+//         label: "Price: Low to High",
+//         value: "priceLow",
+//     },
+//     {
+//         label: "Price: High to Low",
+//         value: "priceHigh",
+//     },
+//     {
+//         label: "Discount",
+//         value: "discount",
+//     },
+// ];
 
 const availabilityOptions = [
     {
@@ -140,7 +140,6 @@ export default function FilterDrawer({
     priceRange,
     setPriceRange,
 
-    onApply,
     onReset,
 }: Props) {
 
@@ -167,8 +166,8 @@ export default function FilterDrawer({
             visible={visible}
             transparent
             animationType="fade"
-        // statusBarTranslucent={true}
-        // navigationBarTranslucent={true}
+            statusBarTranslucent={true}
+            navigationBarTranslucent={true}
         >
             <View style={styles.container}>
 
@@ -189,16 +188,27 @@ export default function FilterDrawer({
                     ]}
                 >
 
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Filter By</Text>
+
+                        <Pressable
+                            onPress={onClose}
+                            hitSlop={10}
+                        >
+                            <Ionicons
+                                name="close"
+                                size={24}
+                                color="#272727"
+                            />
+                        </Pressable>
+                    </View>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <Text style={styles.title}>
-                            Filter By
-                        </Text>
 
                         {/* Category */}
                         <FilterSection
                             title="Category"
                             scrollable
-                            maxHeight={150}
+                            maxHeight={200}
                         >
                             {categories.map((item) => (
                                 <FilterCheckbox
@@ -216,9 +226,9 @@ export default function FilterDrawer({
 
                         {/* filter branch */}
                         <FilterSection
-                            title="Select Branch"
+                            title="Branch"
                             scrollable
-                            maxHeight={170}
+                            maxHeight={150}
                         >
                             {branchOptions.map(branch => (
                                 <FilterCheckbox
@@ -255,14 +265,21 @@ export default function FilterDrawer({
                         </FilterSection>
 
                         {/* price range */}
-                        <FilterSection title="Price">
+                        {/* <FilterSection title="Price">
+                        </FilterSection> */}
+                        <View style={{
+                            marginBottom: 10, borderBottomWidth: 1,
+                            borderBottomColor: "#F3F3F3",
+                            paddingBottom: 10,
+                        }}  >
+                            <Text style={styles.priceTitle}>Price</Text>
                             <PriceRangeSlider
                                 minPrice={minPrice}
                                 maxPrice={maxPrice}
                                 value={priceRange}
                                 onChange={setPriceRange}
                             />
-                        </FilterSection>
+                        </View>
                         {/* size filter */}
                         <FilterSection
                             title="Size"
@@ -300,8 +317,22 @@ export default function FilterDrawer({
                             ))}
                         </FilterSection> */}
                     </ScrollView>
-                </Animated.View>
+                    <View style={styles.bottomButtons}>
+                        <Pressable
+                            style={styles.resetBtn}
+                            onPress={onReset}
+                        >
+                            <Text style={styles.resetText}>Reset</Text>
+                        </Pressable>
 
+                        <Pressable
+                            style={styles.applyBtn}
+                            onPress={onClose}
+                        >
+                            <Text style={styles.applyText}>Apply</Text>
+                        </Pressable>
+                    </View>
+                </Animated.View>
             </View>
         </Modal>
     );
@@ -312,27 +343,44 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
+        justifyContent: "flex-end",
     },
-
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 16,
+         borderBottomWidth: 1,
+        borderBottomColor: "#CED2CE",
+        paddingBottom: 10,
+    },
     backdrop: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.45)",
     },
 
     drawer: {
-        width: 250,
+        width: "80%",
         backgroundColor: "#FEFEFE",
         paddingTop: 20,
         paddingHorizontal: 20,
         paddingBottom: 30,
         elevation: 15,
+        justifyContent: "flex-end",
+        marginBottom: 50,
+        borderTopLeftRadius: 20,
+        borderBottomLeftRadius: 20,
     },
 
     title: {
-        fontSize: 28,
+        fontSize: 22,
         fontWeight: "700",
         color: "#272727",
         marginBottom: 10,
+    },
+    priceTitle: {
+        fontSize: 16,
+        fontWeight: "500",
+        color: "#272727",
     },
 
     heading: {
