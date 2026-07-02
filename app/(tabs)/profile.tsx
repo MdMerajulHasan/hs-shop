@@ -48,12 +48,12 @@ export default function Profile() {
                     >
                         {/* user photo, name , email and edit icon */}
                         <View style={styles.userInfo}>
-                            <Image
-                                style={{ width: 80, height: 80, borderRadius: 90 }}
-                                source={userData?.image
-                                    ? { uri: userData.image }
-                                    : { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/user-1.png" }}
-                            ></Image>
+                            {
+                                userData.image ? <Image
+                                    style={{ width: 80, height: 80, borderRadius: 90 }}
+                                    source={{ uri: userData.image }}
+                                ></Image> : <Ionicons name="person-circle-outline" size={60}></Ionicons>
+                            }
                             <View style={{ flex: 1 }}>
                                 <Text style={{ color: "#F5F5F5", fontSize: 22, fontWeight: "700" }}>{userData?.name}</Text>
                                 <Text style={{ color: "#D5D5D5", fontSize: 16, fontWeight: "400" }}>{userData?.email}</Text>
@@ -283,7 +283,8 @@ const styles = StyleSheet.create({
     userInfo: {
         flexDirection: "row",
         gap: 10,
-        alignItems: "center"
+        alignItems: "center", 
+        justifyContent: "center"
     },
     pointsContainer: {
         paddingVertical: 20,

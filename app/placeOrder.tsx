@@ -2,55 +2,13 @@ import AddNewAddress from "@/components/AddNewAddress";
 import Header from "@/components/Header";
 import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
-import { useAppSelector } from "@/store/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-
-const cartData = [
-    {
-        id: 1,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-    {
-        id: 2,
-        name: "Classic Cheese Pizza",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 15.99,
-        oldPrice: 24.99,
-        rating: 4.8,
-        discount: 36,
-        isFavorite: true
-    },
-    {
-        id: 3,
-        name: "Spicy Chicken Burger",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection2.png",
-        price: 12.50,
-        oldPrice: 18.50,
-        rating: 4.7,
-        discount: 32,
-        isFavorite: false
-    },
-    {
-        id: 4,
-        name: "Delicious And Crispy Potato French Fries",
-        image: "https://d.hs-bd.com/wp-content/uploads/2026/06/appsection1.png",
-        price: 18.88,
-        oldPrice: 32.88,
-        rating: 4.9,
-        discount: 54,
-        isFavorite: false
-    },
-]
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 
 
 const initialAddresses = [
@@ -128,8 +86,17 @@ export default function PlaceOrder() {
     const [payTypeId, setPayTypeId] = useState(0);
     const [payType, setPayType] = useState("");
 
+    const dispatch = useAppDispatch();
+    const addresses = useAppSelector(
+        state => state.address.items
+    );
     const orderedItems = useAppSelector((state) => state.cart.items);
 
+    const {
+        totalAmount,
+    } = useLocalSearchParams();
+
+    const orderTotal = Number(totalAmount);
 
     const currentDate = {
         day: date.getDate(),
@@ -147,7 +114,7 @@ export default function PlaceOrder() {
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ }}
+                contentContainerStyle={{}}
             >
                 {/* header section */}
                 <View style={styles.header}>
@@ -169,9 +136,9 @@ export default function PlaceOrder() {
                     </View>
                 </View>
                 {/* saved addresses section */}
-                <PreviousAddress></PreviousAddress>
+                <PreviousAddress addresses={addresses}></PreviousAddress>
                 {/* add a new address section */}
-                <AddNewAddress></AddNewAddress>
+                <AddNewAddress addresses={addresses}></AddNewAddress>
                 {/* custom / set delivery time section */}
                 <View style={styles.formContainer}>
                     <Text style={styles.listTitle}>Custom Delivery Time</Text>
@@ -367,7 +334,9 @@ export default function PlaceOrder() {
                 <View style={{ paddingHorizontal: 10 }}>
                     <Pressable
                         style={{ paddingTop: 20, marginBottom: 10 }}>
-                        <PrimaryButton label={"($59.28) Place Order"}></PrimaryButton>
+                        <PrimaryButton
+                            label={`($${orderTotal.toFixed(2)}) Place Order`}
+                        />
                     </Pressable>
                 </View>
             </View>

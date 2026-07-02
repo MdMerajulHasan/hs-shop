@@ -3,7 +3,9 @@ import wishlistReducer from "@/features/wishlist/wishlistSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "@/features/user/userSlice";
 import branchReducer from "@/features/branch/branchSlice";
-import productReducer from "@/features/products/productSlice"
+import productReducer from "@/features/products/productSlice";
+import orderReducer from "@/features/order/orderSlice";
+import addressReducer from "@/features/address/addressSlice";
 
 
 export const store = configureStore({
@@ -13,6 +15,8 @@ export const store = configureStore({
         auth: userReducer,
         branch: branchReducer,
         products: productReducer,
+        order: orderReducer,
+        address: addressReducer,
     }
 })
 

@@ -5,57 +5,13 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { Picker } from "@react-native-picker/picker";
 import { useMemo, useState } from "react";
 import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Address } from "@/features/address/addressSlice";
 
-const addressTag = [
-    { id: 1, type: "home", text: "Home" },
-    { id: 2, type: "office", text: "Office" },
-    { id: 3, type: "school", text: "School" },
-    { id: 4, type: "university", text: "University" },
-    { id: 5, type: "playground", text: "Play Ground" }
-];
+type Props = {
+    addresses: Address[];
+}
 
-
-const initialAddresses = [
-    {
-        id: 1,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home",
-            text: "Home"
-        },
-        isDefault: true
-    },
-    {
-        id: 2,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home2",
-            text: "Home"
-        },
-        isDefault: false
-    },
-    {
-        id: 3,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "office",
-            text: "Office"
-        },
-        isDefault: false
-    }
-]
-
-
-export default function AddNewAddress() {
+export default function AddNewAddress({ addresses }: Props) {
     const [name, setName] = useState("");
     const [mobile, setMobile] = useState("");
     const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -71,7 +27,11 @@ export default function AddNewAddress() {
     const [tag, setTag] = useState<string | null>(null);
     const [addTag, setAddTag] = useState(false);
     const [newTag, setNewTag] = useState<string>("");
-    
+
+
+    const addressTag = useMemo(() => {
+        return addresses.map(address => address.addressTag);
+    }, [addresses]);
 
 
     const filteredSubDistrcts = useMemo(() => {
@@ -83,8 +43,8 @@ export default function AddNewAddress() {
     }, [subDistrictId]);
 
     const filterTag = useMemo(() => {
-        return addressTag.filter((tag) => initialAddresses.some((address) => address.badge.type === tag.type));
-    }, []);
+        return addressTag.filter((tag) => addresses.some((address) => address.addressTag === tag.type));
+    }, [addresses, addressTag]);
 
     const [errors, setErrors] = useState({
         name: "",
@@ -98,7 +58,7 @@ export default function AddNewAddress() {
 
     const addNewTag = (newTag: string) => {
         const tagValue = newTag.replace(/\s+/g, "").toLowerCase();
-        const exist = addressTag.some((tag) => tag.type === tagValue);
+        const exist = addressTag.some((tag) => tag === tagValue);
         if (exist) {
             Alert.alert(
                 "Duplicate Tag",

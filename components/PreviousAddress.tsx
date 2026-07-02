@@ -1,50 +1,21 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { FlatList, Pressable, Text, View, StyleSheet } from "react-native";
+import { Address } from "@/features/address/addressSlice";
 
-const initialAddresses = [
-    {
-        id: 1,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home",
-            text: "Home"
-        },
-        isDefault: true
-    },
-    {
-        id: 2,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home2",
-            text: "Home"
-        },
-        isDefault: false
-    },
-    {
-        id: 3,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "office",
-            text: "Office"
-        },
-        isDefault: false
+type Props = {
+    addresses: Address[];
+}
+
+export default function PreviousAddress({ addresses }: Props) {
+
+
+    const [selected, setSelected] = useState(addresses[0]?.id);
+
+
+    if (addresses.length <= 0) {
+        return null;
     }
-]
-
-export default function PreviousAddress() {
-    const [selected, setSelected] = useState(initialAddresses[0].id);
-
-
     return (
         <View style={styles.addressContainer}>
             <View style={{ marginBottom: 20 }}>
@@ -52,7 +23,7 @@ export default function PreviousAddress() {
             </View>
             <FlatList
                 keyExtractor={(item) => item.id.toString()}
-                data={initialAddresses}
+                data={addresses}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => {

@@ -12,8 +12,8 @@ export default function Shopping() {
     const cartData = useAppSelector((state) => state.cart.items);
     const totalItems = cartData.reduce((total, item) => total + item.quantity, 0);
     const totalPrice = cartData.reduce((total, item) => total + item.price * item.quantity, 0);
-    const deliveryCharge = totalItems ? 50 : 0;
-    const vatTax = totalItems ? 50 : 0;
+    const deliveryCharge = totalItems ? 6 : 0;
+    const vatTax = totalItems ? 5 : 0;
     const discount = totalItems ? 2 : 0;
     const specialDiscount = totalItems ? 1 : 0;
     const freeShippingDiscount = totalItems ? 1 : 0;
@@ -21,7 +21,7 @@ export default function Shopping() {
 
     const handleOrder = () => {
         Toast.show({
-            type: 'error', 
+            type: 'error',
             text1: 'Cart is empty',
             text2: 'Please add items to your cart before placing an order.',
             position: 'top',
@@ -110,6 +110,7 @@ export default function Shopping() {
                 style={{
                     borderBottomColor: "#0000",
                     borderColor: "#D5D5D5",
+                    backgroundColor: "#F5F5F5",
                     borderWidth: 1,
                     marginTop: -20,
                     borderTopLeftRadius: 20,
@@ -128,7 +129,13 @@ export default function Shopping() {
                                 handleOrder();
                                 return;
                             }
-                            router.push("/placeOrder")
+                            router.push({
+                                pathname: "/placeOrder",
+                                params: {
+                                    totalAmount: totalAmount.toString(),
+                                },
+                            });
+
                         }}
                         style={{ marginVertical: 20 }}>
                         <PrimaryButton label={"Place Order"}></PrimaryButton>
