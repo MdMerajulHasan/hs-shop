@@ -3,7 +3,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Registration() {
     const [name, setName] = useState("");
@@ -15,97 +15,107 @@ export default function Registration() {
     const [error, setError] = useState("");
 
     const handleRegistration = async () => {
-        // setError("");
+        setError("");
 
-        // // Validation
-        // if (!name.trim()) {
-        //     setError("Please enter your full name.");
-        //     return;
-        // }
+        // Validation
+        if (!name.trim()) {
+            setError("Please enter your full name.");
+            return;
+        }
 
-        // if (!email.trim()) {
-        //     setError("Please enter your email.");
-        //     return;
-        // }
+        if (!email.trim()) {
+            setError("Please enter your email.");
+            return;
+        }
 
-        // if (!password) {
-        //     setError("Please enter a password.");
-        //     return;
-        // }
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.trim())) {
+            setError("Please enter a valid email address.");
+            return;
+        }
 
-        // if (!confirmPassword) {
-        //     setError("Please confirm your password.");
-        //     return;
-        // }
+        if (!password) {
+            setError("Please enter a password.");
+            return;
+        }
 
-        // if (password !== confirmPassword) {
-        //     setError("Passwords do not match.");
-        //     return;
-        // }
+        // Password length validation
+        if (password.length < 8) {
+            setError("Password must be at least 8 characters long.");
+            return;
+        }
 
-        // try {
-        //     setLoading(true);
+        if (!confirmPassword) {
+            setError("Please confirm your password.");
+            return;
+        }
 
-        //     const response = await fetch(
-        //         "https://fabrictechs.com/api/v1/user/register/",
-        //         {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //             body: JSON.stringify({
-        //                 full_name: name,
-        //                 email: email,
-        //                 password: password,
-        //                 confirm_password: confirmPassword,
-        //             }),
-        //         }
-        //     );
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
 
-        //     const data = await response.json();
+        try {
+            setLoading(true);
 
-        //     if (!response.ok) {
-        //         console.log(data);
+            const response = await fetch(
+                "https://fabrictechs.com/api/v1/user/register/",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        full_name: name,
+                        email: email,
+                        password: password,
+                        password2: confirmPassword,
+                    }),
+                }
+            );
 
-        //         if (data.email) {
-        //             setError(Array.isArray(data.email) ? data.email[0] : data.email);
-        //         } else if (data.password) {
-        //             setError(Array.isArray(data.password) ? data.password[0] : data.password);
-        //         } else if (data.detail) {
-        //             setError(data.detail);
-        //         } else {
-        //             setError("Registration failed.");
-        //         }
+            const data = await response.json();
 
-        //         return;
-        //     }
+            if (!response.ok) {
+                if (data.email) {
+                    setError(Array.isArray(data.email) ? data.email[0] : data.email);
+                } else if (data.password) {
+                    setError(Array.isArray(data.password) ? data.password[0] : data.password);
+                } else if (data.detail) {
+                    setError(data.detail);
+                } else {
+                    setError("Registration failed.");
+                }
+                return;
+            }
 
-        //     console.log(data);
+            Alert.alert(
+                "Success",
+                data.detail || "Registration successful!"
+            );
 
-        //     alert("Registration successful!");
-
-        //     router.replace("/login");
-        // } catch (err) {
-        //     console.log(err);
-        //     setError("Something went wrong. Please try again.");
-        // } finally {
-        //     setLoading(false);
-        // }
+            router.replace("/login");
+        } catch {
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
 
     return (
-        <ScrollView style={{ flex: 1, padding: 20 }}>
+        <View style={{ flex: 1, paddingHorizontal: 20 }}>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <View style={{ marginBottom: 40, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ marginBottom: 30, alignItems: "center", justifyContent: "center" }}>
                     <Text style={styles.title}>Create Your Account</Text>
                     <Text style={styles.subTitle}>Sign up to enjoy your favorite foods</Text>
                 </View>
 
-                <View style={{ width: "100%", marginBottom: 40, gap: 30 }}>
+                <View style={{ width: "100%", gap: 20, marginBottom: 30 }}>
 
                     <View>
-                        <Text style={styles.text}>Full Name</Text>
+                        <Text style={styles.text}>Full Name*</Text>
                         <TextInput
                             style={styles.inputContainer}
                             placeholder="Full Name"
@@ -117,7 +127,7 @@ export default function Registration() {
                     </View>
 
                     <View>
-                        <Text style={styles.text}>Email</Text>
+                        <Text style={styles.text}>Email*</Text>
                         <TextInput
                             style={styles.inputContainer}
                             placeholder="Email Address"
@@ -129,7 +139,7 @@ export default function Registration() {
                     </View>
 
                     <View>
-                        <Text style={styles.text}>Password</Text>
+                        <Text style={styles.text}>Password*</Text>
                         <TextInput
                             style={styles.inputContainer}
                             placeholder="Password"
@@ -142,7 +152,7 @@ export default function Registration() {
                     </View>
 
                     <View>
-                        <Text style={styles.text}>Confirm Password</Text>
+                        <Text style={styles.text}>Confirm Password*</Text>
                         <TextInput
                             style={styles.inputContainer}
                             placeholder="Confirm Password"
@@ -180,7 +190,6 @@ export default function Registration() {
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
-                            marginTop: 20,
                         }}
                     >
                         <Text style={styles.subTitle}>Already have an account? </Text>
@@ -218,7 +227,7 @@ export default function Registration() {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     )
 }
 
@@ -235,7 +244,6 @@ const styles = StyleSheet.create({
         color: "#575757",
         fontSize: 16,
         fontWeight: "400",
-        marginBottom: 20,
     }, text: {
         fontSize: 16,
         fontWeight: "500",

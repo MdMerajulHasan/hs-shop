@@ -60,14 +60,14 @@ export default function Login() {
     };
 
     return (
-        <View style={{ flex: 1, padding: 20 }}>
+        <View style={{ flex: 1, paddingHorizontal: 20 }}>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <View style={{ marginBottom: 40, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ marginBottom: 30, alignItems: "center", justifyContent: "center" }}>
                     <Text style={styles.title}>Welcome Back!</Text>
                     <Text style={styles.subTitle}>Login to enjoy your favorite foods</Text>
                 </View>
 
-                <View style={{ width: "100%", marginBottom: 40, gap: 30 }}>
+                <View style={{ width: "100%", marginBottom: 30, gap: 20 }}>
 
                     <View>
                         <Text style={styles.text}>Email</Text>
@@ -107,7 +107,6 @@ export default function Login() {
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
-                            marginTop: 20, 
                         }}
                     >
                         <Text style={styles.subTitle}>New to our platform? </Text>
@@ -162,7 +161,6 @@ const styles = StyleSheet.create({
         color: "#575757",
         fontSize: 16,
         fontWeight: "400",
-        marginBottom: 20,
     }, text: {
         fontSize: 16,
         fontWeight: "500",
