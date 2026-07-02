@@ -16,7 +16,7 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, Props>(
                     appearsOnIndex={0}
                     disappearsOnIndex={-1}
                     opacity={0.4}
-                    style={{ backgroundColor: "#000" }}
+                    style={{ backgroundColor: "#111111" }}
                     pressBehavior="close"
                 />
             ),

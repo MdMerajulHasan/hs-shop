@@ -1,22 +1,27 @@
+import { Redirect, router } from "expo-router";
 import BottomSheetWrapper from "@/components/BottomSheetWrapper";
 import ModalChangePass from "@/components/ModalChangePass";
 import ModalDeliveryAddress from "@/components/ModalDeliveryAddress";
 import ModalNotificationSettings from "@/components/ModalNotificationSettings";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { logout } from "@/features/user/userSlice";
 
 export default function Profile() {
     const [theme, setTheme] = useState<"light" | "dark">("light");
     const userData = useAppSelector((state) => state.auth.currentUser);
-    // const dispatch = useAppDispatch();
-    const addressRef = useRef<BottomSheet>(null);
-    const changePassRef = useRef<BottomSheet>(null);
-    const notificationRef = useRef<BottomSheet>(null);
+    const dispatch = useAppDispatch();
+    const addressRef = useRef<BottomSheetModal>(null);
+    const changePassRef = useRef<BottomSheetModal>(null);
+    const notificationRef = useRef<BottomSheetModal>(null);
 
+    if (!userData) {
+        return <Redirect href="/login" />;
+    }
     return (
         <>
             <View style={{ flex: 1 }}>
@@ -45,7 +50,9 @@ export default function Profile() {
                         <View style={styles.userInfo}>
                             <Image
                                 style={{ width: 80, height: 80, borderRadius: 90 }}
-                                source={{ uri: userData?.image }}
+                                source={userData?.image
+                                    ? { uri: userData.image }
+                                    : { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/user-1.png" }}
                             ></Image>
                             <View style={{ flex: 1 }}>
                                 <Text style={{ color: "#F5F5F5", fontSize: 22, fontWeight: "700" }}>{userData?.name}</Text>
@@ -154,19 +161,19 @@ export default function Profile() {
                                 </View>
                                 {/* --------------------------------------------- */}
 
-                                <Pressable onPress={() => { changePassRef.current?.snapToIndex(0); }}
+                                <Pressable onPress={() => { changePassRef.current?.present(); }}
                                     style={styles.settingsBar}>
                                     <Text style={styles.settingsText}>Change Password</Text>
                                     <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                                 </Pressable>
                                 <Pressable
-                                    onPress={() => { notificationRef.current?.snapToIndex(0); }}
+                                    onPress={() => { notificationRef.current?.present(); }}
                                     style={styles.settingsBar}>
                                     <Text style={styles.settingsText}>Notification Settings</Text>
                                     <Ionicons size={24} name="chevron-forward-outline"></Ionicons>
                                 </Pressable>
                                 <Pressable
-                                    onPress={() => { addressRef.current?.snapToIndex(0); }}
+                                    onPress={() => { addressRef.current?.present(); }}
                                     style={styles.settingsBar}
                                 >
                                     <Text style={styles.settingsText}>Delivery Address</Text>
@@ -211,6 +218,10 @@ export default function Profile() {
                                 <Text style={styles.settingsText}>Rating</Text>
                             </Pressable>
                             <Pressable
+                                onPress={() => {
+                                    dispatch(logout());
+                                    router.push("/login");
+                                }}
                                 style={[styles.Button, { backgroundColor: "#E930371A", borderColor: "#E93037" }]}
                             >
                                 <Image

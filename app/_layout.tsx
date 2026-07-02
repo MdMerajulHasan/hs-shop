@@ -39,9 +39,25 @@ export default function RootLayout() {
                 headerShown: false
               }}
             />
+            <Stack.Screen
+              name="login"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
+            <Stack.Screen
+              name="registration"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
           </Stack>
         </Provider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
+
+
