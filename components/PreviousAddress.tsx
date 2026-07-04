@@ -1,16 +1,22 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View, StyleSheet } from "react-native";
 import { Address } from "@/features/address/addressSlice";
 
 type Props = {
     addresses: Address[];
+    setAddressId: (id: string) => void;
+    selected: string;
+    setSelected: (id: string) => void;
 }
 
-export default function PreviousAddress({ addresses }: Props) {
-
-
-    const [selected, setSelected] = useState(addresses[0]?.id);
+export default function PreviousAddress({ addresses, setAddressId, setSelected, selected }: Props) {
+    useEffect(() => {
+        if (addresses.length > 0) {
+            setSelected(addresses[0].id);
+            setAddressId(addresses[0].tagId); // or addresses[0].id if that's what you need
+        }
+    }, [addresses, setAddressId, setSelected]);
 
 
     if (addresses.length <= 0) {
@@ -29,7 +35,11 @@ export default function PreviousAddress({ addresses }: Props) {
                 renderItem={({ item, index }) => {
                     const isSelected = selected === item.id;
                     return (<Pressable
-                        onPress={() => setSelected(item.id)} style={[styles.addressCard, { borderColor: isSelected ? "#D76527" : "#E9E9E9", backgroundColor: isSelected ? "#FBF0E9" : "#FEFEFE" }]}>
+                        onPress={() => {
+                            setSelected(item.id);
+                            setAddressId(item.tagId)
+                        }}
+                        style={[styles.addressCard, { borderColor: isSelected ? "#D76527" : "#E9E9E9", backgroundColor: isSelected ? "#FBF0E9" : "#FEFEFE" }]}>
                         <Ionicons
                             color={isSelected ? "#D76527" : "#ADADAD"}
                             style={{ marginHorizontal: "auto" }}
@@ -37,7 +47,7 @@ export default function PreviousAddress({ addresses }: Props) {
                         </Ionicons>
                         {
                             item.isDefault ? <Text style={[styles.addressType, { color: isSelected ? "#D76527" : "#1D1D1D" }]}>Last Delivery</Text> :
-                                <Text style={[styles.addressType, { color: isSelected ? "#D76527" : "#1D1D1D" }]}>{item.badge?.text}
+                                <Text style={[styles.addressType, { color: isSelected ? "#D76527" : "#1D1D1D" }]}>{item.tagId}
                                 </Text>
                         }
                         <Text style={styles.address}>{item.address}</Text>

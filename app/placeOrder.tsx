@@ -2,113 +2,154 @@ import AddNewAddress from "@/components/AddNewAddress";
 import Header from "@/components/Header";
 import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+// import DateTimePicker from "@react-native-community/datetimepicker";
+import { useMemo, useState } from "react";
+import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { router } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { placeOrder, PaymentMethod, Order } from "@/features/order/orderSlice";
+import { clearCart, removeFromCart } from "@/features/cart/cartSlice";
 
 
-const initialAddresses = [
-    {
-        id: 1,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home",
-            text: "Home"
-        },
-        isDefault: true
-    },
-    {
-        id: 2,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "home2",
-            text: "Home"
-        },
-        isDefault: false
-    },
-    {
-        id: 3,
-        name: "Bayzid Islam",
-        address: "House - 18, Avenue - 1, Block - C, House - 18, Sector - 2, Mirpur, Dhaka, Avenue 1, Dhaka 1216",
-        postcode: "1216",
-        phone: "+880 1737 880513",
-        badge: {
-            type: "office",
-            text: "Office"
-        },
-        isDefault: false
-    }
-]
+// const deliVeriTimes = [
+//     {
+//         id: 1,
+//         label: "Now",
+//     },
+//     {
+//         id: 2,
+//         label: "Next Hours",
+//     },
+//     {
+//         id: 3,
+//         label: "Custom",
+//     }
 
-const deliVeriTimes = [
-    {
-        id: 1,
-        label: "Now",
-    },
-    {
-        id: 2,
-        label: "Next Hours",
-    },
-    {
-        id: 3,
-        label: "Custom",
-    }
+// ]
 
-]
-
-const paymentMethod = [
-    { id: 1, type: "bkash", title: "BKash", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bkash.png" } },
-    { id: 2, type: "nagad", title: "Nagad", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/nogod-scaled.png" } },
-    { id: 3, type: "rocket", title: "Rocket", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/rocket.png" } },
-    { id: 4, type: "upay", title: "Upay", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/upay-scaled.png" } },
-    { id: 5, type: "card", title: "Visa Card", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/card.png" } },
-]
+const paymentMethods: {
+    id: number;
+    type: PaymentMethod;
+    title: string;
+    image: { uri: string };
+}[] = [
+        { id: 1, type: "bkash", title: "BKash", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bkash.png" } },
+        { id: 2, type: "nagad", title: "Nagad", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/nogod-scaled.png" } },
+        { id: 3, type: "rocket", title: "Rocket", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/rocket.png" } },
+        { id: 4, type: "upay", title: "Upay", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/upay-scaled.png" } },
+        { id: 5, type: "card", title: "Visa Card", image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/card.png" } },
+    ]
 
 export default function PlaceOrder() {
-
-    const [orderNote, setOrderNote] = useState("");
-    const [focusedTime, setFocusedTime] = useState(0);
-    const [time, setTime] = useState(new Date());
-    const [showTime, setShowTime] = useState(false);
-    const [date, setDate] = useState(new Date());
-    const [showDate, setShowDate] = useState(false);
-    const [cashOn, setCashOn] = useState(true);
-    const [payTypeId, setPayTypeId] = useState(0);
-    const [payType, setPayType] = useState("");
-
     const dispatch = useAppDispatch();
+
     const addresses = useAppSelector(
         state => state.address.items
     );
+
+    const defaultAddress = useMemo(() => {
+        return addresses.find(address => address.isDefault === true)
+    }, [addresses]);
+
+    const [orderNote, setOrderNote] = useState("");
+    const [focusedTime, setFocusedTime] = useState(0);
+    // const [time, setTime] = useState(new Date());
+    // const [showTime, setShowTime] = useState(false);
+    // const [date, setDate] = useState(new Date());
+    // const [showDate, setShowDate] = useState(false);
+    const [cashOn, setCashOn] = useState(true);
+    const [payTypeId, setPayTypeId] = useState(0);
+    const [payType, setPayType] = useState<PaymentMethod>("cash");
+    const [addressId, setAddressId] = useState(defaultAddress?.tagId);
+    const [paid, setPaid] = useState(false);
+    const [selected, setSelected] = useState(addresses[0]?.id);
+
+    const userData = useAppSelector(s => s.auth.currentUser);
+
+
+
     const orderedItems = useAppSelector((state) => state.cart.items);
+
+    const orderAddress = useMemo(() => {
+        return addresses.find(address => address.tagId === addressId);
+    }, [addressId, addresses]);
 
     const {
         totalAmount,
+        totalPrice,
+        deliveryCharge,
+        vatTax,
+        discount,
+        specialDiscount,
+        freeShippingDiscount,
     } = useLocalSearchParams();
 
     const orderTotal = Number(totalAmount);
 
-    const currentDate = {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-    };
+    // const currentDate = {
+    //     day: date.getDate(),
+    //     month: date.getMonth() + 1,
+    //     year: date.getFullYear(),
+    // };
 
-    const currentTime = new Intl.DateTimeFormat("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-    }).format(time);
+    // const currentTime = new Intl.DateTimeFormat("en-US", {
+    //     hour: "numeric",
+    //     minute: "2-digit",
+    //     hour12: true,
+    // }).format(time);
+
+    const handlePlaceOrder = () => {
+        if (!userData) {
+            Alert.alert(
+                "Login Required",
+                "Please log in to place your order."
+            );
+
+            router.push("/login");
+            return;
+        }
+
+        if ((payType === "cash" || paid) && (orderAddress || addressId)) {
+            const order: Order = {
+                id: Date.now().toString(),
+                createdAt: new Date().toISOString(),
+                items: orderedItems,
+                subtotal: Number(totalPrice),
+                deliveryFee: Number(deliveryCharge),
+                total: Number(totalAmount),
+                paymentMethod: payType,
+                paymentStatus: paid ? "paid" : "pending",
+                paymentId: paid ? `${payType}'s id` : "",
+                status: "pending",
+                tracking: {
+                    confirmed: true,
+                    preparing: false,
+                    outForDelivery: false,
+                    delivered: false,
+                },
+                deliveryAddress: {
+                    name: orderAddress?.name,
+                    phone: orderAddress?.mobile,
+                    address: orderAddress?.address,
+                },
+                note: orderNote.trim() || undefined,
+            }
+
+            // Continue placing the order
+            dispatch(placeOrder(order));
+            dispatch(clearCart());
+            router.push({
+                pathname: "/order",
+            })
+        } else if (!(orderAddress || addressId)) {
+            Alert.alert(
+                "Address Invalid",
+                "Please, pick a delivery address or give a new delivery address if need."
+            );
+        }
+
+    };
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -136,11 +177,11 @@ export default function PlaceOrder() {
                     </View>
                 </View>
                 {/* saved addresses section */}
-                <PreviousAddress addresses={addresses}></PreviousAddress>
+                <PreviousAddress selected={selected} setSelected={setSelected} setAddressId={setAddressId} addresses={addresses}></PreviousAddress>
                 {/* add a new address section */}
-                <AddNewAddress addresses={addresses}></AddNewAddress>
+                <AddNewAddress setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
                 {/* custom / set delivery time section */}
-                <View style={styles.formContainer}>
+                {/* <View style={styles.formContainer}>
                     <Text style={styles.listTitle}>Custom Delivery Time</Text>
                     <View style={{ gap: 16, marginTop: 24 }}>
                         <View>
@@ -227,7 +268,7 @@ export default function PlaceOrder() {
                             </View>
                         </View>
                     </View>
-                </View>
+                </View> */}
                 <View style={{ marginBottom: 50, marginHorizontal: 10 }}>
                     <Text style={[styles.listTitle]}>Payment Method</Text>
                     <View style={styles.cashOnContainer}>
@@ -272,7 +313,7 @@ export default function PlaceOrder() {
                             justifyContent: "space-between",
                         }}
                     >
-                        {paymentMethod.map((item) => {
+                        {paymentMethods.map((item) => {
                             const isSelected = item.id === payTypeId;
 
                             return (
@@ -333,6 +374,7 @@ export default function PlaceOrder() {
             >
                 <View style={{ paddingHorizontal: 10 }}>
                     <Pressable
+                        onPress={() => handlePlaceOrder()}
                         style={{ paddingTop: 20, marginBottom: 10 }}>
                         <PrimaryButton
                             label={`($${orderTotal.toFixed(2)}) Place Order`}
@@ -340,7 +382,7 @@ export default function PlaceOrder() {
                     </Pressable>
                 </View>
             </View>
-            {showDate && (
+            {/* {showDate && (
                 <DateTimePicker
                     value={date}
                     mode="date"
@@ -386,7 +428,7 @@ export default function PlaceOrder() {
                         setTime(selectedTime);
                     }}
                 />
-            )}
+            )} */}
         </SafeAreaView>
     )
 }

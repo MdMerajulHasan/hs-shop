@@ -10,6 +10,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { logout } from "@/features/user/userSlice";
+import * as SecureStore from "expo-secure-store";
 
 export default function Profile() {
     const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -218,7 +219,9 @@ export default function Profile() {
                                 <Text style={styles.settingsText}>Rating</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => {
+                                onPress={async () => {
+                                    await SecureStore.deleteItemAsync("accessToken");
+                                    await SecureStore.deleteItemAsync("refreshToken");
                                     dispatch(logout());
                                     router.push("/login");
                                 }}
@@ -283,7 +286,7 @@ const styles = StyleSheet.create({
     userInfo: {
         flexDirection: "row",
         gap: 10,
-        alignItems: "center", 
+        alignItems: "center",
         justifyContent: "center"
     },
     pointsContainer: {

@@ -40,6 +40,10 @@ export default function Header({ count, page, isModal, onClose }: Props) {
         case "notificationsettings": 
             title =  "Notification Settings";
             break;
+        case "orderstatus": 
+            title =  "Order Status";
+            subtitle = `${count} Order in shipping`
+            break;
     }
 
 

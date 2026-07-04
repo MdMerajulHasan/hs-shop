@@ -3,16 +3,22 @@ import cities from "@/assets/cities.json";
 import subdistricts from "@/assets/upazilas.json";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Picker } from "@react-native-picker/picker";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { Address } from "@/features/address/addressSlice";
+import { addAddress, Address, addTag, } from "@/features/address/addressSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 type Props = {
     addresses: Address[];
+    setAddressId: (id: string) => void;
 }
 
-export default function AddNewAddress({ addresses }: Props) {
-    const [name, setName] = useState("");
+export default function AddNewAddress({ addresses, setAddressId }: Props) {
+    const userData = useAppSelector((state) => state.auth.currentUser);
+    const addressTag = useAppSelector((state) => state.address.tags);
+
+
+    const [name, setName] = useState(userData?.name ?? "");
     const [mobile, setMobile] = useState("");
     const [selectedDistrict, setSelectedDistrict] = useState("");
     const [district, setDistrict] = useState<string | null>(null);
@@ -21,18 +27,22 @@ export default function AddNewAddress({ addresses }: Props) {
     const [selectedCity, setSelectedCity] = useState("");
     const [postCode, setPostCode] = useState("");
     const [address, setAddress] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(userData?.email ?? "");
     const [orderNote, setOrderNote] = useState("");
-    const [focusedTag, setFocusedTag] = useState(0);
+    const [focusedTag, setFocusedTag] = useState("");
     const [tag, setTag] = useState<string | null>(null);
-    const [addTag, setAddTag] = useState(false);
+    const [showAddTag, setShowAddTag] = useState(false);
     const [newTag, setNewTag] = useState<string>("");
+    const dispatch = useAppDispatch();
 
-
-    const addressTag = useMemo(() => {
-        return addresses.map(address => address.addressTag);
-    }, [addresses]);
-
+    useEffect(() => {
+        if (userData?.name) {
+            setName(userData.name);
+        }
+        if (userData?.email) {
+            setEmail(userData.email);
+        }
+    }, [userData]);
 
     const filteredSubDistrcts = useMemo(() => {
         return subdistricts.upazilas.filter((upazila) => upazila.district_id === selectedDistrict);
@@ -43,42 +53,48 @@ export default function AddNewAddress({ addresses }: Props) {
     }, [subDistrictId]);
 
     const filterTag = useMemo(() => {
-        return addressTag.filter((tag) => addresses.some((address) => address.addressTag === tag.type));
-    }, [addresses, addressTag]);
+        return new Set(addresses.map(address => address.tagId));
+    }, [addresses]);
 
     const [errors, setErrors] = useState({
-        name: "",
-        mobile: "",
-        email: "",
-        district: "",
-        subDistrict: "",
-        postCode: "",
-        address: "",
+        name: "", mobile: "", email: "", district: "", subDistrict: "", postCode: "", address: "",
     });
 
     const addNewTag = (newTag: string) => {
-        const tagValue = newTag.replace(/\s+/g, "").toLowerCase();
-        const exist = addressTag.some((tag) => tag === tagValue);
-        if (exist) {
+        const value = newTag.trim();
+
+        if (!value) {
+            Alert.alert("Error", "Please enter a tag name.");
+            return;
+        }
+
+        const exists = addressTag.some(
+            tag => tag.name.toLowerCase() === value.toLowerCase()
+        );
+
+        if (exists) {
             Alert.alert(
                 "Duplicate Tag",
                 "Tag name must be unique!"
             );
-            setAddTag(false);
             return;
         }
-        const newObjTag = {
-            id: addressTag.length + 1,
-            type: tagValue,
-            text: tagValue.charAt(0).toUpperCase() + tagValue.slice(1),
-        };
-        addressTag.push(newObjTag);
+
+        dispatch(
+            addTag({
+                id: value.toLowerCase().replace(/\s+/g, "-"),
+                name: value,
+            })
+        );
+
         Alert.alert(
             "Success",
             "Tag added successfully!"
         );
-        setAddTag(false);
-    }
+
+        setNewTag("");
+        setShowAddTag(false);
+    };
 
     const validate = () => {
         const newErrors = {
@@ -135,24 +151,38 @@ export default function AddNewAddress({ addresses }: Props) {
     };
 
     const getNewAddress = () => {
-
         if (!validate()) return;
 
-        const newAddress = {
-            name: name,
-            mobile: mobile,
-            district: district,
-            subDistrict: subDistrict,
+        if (!tag) {
+            Alert.alert("Error", "Please select an address tag.");
+            return;
+        }
+
+        const newAddress: Address = {
+            id: Date.now().toString(),
+
+            name,
+            mobile,
+            email: email || undefined,
+
+            district: district ?? "",
+            subDistrict: subDistrict ?? "",
             city: selectedCity,
-            postCode: postCode,
-            address: address,
-            email: email,
-            ordernote: orderNote,
-            addresstag: tag
+            postCode,
+
+            address,
+
+            tagId: tag,
+
+            isDefault: addresses.length === 0, // Making the first address default
+
+            createdAt: new Date().toISOString(),
         };
 
-        console.log(newAddress);
-    }
+        dispatch(addAddress(newAddress));
+        setAddressId(newAddress.tagId);
+        Alert.alert("Success", "Address added successfully!");
+    };
 
 
 
@@ -182,6 +212,7 @@ export default function AddNewAddress({ addresses }: Props) {
                         <TextInput
                             value={mobile}
                             placeholder="+88 0"
+                            keyboardType="phone-pad"
                             placeholderTextColor={"#828282"}
                             onChangeText={(text: string) => setMobile(text)}
                             style={[styles.inputField, errors.mobile && { borderColor: "#b90e0e" }]}
@@ -291,6 +322,7 @@ export default function AddNewAddress({ addresses }: Props) {
                             <TextInput
                                 value={postCode}
                                 placeholder="Post Code"
+                                keyboardType="numeric"
                                 placeholderTextColor={"#828282"}
                                 onChangeText={(text: string) => setPostCode(text)}
                                 style={styles.pickerContainer}
@@ -307,7 +339,7 @@ export default function AddNewAddress({ addresses }: Props) {
                         <Text style={styles.inputTitle}>Address*</Text>
                         <TextInput
                             value={address}
-                            placeholder="Floor, House, Road, Area..."
+                            placeholder="Village / Floor, House, Road, Area..."
                             placeholderTextColor={"#828282"}
                             onChangeText={(text: string) => setAddress(text)}
                             style={[styles.inputField, errors.address && { borderColor: "#b90e0e" }]}
@@ -351,7 +383,7 @@ export default function AddNewAddress({ addresses }: Props) {
 
                 <View style={{ marginBottom: 16, marginTop: 16, flexDirection: "row", alignItems: "center", }}>
                     <Pressable
-                        onPress={() => setAddTag(true)}
+                        onPress={() => setShowAddTag(true)}
                         style={styles.tagListContainer}>
                         <Image
                             style={{ width: 24, height: 24, tintColor: "#575757" }}
@@ -366,7 +398,7 @@ export default function AddNewAddress({ addresses }: Props) {
                         renderItem={({ item, index }) => {
                             const isSelected = item.id === focusedTag;
 
-                            const alreadyTaken = filterTag.some((tag) => tag.type === item.type);
+                            const alreadyTaken = filterTag.has(item.id);
 
                             if (alreadyTaken) {
                                 return (<Pressable
@@ -383,13 +415,13 @@ export default function AddNewAddress({ addresses }: Props) {
 
                                         </View>
                                     </View>
-                                    <Text style={{ color: "#57575780", fontSize: 14, fontWeight: "400" }}>{item.text}</Text>
+                                    <Text style={{ color: "#57575780", fontSize: 14, fontWeight: "400" }}>{item.name}</Text>
                                 </Pressable>)
                             } else {
                                 return (<Pressable
                                     onPress={() => {
                                         setFocusedTag(item.id);
-                                        setTag(item?.type ?? null);
+                                        setTag(item?.id ?? null);
                                     }}
                                     style={styles.tagListContainer}
                                 >
@@ -408,7 +440,7 @@ export default function AddNewAddress({ addresses }: Props) {
                                             </View>
                                         }
                                     </View>
-                                    <Text style={{ color: isSelected ? "" : "#575757", fontSize: 14, fontWeight: "400" }}>{item.text}</Text>
+                                    <Text style={{ color: isSelected ? "" : "#575757", fontSize: 14, fontWeight: "400" }}>{item.name}</Text>
                                 </Pressable>)
                             }
                         }}
@@ -417,7 +449,7 @@ export default function AddNewAddress({ addresses }: Props) {
                     </FlatList>
                 </View>
                 {
-                    addTag ? <View>
+                    showAddTag ? <View>
                         <Text style={styles.inputTitle}>Add Address Tag</Text>
                         <TextInput
                             value={newTag}
@@ -434,11 +466,11 @@ export default function AddNewAddress({ addresses }: Props) {
                         </Pressable>
                     </View> : null
                 }
-                {/* <Pressable
+                <Pressable
                     onPress={() => getNewAddress()}
                 >
                     <PrimaryButton label={"Save"}></PrimaryButton>
-                </Pressable> */}
+                </Pressable>
             </View>
         </ScrollView>
     )

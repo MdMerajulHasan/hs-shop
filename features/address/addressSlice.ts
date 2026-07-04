@@ -14,7 +14,7 @@ export interface Address {
 
     address: string;
 
-    addressTag: string;
+    tagId: string;
 
     isDefault: boolean;
 
@@ -22,12 +22,23 @@ export interface Address {
     updatedAt?: string;
 }
 
+export interface AddressTag {
+    id: string;
+    name: string;
+}
+
 interface AddressState {
     items: Address[];
+    tags: AddressTag[];
 }
 
 const initialState: AddressState = {
     items: [],
+    tags: [
+        { id: "home", name: "Home" },
+        { id: "office", name: "Office" },
+        { id: "other", name: "Other" },
+    ],
 };
 
 const addressSlice = createSlice({
@@ -59,6 +70,15 @@ const addressSlice = createSlice({
                 item.isDefault = item.id === action.payload;
             });
         },
+        addTag(state, action: PayloadAction<AddressTag>) {
+            const exists = state.tags.some(
+                tag => tag.name.toLowerCase() === action.payload.name.toLowerCase()
+            );
+
+            if (!exists) {
+                state.tags.push(action.payload);
+            }
+        },
     },
 });
 
@@ -67,6 +87,7 @@ export const {
     updateAddress,
     deleteAddress,
     setDefaultAddress,
+    addTag,
 } = addressSlice.actions;
 
 export default addressSlice.reducer;

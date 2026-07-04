@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem } from "../cart/cartSlice";
 
-type PaymentMethod =| "cash"| "bkash"| "nagad"| "rocket"| "upay"| "card";
+export type PaymentMethod = | "cash" | "bkash" | "nagad" | "rocket" | "upay" | "card";
 
-type OrderStatus =| "pending"| "preparing"| "on_the_way"| "delivered"| "cancelled";
+export type OrderStatus = | "pending" | "preparing" | "on_the_way" | "delivered" | "cancelled";
 
 interface Tracking {
     confirmed: boolean;
@@ -12,7 +12,7 @@ interface Tracking {
     delivered: boolean;
 }
 
-interface Order {
+export interface Order {
     id: string;
     createdAt: string;
 
@@ -31,9 +31,9 @@ interface Order {
     tracking: Tracking;
 
     deliveryAddress: {
-        name: string;
-        phone: string;
-        address: string;
+        name: string | undefined;
+        phone: string | undefined;
+        address: string | undefined;
     };
 
     note?: string;

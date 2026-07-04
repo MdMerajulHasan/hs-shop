@@ -133,6 +133,13 @@ export default function Shopping() {
                                 pathname: "/placeOrder",
                                 params: {
                                     totalAmount: totalAmount.toString(),
+                                    totalPrice: totalPrice.toString(),
+                                    deliveryCharge: deliveryCharge.toString(),
+                                    vatTax: vatTax.toString(),
+                                    discount: discount.toString(),
+                                    specialDiscount: specialDiscount.toString(),
+                                    freeShippingDiscount: freeShippingDiscount.toString(),
+
                                 },
                             });
 

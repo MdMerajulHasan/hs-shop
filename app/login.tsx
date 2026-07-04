@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { jwtDecode } from "jwt-decode";
 import { login } from "@/features/user/userSlice";
+import * as SecureStore from "expo-secure-store";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -38,6 +39,8 @@ export default function Login() {
 
             const decoded: any = jwtDecode(data.access);
 
+            await SecureStore.setItemAsync("accessToken", data.access);
+            await SecureStore.setItemAsync("refreshToken", data.refresh);
             dispatch(
                 login({
                     id: decoded.user_id,
