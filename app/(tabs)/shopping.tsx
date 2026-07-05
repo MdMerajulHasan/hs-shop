@@ -139,7 +139,7 @@ export default function Shopping() {
                                     discount: discount.toString(),
                                     specialDiscount: specialDiscount.toString(),
                                     freeShippingDiscount: freeShippingDiscount.toString(),
-
+                                    
                                 },
                             });
 

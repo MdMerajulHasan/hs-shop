@@ -10,7 +10,8 @@ export default function OrderDetails() {
     const { id } = useLocalSearchParams<{ id: string }>();
 
     const orderData = useAppSelector((data) => data.order.items.find(o => o.id === id));
-    
+    const branch = useAppSelector(data => data.branch.items.find(b => b.id === orderData?.branchId));
+
 
     if (!orderData) {
         return (
@@ -27,9 +28,18 @@ export default function OrderDetails() {
             </View>
 
             <View>
-                <Text>Order ID: #{id}</Text>
-                <Text>{formatOrderDate(orderData.createdAt)}</Text>
-                <Text>{}</Text>
+                <View>
+                    <Text>Order ID: #{id}</Text>
+                    <Text>{formatOrderDate(orderData.createdAt)}</Text>
+                    {
+                        branch && <Text>{branch.name}</Text>
+                    }
+                </View>
+                
+                <View>
+                    <Text>Order Tracking</Text>
+                    
+                </View>
             </View>
         </View>
     );

@@ -4,12 +4,12 @@ import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import { useMemo, useState } from "react";
-import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert,  Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { router, useLocalSearchParams } from "expo-router";
 import { placeOrder, PaymentMethod, Order } from "@/features/order/orderSlice";
-import { clearCart, removeFromCart } from "@/features/cart/cartSlice";
+import { clearCart } from "@/features/cart/cartSlice";
 
 
 // const deliVeriTimes = [
@@ -53,7 +53,7 @@ export default function PlaceOrder() {
     }, [addresses]);
 
     const [orderNote, setOrderNote] = useState("");
-    const [focusedTime, setFocusedTime] = useState(0);
+    // const [focusedTime, setFocusedTime] = useState(0);
     // const [time, setTime] = useState(new Date());
     // const [showTime, setShowTime] = useState(false);
     // const [date, setDate] = useState(new Date());
@@ -79,10 +79,6 @@ export default function PlaceOrder() {
         totalAmount,
         totalPrice,
         deliveryCharge,
-        vatTax,
-        discount,
-        specialDiscount,
-        freeShippingDiscount,
     } = useLocalSearchParams();
 
     const orderTotal = Number(totalAmount);
@@ -179,7 +175,7 @@ export default function PlaceOrder() {
                 {/* saved addresses section */}
                 <PreviousAddress selected={selected} setSelected={setSelected} setAddressId={setAddressId} addresses={addresses}></PreviousAddress>
                 {/* add a new address section */}
-                <AddNewAddress setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
+                <AddNewAddress  setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
                 {/* custom / set delivery time section */}
                 {/* <View style={styles.formContainer}>
                     <Text style={styles.listTitle}>Custom Delivery Time</Text>
