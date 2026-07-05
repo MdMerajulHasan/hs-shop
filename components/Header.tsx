@@ -7,9 +7,10 @@ type Props = {
     page: string;
     isModal?: boolean;
     onClose?: () => void;
+    id?: string;
 }
 
-export default function Header({ count, page, isModal, onClose }: Props) {
+export default function Header({ count, page, isModal, onClose, id }: Props) {
 
     let title = "";
     let subtitle: string | null = null;
@@ -37,13 +38,16 @@ export default function Header({ count, page, isModal, onClose }: Props) {
         case "deliveryaddress":
             title = "Delivery Address";
             break;
-        case "notificationsettings": 
-            title =  "Notification Settings";
+        case "notificationsettings":
+            title = "Notification Settings";
             break;
-        case "orderstatus": 
-            title =  "Order Status";
-            subtitle = `${count} Order in shipping`
+        case "orderstatus":
+            title = "Order Status";
+            subtitle = `${count} Order in shipping`;
             break;
+        case "orderDetails":
+            title = "Order Details";
+            subtitle = `Order ID: #${id}`;
     }
 
 
@@ -52,7 +56,7 @@ export default function Header({ count, page, isModal, onClose }: Props) {
             style={styles.headerStart}
         >
             <Pressable
-                onPress={ isModal ? onClose : () => {
+                onPress={isModal ? onClose : () => {
                     if (router.canGoBack()) {
                         router.back();
                     } else {

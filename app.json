@@ -1,13 +1,12 @@
 {
   "expo": {
-    "name": "hs-shop",
-    "slug": "hs-shop",
+    "name": "HS-Restaurant",
+    "slug": "hs-restaurant-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/hs-logo.png",
     "scheme": "hsshop",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -18,9 +17,9 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.hsshop"
+      "package": "com.hs.restaurant.app",
+      "versionCode": 1
     },
     "web": {
       "output": "static",
@@ -41,11 +40,19 @@
         }
       ],
       "@react-native-community/datetimepicker",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c6ee733a-9bb7-4133-aa86-68664d5f2977"
+      }
+    },
+    "owner": "md_merajul_hasan"
   }
 }

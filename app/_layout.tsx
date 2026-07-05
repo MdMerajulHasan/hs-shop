@@ -53,6 +53,13 @@ export default function RootLayout() {
                 animation: "none"
               }}
             />
+            <Stack.Screen
+              name="orderDetails"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
           </Stack>
         </Provider>
       </BottomSheetModalProvider>

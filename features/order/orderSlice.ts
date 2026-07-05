@@ -3,7 +3,7 @@ import { CartItem } from "../cart/cartSlice";
 
 export type PaymentMethod = | "cash" | "bkash" | "nagad" | "rocket" | "upay" | "card";
 
-export type OrderStatus = | "pending" | "preparing" | "on_the_way" | "delivered" | "cancelled";
+export type OrderStatus = "any" | "pending" | "preparing" | "on_the_way" | "delivered" | "cancelled";
 
 interface Tracking {
     confirmed: boolean;
@@ -37,6 +37,7 @@ export interface Order {
     };
 
     note?: string;
+    branchId?: string; 
 }
 
 const initialState: { items: Order[] } = {

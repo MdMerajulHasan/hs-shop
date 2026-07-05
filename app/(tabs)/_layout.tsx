@@ -47,7 +47,7 @@ export default function TabLayout() {
         <Tabs.Screen
             name="allItems"
             options={{
-                href: null, 
+                href: null,
             }}
         />
     </Tabs>

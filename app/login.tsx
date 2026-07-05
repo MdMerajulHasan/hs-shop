@@ -4,10 +4,12 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View, Alert } from "react-native";
 import { jwtDecode } from "jwt-decode";
 import { login } from "@/features/user/userSlice";
 import * as SecureStore from "expo-secure-store";
+import axios from "axios";
+
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -58,7 +60,16 @@ export default function Login() {
 
             router.replace("/");
         } catch (error) {
-            console.log(error);
+            if (axios.isAxiosError(error)) {
+                Alert.alert(
+                    "Login Failed",
+                    error.response?.data?.message || error.message
+                );
+            } else if (error instanceof Error) {
+                Alert.alert("Login Failed", error.message);
+            } else {
+                Alert.alert("Login Failed", "Something went wrong.");
+            }
         }
     };
 
