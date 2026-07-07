@@ -1,11 +1,11 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Alert, Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Product } from "@/assets/products";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addToCart } from "@/features/cart/cartSlice";
 import { addToWishlist, removeFromWishlist } from "@/features/wishlist/wishlistSlice";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
+import { useState } from "react";
+import { Alert, Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
 const createTwoButtonAlert = () =>
     Alert.alert('Added to wishlist', '', [
@@ -63,32 +63,32 @@ export default function FoodCard({ item, index, isVertical }: Props) {
                 <Image style={[styles.cardImage, { width: isVertical ? 160 : 200, height: isVertical ? 170 : 220 }]} source={{ uri: item.image }}></Image>
             </View>
 
-            <Text style={styles.itemName}>{item.name}</Text>
-
-
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <View>
-                    <View style={{ flexDirection: 'row', gap: 4 }}>
-                        <Text style={{ fontWeight: "700", fontSize: 20, color: "#272727" }}>${item.price}</Text>
-                        <Text style={styles.oldPrice}>${item.oldPrice}</Text>
+            <View style={{flex: 1, justifyContent: "space-between", padding: 1}}>
+                <Text style={styles.itemName}>{item.title}</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <View>
+                        <View style={{ flexDirection: 'row', gap: 4 }}>
+                            <Text style={{ fontWeight: "700", fontSize: 20, color: "#272727" }}>${item.price}</Text>
+                            <Text style={styles.oldPrice}>${item.oldPrice}</Text>
+                        </View>
+                        <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+                            <Image
+                                source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}
+                                style={{ width: 15, height: 14 }}
+                            ></Image>
+                            <Text style={{ color: "#575757", fontSize: 14, fontWeight: "400" }}>{item.rating}</Text>
+                        </View>
                     </View>
-                    <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
-                        <Image
-                            source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/Star.png" }}
-                            style={{ width: 15, height: 14 }}
+
+                    <Pressable
+                        style={styles.cartContainer}
+                        onPress={() => dispatch(addToCart(item))}
+                    >
+                        <Image tintColor={"#F5F5F5"} source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
+                            style={{ width: 24, height: 24 }}
                         ></Image>
-                        <Text style={{ color: "#575757", fontSize: 14, fontWeight: "400" }}>{item.rating}</Text>
-                    </View>
+                    </Pressable>
                 </View>
-
-                <Pressable
-                    style={styles.cartContainer}
-                    onPress={() => dispatch(addToCart(item))}
-                >
-                    <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
-                        style={{ width: 24, height: 24 }}
-                    ></Image>
-                </Pressable>
             </View>
             <Modal
                 visible={visible}
@@ -116,13 +116,14 @@ const styles = StyleSheet.create({
     cardContainer: {
         marginTop: 20,
         height: 340,
-        justifyContent: "space-between",
         flexDirection: "column",
+        backgroundColor: "#F5F5F5",
         gap: 10,
+        borderRadius: 10,
     },
     cardImageContainre: {
         borderRadius: 10,
-        borderColor: "#E9E9E9",
+        borderColor: "#D5D5D5",
         borderWidth: 1
     },
     offerTextContainer: {

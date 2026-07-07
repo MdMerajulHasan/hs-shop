@@ -77,8 +77,7 @@ export default function Category() {
 const styles = StyleSheet.create({
     categoryConatiner: {
         flexDirection: 'row',
-        gap: 20,
         marginHorizontal: 10,
-        marginTop: 16
+        marginTop: 20
     }
 })

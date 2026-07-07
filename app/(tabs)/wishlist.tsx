@@ -31,7 +31,7 @@ export default function WishList() {
 
                 ItemSeparatorComponent={() => <View style={{
                     height: 1,
-                    backgroundColor: "#E9E9E9",
+                    backgroundColor: "#D5D5D5",
                     marginVertical: 16,
                     marginHorizontal: 10,
                 }}>

@@ -66,7 +66,7 @@ export default function Items({ specialItems }: Props) {
 
 const styles = StyleSheet.create({
     itemsContainer: {
-        marginTop: 86,
+        marginTop: 40,
         marginHorizontal: 10,
         gap: 10,
         marginBottom: 40,

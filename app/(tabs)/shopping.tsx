@@ -39,13 +39,12 @@ export default function Shopping() {
             </View>
             {/* body */}
             <FlatList
-                style={{ flex: 1 }}
+                style={{ flex: 1, paddingTop: 20 }}
                 data={cartData}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => {
                     return (<View style={{ marginHorizontal: 10 }}>
-
                         <SmallFoodCard item={item} page={"cart"}></SmallFoodCard>
                     </View>)
                 }}
@@ -95,7 +94,7 @@ export default function Shopping() {
                             <View
                                 style={{
                                     borderBottomWidth: 1,
-                                    borderBottomColor: "#272727",
+                                    borderBottomColor: "#828282",
                                 }}
                             ></View>
                             <View style={styles.voucherItem}>
@@ -119,7 +118,7 @@ export default function Shopping() {
                 }}
             >
                 <View style={{ paddingHorizontal: 10 }}>
-                    <View style={[styles.voucherItem, { paddingTop: 20, marginBottom: 10 }]}>
+                    <View style={[styles.voucherItem, { paddingVertical: 20 }]}>
                         <Text style={styles.voucherItemText3}>Total:</Text>
                         <Text style={[styles.voucherItemText3]}>${totalAmount.toFixed(2)}</Text>
                     </View>
@@ -143,7 +142,7 @@ export default function Shopping() {
                             });
 
                         }}
-                        style={{ marginVertical: 20 }}>
+                        style={{ marginBottom: 20 }}>
                         <PrimaryButton label={"Place Order"}></PrimaryButton>
                     </Pressable>
                 </View>
@@ -163,20 +162,19 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     footerContainer: {
-        marginTop: 40,
-        paddingBottom: 40,
+        marginTop: 20,
+        paddingBottom: 20,
         zIndex: 0,
         marginHorizontal: 10
     },
     voucherContainer: {
         backgroundColor: "#D765271A",
-        paddingHorizontal: 20,
+        padding: 20,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#D76527",
         gap: 16,
-        paddingTop: 20,
-        paddingBottom: 20
+        
     },
     voucherItem: {
         flexDirection: "row",

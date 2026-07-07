@@ -4,7 +4,7 @@ import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import { useMemo, useState } from "react";
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { router, useLocalSearchParams } from "expo-router";
@@ -162,15 +162,17 @@ export default function PlaceOrder() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }} edges={["left", "bottom", "right"]}>
+
+            {/* header section */}
+            <View style={styles.header}>
+                <Header count={orderedItems.length} page={"placeorder"}></Header>
+            </View>
+
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{}}
             >
-                {/* header section */}
-                <View style={styles.header}>
-                    <Header count={orderedItems.length} page={"placeorder"}></Header>
-                </View>
                 {/* products / ordered item list section */}
                 <View style={styles.orderedItemsList}>
                     <Text style={styles.listTitle}>Products</Text>
@@ -279,7 +281,7 @@ export default function PlaceOrder() {
                         </View>
                     </View>
                 </View> */}
-                <View style={{ marginBottom: 50, marginHorizontal: 10 }}>
+                <View style={{ marginBottom: 40, marginHorizontal: 10 }}>
                     <Text style={[styles.listTitle]}>Payment Method</Text>
                     <View style={styles.cashOnContainer}>
                         <Pressable
@@ -342,7 +344,7 @@ export default function PlaceOrder() {
                                         }
                                     }
                                 >
-                                    <View style={[styles.tagListContainer, { borderColor: "#E9E9E9", backgroundColor: "#FEFEFE" }]}>
+                                    <View style={[styles.tagListContainer, { borderColor: "#E9E9E9", backgroundColor: "#FEFEFE", flex: 1, gap: 5 }]}>
                                         <View
                                             style={{
                                                 borderWidth: 2,
@@ -358,8 +360,8 @@ export default function PlaceOrder() {
                                         <View style={{ flex: 1 }}>
                                             <Image
                                                 style={{
-                                                    height: 44,
-                                                    width: "100%",
+                                                    height: "100%",
+                                                    width: "50%",
                                                 }}
                                                 source={item.image}
                                             />
@@ -448,13 +450,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: "center",
-        marginTop: 25,
         marginHorizontal: 10,
-        marginBottom: 20
+        marginBottom: 20,
+        marginTop: 25
     },
     orderedItemsList: {
         padding: 20,
-        marginTop: 27,
+        marginTop: 20,
         borderWidth: 1,
         borderColor: "#D76527",
         backgroundColor: "#D765271A",
@@ -466,7 +468,6 @@ const styles = StyleSheet.create({
         color: "#1D1D1D",
         fontSize: 22,
         fontWeight: "700",
-        marginTop: 20
     },
     itemTitle: {
         color: "#272727",
@@ -518,7 +519,6 @@ const styles = StyleSheet.create({
     },
     tagListContainer: {
         flexDirection: "row",
-        gap: 3,
         alignItems: "center",
         paddingVertical: 8,
         paddingHorizontal: 10,

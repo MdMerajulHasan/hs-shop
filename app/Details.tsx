@@ -321,7 +321,7 @@ export default function Details() {
             </ScrollView>
             {/* BOTTOM BAR */}
             <View style={styles.bottom}>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 20 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 10 }}>
                     <View style={styles.qtyBox}>
                         <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
                             <Ionicons size={18} color={"#ADADAD"} name="remove-circle-sharp"></Ionicons>
@@ -343,9 +343,9 @@ export default function Details() {
                     >
                         <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
                             style={{ width: 24, height: 24 }}
-                            tintColor={"#111111"}
+                            tintColor={"#F5F5F5"}
                         ></Image>
-                        <Text style={{ color: '#111111', fontSize: 16, fontWeight: "500" }}>Add To Cart</Text>
+                        <Text style={{ color: '#F5F5F5', fontSize: 16, fontWeight: "500" }}>Add To Cart</Text>
                     </Pressable>
                     <Pressable style={styles.buy}>
                         <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     image: { width: "100%", height: "100%" },
     topBar: {
         position: "absolute",
-        top: 20,
+        top: 25,
         left: 15,
         right: 15,
         flexDirection: "row",
@@ -388,14 +388,15 @@ const styles = StyleSheet.create({
 
     badgeContainer: {
         position: "absolute",
-        top: 70,
+        top: 85,
         left: 10,
         gap: 8
     },
     badge: {
         paddingHorizontal: 6,
         paddingVertical: 4,
-        borderRadius: 40
+        borderRadius: 40,
+        marginLeft: 0
     },
     badgeText: {
         color: "#F5F5F5",
@@ -479,11 +480,11 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         zIndex: 1,
-        marginBottom: 20,
+        marginBottom: 25,
         backgroundColor: "#fff"
     },
 
-    qtyBox: { flexDirection: "row", gap: 15, justifyContent: "space-between", alignItems: "center" },
+    qtyBox: { flexDirection: "row", gap: 15, justifyContent: "space-between", alignItems: "center", borderWidth: 1, borderColor: '#D5D5D5', backgroundColor: "#FEFEFE", padding: 10,borderRadius: 66 },
 
     actions: {
         flexDirection: "row",

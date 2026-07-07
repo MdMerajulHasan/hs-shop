@@ -61,18 +61,17 @@ export default function PreviousAddress({ addresses, setAddressId, setSelected, 
 const styles = StyleSheet.create({
     addressContainer: {
         marginHorizontal: 10,
-        borderRadius: 8,
+        borderRadius: 10,
         backgroundColor: "#F5F5F5",
-        borderWidth: 2,
-        borderColor: "#CED2CE",
+        borderWidth: 1,
+        borderColor: "#D5D5D5",
         padding: 20,
-        marginTop: 40,
+        marginTop: 20,
     },
     listTitle: {
         color: "#1D1D1D",
         fontSize: 22,
         fontWeight: "700",
-        marginTop: 20
     },
     addressCard: {
         maxWidth: 140,

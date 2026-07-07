@@ -197,7 +197,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                         <TextInput
                             value={name}
                             placeholder="Name"
-                            placeholderTextColor={"#828282"}
+                            placeholderTextColor={"#ADADAD"}
                             onChangeText={(text: string) => setName(text)}
                             style={[styles.inputField, errors.name && { borderColor: "#b90e0e" }]}
                         />
@@ -213,7 +213,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                             value={mobile}
                             placeholder="+88 0"
                             keyboardType="phone-pad"
-                            placeholderTextColor={"#828282"}
+                            placeholderTextColor={"#ADADAD"}
                             onChangeText={(text: string) => setMobile(text)}
                             style={[styles.inputField, errors.mobile && { borderColor: "#b90e0e" }]}
                         />
@@ -237,16 +237,17 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                                         const district = districts.districts.find((d) => d.id === value);
                                         setDistrict(district?.name ?? null);
                                     }}
-                                    style={{ color: "#ADADAD" }}
-                                    dropdownIconColor="#E9E9E9"
+                                    style={{ color: district ? "#272727" : "#ADADAD" }}
+                                    dropdownIconColor={district ? "#272727" : "#ADADAD"}
 
                                 >
-                                    <Picker.Item label="Select" value="" />
+                                    <Picker.Item label="Select" value="" color="#ADADAD" />
                                     {
                                         districts.districts.map((district) => (<Picker.Item
                                             key={district.id}
                                             label={`${district.name}`}
                                             value={district.id}
+                                            color="#272727"
                                         />))
                                     }
                                 </Picker>
@@ -270,16 +271,17 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                                         setSubDistrict(subDistrict?.name ?? null);
                                     }
                                     }
-                                    style={{ color: "#ADADAD" }}
-                                    dropdownIconColor="#E9E9E9"
+                                    style={{ color: subDistrict? "#272727": "#ADADAD" }}
+                                    dropdownIconColor={subDistrict ? "#272727" : "#ADADAD"}
 
                                 >
-                                    <Picker.Item label="Select" value="" />
+                                    <Picker.Item label="Select" value=""  color="#ADADAD"/>
                                     {
                                         filteredSubDistrcts.map((subDis) => (<Picker.Item
                                             key={subDis.id}
                                             label={`${subDis.name}`}
                                             value={subDis.id}
+                                            color={"#272727"}
                                         />))
                                     }
                                 </Picker>
@@ -302,16 +304,17 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                                 <Picker
                                     selectedValue={selectedCity}
                                     onValueChange={(value) => setSelectedCity(value)}
-                                    style={{ color: "#ADADAD" }}
-                                    dropdownIconColor="#E9E9E9"
+                                    style={{ color: selectedCity? "#272727": "#ADADAD" }}
+                                    dropdownIconColor={selectedCity ? "#272727" : "#ADADAD"}
 
                                 >
-                                    <Picker.Item label="Select" value="" />
+                                    <Picker.Item label="Select" value="" color="#ADADAD" />
                                     {
                                         filteredCities.map((area) => (<Picker.Item
                                             key={area.id}
                                             label={`${area.name}`}
                                             value={area.name}
+                                            color="#272727"
                                         />))
                                     }
                                 </Picker>
@@ -323,7 +326,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                                 value={postCode}
                                 placeholder="Post Code"
                                 keyboardType="numeric"
-                                placeholderTextColor={"#828282"}
+                                placeholderTextColor={"#ADADAD"}
                                 onChangeText={(text: string) => setPostCode(text)}
                                 style={styles.pickerContainer}
                             />
@@ -340,7 +343,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                         <TextInput
                             value={address}
                             placeholder="Village / Floor, House, Road, Area..."
-                            placeholderTextColor={"#828282"}
+                            placeholderTextColor={"#ADADAD"}
                             onChangeText={(text: string) => setAddress(text)}
                             style={[styles.inputField, errors.address && { borderColor: "#b90e0e" }]}
                         />
@@ -356,7 +359,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
                         <TextInput
                             value={email}
                             placeholder="@email"
-                            placeholderTextColor={"#828282"}
+                            placeholderTextColor={"#ADADAD"}
                             onChangeText={(text: string) => setEmail(text)}
                             style={styles.inputField}
                         />
@@ -479,25 +482,26 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
 const styles = StyleSheet.create({
     formContainer: {
         borderWidth: 1,
-        borderColor: "#CED2CE",
+        backgroundColor: "#F5F5F5",
+        borderColor: "#D5D5D5",
         borderRadius: 8,
         marginHorizontal: 10,
         padding: 20,
-        marginTop: 16,
-        marginBottom: 16
+        marginVertical: 20,
+       
     },
     listTitle: {
         color: "#1D1D1D",
         fontSize: 22,
         fontWeight: "700",
-        marginTop: 20
     },
     inputField: {
+        color: "#272727",
+        borderWidth: 1,
         paddingVertical: 10,
         paddingHorizontal: 16,
         borderRadius: 56,
         backgroundColor: "#FEFEFE",
-        borderWidth: 1,
         borderColor: "#D5D5D5",
     },
     inputTitle: {
@@ -532,7 +536,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: "#E9E9E9"
+        borderColor: "#D5D5D5"
     },
     radioButton: {
         width: 12,
