@@ -2,7 +2,7 @@
   "expo": {
     "name": "HS-Restaurant",
     "slug": "hs-restaurant-app",
-    "version": "1.0.0",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/images/hs-logo.png",
     "scheme": "hsshop",
@@ -18,8 +18,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.hs.restaurant.app",
-      "versionCode": 1
+      "package": "hs.restaurant.app",
+      "versionCode": 10
     },
     "web": {
       "output": "static",

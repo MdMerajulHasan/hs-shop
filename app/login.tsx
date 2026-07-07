@@ -105,6 +105,7 @@ export default function Login() {
                             secureTextEntry
                             keyboardType="default"
                             autoCapitalize="none"
+                            autoComplete="password"
                         />
                     </View>
 

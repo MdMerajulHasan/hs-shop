@@ -6,10 +6,10 @@ export type PaymentMethod = | "cash" | "bkash" | "nagad" | "rocket" | "upay" | "
 export type OrderStatus = "any" | "pending" | "preparing" | "on_the_way" | "delivered" | "cancelled";
 
 interface Tracking {
-    confirmed: boolean;
-    preparing: boolean;
-    outForDelivery: boolean;
-    delivered: boolean;
+    confirmed?: string;
+    preparing?: string;
+    outForDelivery?: string;
+    delivered?: string;
 }
 
 export interface Order {
@@ -21,7 +21,10 @@ export interface Order {
     subtotal: number;
     deliveryFee: number;
     total: number;
-
+    vatTax: number, 
+    discount: number,
+    specialDiscount: number,
+    freeShippingDiscount: number,
     paymentMethod: PaymentMethod;
     paymentStatus: "pending" | "paid";
     paymentId?: string;
@@ -37,7 +40,7 @@ export interface Order {
     };
 
     note?: string;
-    branchId?: string; 
+    branchId?: string;
 }
 
 const initialState: { items: Order[] } = {
@@ -68,19 +71,25 @@ const orderSlice = createSlice({
 
             switch (action.payload.status) {
                 case "pending":
-                    order.tracking.confirmed = true;
+                    order.tracking.confirmed ??= new Date().toISOString();
                     break;
 
                 case "preparing":
-                    order.tracking.preparing = true;
+                    order.tracking.confirmed ??= order.createdAt;
+                    order.tracking.preparing ??= new Date().toISOString();
                     break;
 
                 case "on_the_way":
-                    order.tracking.outForDelivery = true;
+                    order.tracking.confirmed ??= order.createdAt;
+                    order.tracking.preparing ??= new Date().toISOString();
+                    order.tracking.outForDelivery ??= new Date().toISOString();
                     break;
 
                 case "delivered":
-                    order.tracking.delivered = true;
+                    order.tracking.confirmed ??= order.createdAt;
+                    order.tracking.preparing ??= new Date().toISOString();
+                    order.tracking.outForDelivery ??= new Date().toISOString();
+                    order.tracking.delivered ??= new Date().toISOString();
                     break;
             }
         },
@@ -112,10 +121,10 @@ const orderSlice = createSlice({
             order.status = "cancelled";
 
             order.tracking = {
-                confirmed: true,
-                preparing: false,
-                outForDelivery: false,
-                delivered: false,
+                confirmed: order.tracking.confirmed ?? order.createdAt,
+                preparing: undefined,
+                outForDelivery: undefined,
+                delivered: undefined,
             };
         },
     }

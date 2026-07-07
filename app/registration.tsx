@@ -3,7 +3,10 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    Alert, Pressable, StyleSheet, Text, TextInput, View, KeyboardAvoidingView,
+    ScrollView, Platform,
+} from "react-native";
 
 export default function Registration() {
     const [name, setName] = useState("");
@@ -94,8 +97,13 @@ export default function Registration() {
                 "Success",
                 data.detail || "Registration successful!"
             );
-
-            router.replace("/login");
+            router.replace({
+                pathname: "/active",
+                params: {
+                    uid: String(data.uid),
+                    email: data.email,
+                },
+            });
         } catch {
             setError("Something went wrong. Please try again.");
         } finally {
@@ -105,129 +113,150 @@ export default function Registration() {
 
 
     return (
-        <View style={{ flex: 1, paddingHorizontal: 20 }}>
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <View style={{ marginBottom: 30, alignItems: "center", justifyContent: "center" }}>
-                    <Text style={styles.title}>Create Your Account</Text>
-                    <Text style={styles.subTitle}>Sign up to enjoy your favorite foods</Text>
-                </View>
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <ScrollView
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    paddingHorizontal: 20,
+                }}
+                showsVerticalScrollIndicator={false}
+            >
 
-                <View style={{ width: "100%", gap: 20, marginBottom: 30 }}>
+                <View style={{ flex: 1, paddingHorizontal: 10 }}>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <View style={{ marginBottom: 30, alignItems: "center", justifyContent: "center" }}>
+                            <Text style={styles.title}>Create Your Account</Text>
+                            <Text style={styles.subTitle}>Sign up to enjoy your favorite foods</Text>
+                        </View>
 
-                    <View>
-                        <Text style={styles.text}>Full Name*</Text>
-                        <TextInput
-                            style={styles.inputContainer}
-                            placeholder="Full Name"
-                            placeholderTextColor="#575757"
-                            onChangeText={setName}
-                            keyboardType="default"
-                            autoCapitalize="none"
-                        />
-                    </View>
+                        <View style={{ width: "100%", gap: 20, marginBottom: 30 }}>
 
-                    <View>
-                        <Text style={styles.text}>Email*</Text>
-                        <TextInput
-                            style={styles.inputContainer}
-                            placeholder="Email Address"
-                            placeholderTextColor="#575757"
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                        />
-                    </View>
+                            <View>
+                                <Text style={styles.text}>Full Name*</Text>
+                                <TextInput
+                                    style={styles.inputContainer}
+                                    placeholder="Full Name"
+                                    placeholderTextColor="#575757"
+                                    onChangeText={setName}
+                                    keyboardType="default"
+                                    autoCapitalize="words"
+                                />
+                            </View>
 
-                    <View>
-                        <Text style={styles.text}>Password*</Text>
-                        <TextInput
-                            style={styles.inputContainer}
-                            placeholder="Password"
-                            placeholderTextColor="#575757"
-                            onChangeText={setPassword}
-                            secureTextEntry
-                            keyboardType="default"
-                            autoCapitalize="none"
-                        />
-                    </View>
+                            <View>
+                                <Text style={styles.text}>Email*</Text>
+                                <TextInput
+                                    style={styles.inputContainer}
+                                    placeholder="Email Address"
+                                    placeholderTextColor="#575757"
+                                    onChangeText={setEmail}
+                                    autoCapitalize="none"
+                                    keyboardType="email-address"
+                                    autoComplete="email"
+                                    textContentType="emailAddress"
+                                    autoCorrect={false}
+                                />
+                            </View>
 
-                    <View>
-                        <Text style={styles.text}>Confirm Password*</Text>
-                        <TextInput
-                            style={styles.inputContainer}
-                            placeholder="Confirm Password"
-                            placeholderTextColor="#575757"
-                            onChangeText={setConfirmPassword}
-                            secureTextEntry
-                            keyboardType="default"
-                            autoCapitalize="none"
-                        />
-                    </View>
+                            <View>
+                                <Text style={styles.text}>Password*</Text>
+                                <TextInput
+                                    style={styles.inputContainer}
+                                    placeholder="Password"
+                                    placeholderTextColor="#575757"
+                                    onChangeText={setPassword}
+                                    secureTextEntry
+                                    keyboardType="default"
+                                    autoCapitalize="none"
+                                    textContentType="newPassword"
+                                />
+                            </View>
 
-                    {error ? (
-                        <Text
-                            style={{
-                                color: "red",
-                                textAlign: "center",
-                                marginBottom: 10,
-                                fontSize: 15,
-                            }}
-                        >
-                            {error}
-                        </Text>
-                    ) : null}
+                            <View>
+                                <Text style={styles.text}>Confirm Password*</Text>
+                                <TextInput
+                                    style={styles.inputContainer}
+                                    placeholder="Confirm Password"
+                                    placeholderTextColor="#575757"
+                                    onChangeText={setConfirmPassword}
+                                    secureTextEntry
+                                    keyboardType="default"
+                                    autoCapitalize="none"
+                                    textContentType="newPassword"
+                                />
+                            </View>
 
-                    <Pressable
-                        onPress={() => {
-                            handleRegistration();
-                        }}
-                    >
-                        <PrimaryButton label="Continue" />
-                    </Pressable>
+                            {error ? (
+                                <Text
+                                    style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        marginBottom: 10,
+                                        fontSize: 15,
+                                    }}
+                                >
+                                    {error}
+                                </Text>
+                            ) : null}
 
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Text style={styles.subTitle}>Already have an account? </Text>
-
-                        <Pressable onPress={() => router.push("/login")}>
-                            <Text
-                                style={[styles.subTitle, {
-                                    color: "#D76527",
-                                    textDecorationLine: "underline",
-                                }]}
+                            <Pressable
+                                disabled={loading}
+                                onPress={handleRegistration}
                             >
-                                Log In
-                            </Text>
-                        </Pressable>
-                    </View>
+                                <PrimaryButton
+                                    label={loading ? "Creating Account..." : "Continue"}
+                                />
+                            </Pressable>
 
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Text style={styles.subTitle}>Already have an account? </Text>
+
+                                <Pressable onPress={() => router.push("/login")}>
+                                    <Text
+                                        style={[styles.subTitle, {
+                                            color: "#D76527",
+                                            textDecorationLine: "underline",
+                                        }]}
+                                    >
+                                        Log In
+                                    </Text>
+                                </Pressable>
+                            </View>
+
+                        </View>
+
+
+                        <View style={styles.container}>
+                            <View style={styles.line} />
+                            <Text style={styles.subTitle}>Or continue with</Text>
+                            <View style={styles.line} />
+                        </View>
+
+                        <View style={styles.logoContainer}>
+                            <View style={styles.logoItem}>
+                                <Ionicons name="logo-facebook" size={32} color="#3b5998" />
+                            </View>
+                            <View style={[styles.logoItem, { paddingHorizontal: 18 }]}>
+                                <FontAwesome6 name="apple" size={32} color="#000" />
+                            </View>
+                            <View style={styles.logoItem}>
+                                <Ionicons name="logo-google" size={32} color="#4285F4" />
+                            </View>
+                        </View>
+                    </View>
                 </View>
-
-
-                <View style={styles.container}>
-                    <View style={styles.line} />
-                    <Text style={styles.subTitle}>Or continue with</Text>
-                    <View style={styles.line} />
-                </View>
-
-                <View style={styles.logoContainer}>
-                    <View style={styles.logoItem}>
-                        <Ionicons name="logo-facebook" size={32} color="#3b5998" />
-                    </View>
-                    <View style={[styles.logoItem, { paddingHorizontal: 18 }]}>
-                        <FontAwesome6 name="apple" size={32} color="#000" />
-                    </View>
-                    <View style={styles.logoItem}>
-                        <Ionicons name="logo-google" size={32} color="#4285F4" />
-                    </View>
-                </View>
-            </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 

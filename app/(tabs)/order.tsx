@@ -15,14 +15,15 @@ type Props = {
 
 const orderStatuses: Props = [
     { id: "1", title: "All Order", status: "any", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/Order.png" },
-    { id: "2", title: "Peding", status: "pending", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/wallet.png" },
+    { id: "2", title: "Pending", status: "pending", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/wallet.png" },
     { id: "3", title: "On The way", status: "on_the_way", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/Shipping-Car-time.png" },
     { id: "4", title: "Delivered", status: "delivered", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/Delivered.png" },
     { id: "5", title: "Cancelled", status: "cancelled", icon: "https://d.hs-bd.com/wp-content/uploads/2026/07/Cross-square.png" },
 
 ]
 
-export const formatOrderDate = (dateString: string) => {
+export const formatOrderDate = (dateString?: string) => {
+    if (!dateString) return "";
     const date = new Date(dateString);
 
     const day = date.getDate();
@@ -49,7 +50,7 @@ export default function Order() {
 
     const orderData = useAppSelector(s => s.order.items);
     const shipping = useMemo(() => {
-        return (orderData.filter(order => order.tracking.outForDelivery === true)).length;
+        return (orderData.filter(order => ((order.status === "on_the_way")))).length;
     }, [orderData])
 
 
@@ -66,7 +67,7 @@ export default function Order() {
             <View style={{ paddingHorizontal: 10 }}>
                 <FlatList
                     data={orderData}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => String(item.id)}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 200 }}
                     ListHeaderComponent={
@@ -198,7 +199,7 @@ export default function Order() {
 
                             {/* Products */}
 
-                            {order.items.map((product, index) => (
+                            {order.items?.map((product, index) => (
                                 <View key={product.id}>
                                     <View
                                         style={{
@@ -207,7 +208,7 @@ export default function Order() {
                                         }}
                                     >
                                         <Image
-                                            source={{ uri: product.image }}
+                                            source={product.image ? { uri: product?.image } : require("@/assets/images/hs-logo.png")}
                                             style={{
                                                 width: 90,
                                                 height: 90,
@@ -263,7 +264,7 @@ export default function Order() {
                                                     </Text>
                                                 </View>
                                                 <View style={{ backgroundColor: "#EB94101A", paddingHorizontal: 6, paddingVertical: 4, borderRadius: 40 }}>
-                                                    <Text style={{ fontSize: 12, fontWeight: "500", color: "#EB9410" }}>{order.paymentStatus}</Text>
+                                                    <Text style={{ fontSize: 12, fontWeight: "500", color: "#EB9410" }}>{order.status}</Text>
                                                 </View>
                                             </View>
                                         </View>

@@ -4,7 +4,7 @@ import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import { useMemo, useState } from "react";
-import { Alert,  Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { router, useLocalSearchParams } from "expo-router";
@@ -79,6 +79,10 @@ export default function PlaceOrder() {
         totalAmount,
         totalPrice,
         deliveryCharge,
+        vatTax,
+        discount,
+        specialDiscount,
+        freeShippingDiscount,
     } = useLocalSearchParams();
 
     const orderTotal = Number(totalAmount);
@@ -107,30 +111,40 @@ export default function PlaceOrder() {
         }
 
         if ((payType === "cash" || paid) && (orderAddress || addressId)) {
+            const createdAt = new Date().toISOString();
+
             const order: Order = {
                 id: Date.now().toString(),
-                createdAt: new Date().toISOString(),
+                createdAt,
                 items: orderedItems,
                 subtotal: Number(totalPrice),
                 deliveryFee: Number(deliveryCharge),
                 total: Number(totalAmount),
+                vatTax: Number(vatTax),
+                discount: Number(discount),
+                specialDiscount: Number(specialDiscount),
+                freeShippingDiscount: Number(freeShippingDiscount),
                 paymentMethod: payType,
                 paymentStatus: paid ? "paid" : "pending",
-                paymentId: paid ? `${payType}'s id` : "",
+                paymentId: paid ? `${payType}'s id` : undefined,
+
                 status: "pending",
+
                 tracking: {
-                    confirmed: true,
-                    preparing: false,
-                    outForDelivery: false,
-                    delivered: false,
+                    confirmed: createdAt,
+                    preparing: undefined,
+                    outForDelivery: undefined,
+                    delivered: undefined,
                 },
+
                 deliveryAddress: {
                     name: orderAddress?.name,
                     phone: orderAddress?.mobile,
                     address: orderAddress?.address,
                 },
+
                 note: orderNote.trim() || undefined,
-            }
+            };
 
             // Continue placing the order
             dispatch(placeOrder(order));
@@ -175,7 +189,7 @@ export default function PlaceOrder() {
                 {/* saved addresses section */}
                 <PreviousAddress selected={selected} setSelected={setSelected} setAddressId={setAddressId} addresses={addresses}></PreviousAddress>
                 {/* add a new address section */}
-                <AddNewAddress  setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
+                <AddNewAddress setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
                 {/* custom / set delivery time section */}
                 {/* <View style={styles.formContainer}>
                     <Text style={styles.listTitle}>Custom Delivery Time</Text>

@@ -60,6 +60,13 @@ export default function RootLayout() {
                 animation: "none"
               }}
             />
+            <Stack.Screen
+              name="active"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
           </Stack>
         </Provider>
       </BottomSheetModalProvider>
