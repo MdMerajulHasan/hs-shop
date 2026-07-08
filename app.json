@@ -18,8 +18,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "hs.restaurant.app",
-      "versionCode": 10
+      "package": "hs.restaurant.app"
     },
     "web": {
       "output": "static",
@@ -50,9 +49,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c6ee733a-9bb7-4133-aa86-68664d5f2977"
+        "projectId": "f7af32fe-cef8-4714-9aee-65c5468a3e54"
       }
     },
-    "owner": "md_merajul_hasan"
+    "owner": "md-merajul-hasan"
   }
 }

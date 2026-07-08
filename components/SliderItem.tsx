@@ -1,12 +1,15 @@
-import { Dimensions, ImageBackground, StyleSheet } from "react-native";
-import { SliderData } from "@/components/Slider";
-import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { Dimensions, ImageBackground, ImageSourcePropType, StyleSheet } from "react-native";
+import Animated, { interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
-type Props = SliderData;
+interface SliderItemProps {
+    item: ImageSourcePropType;
+    index: number;
+    scrollX: SharedValue<number>;
+}
 
 const { width } = Dimensions.get('screen');
 
-export default function SliderItem({ item, index, scrollX }: Props) {
+export default function SliderItem({ item, index, scrollX }: SliderItemProps) {
     const stylez = useAnimatedStyle(() => {
         return {
             transform: [

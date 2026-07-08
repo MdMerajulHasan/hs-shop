@@ -1,6 +1,4 @@
 import { View, StyleSheet } from "react-native";
-import PreviousAddress from "./PreviousAddress";
-import AddNewAddress from "./AddNewAddress";
 import Header from "./Header";
 import PrimaryButton from "./PrimaryButton";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
@@ -26,9 +24,9 @@ export default function ModalDeliveryAddress({ onClose }: Props) {
                 }}
                 showsVerticalScrollIndicator={false}
             >
-                <PreviousAddress />
+                {/* <PreviousAddress />
 
-                <AddNewAddress />
+                <AddNewAddress /> */}
 
                 <View style={{ margin: 16 }}>
                     <PrimaryButton label="Save" />
