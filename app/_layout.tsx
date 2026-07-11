@@ -108,6 +108,20 @@ export default function RootLayout() {
                 animation: "none"
               }}
             />
+            <Stack.Screen
+              name="forgotPassword"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
+            <Stack.Screen
+            name="changePassword"
+            options={{
+              headerShown: false,
+              animation: "none"
+            }}
+            />
           </Stack>
         </Provider>
       </BottomSheetModalProvider>

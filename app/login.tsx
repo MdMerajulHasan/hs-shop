@@ -8,7 +8,7 @@ import { Pressable, StyleSheet, Text, TextInput, View, Alert } from "react-nativ
 import { jwtDecode } from "jwt-decode";
 import { login } from "@/features/user/userSlice";
 import * as SecureStore from "expo-secure-store";
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 
 export default function Login() {
@@ -60,7 +60,7 @@ export default function Login() {
 
             router.replace("/");
         } catch (error) {
-            if (axios.isAxiosError(error)) {
+            if (isAxiosError(error)) {
                 Alert.alert(
                     "Login Failed",
                     error.response?.data?.message || error.message
@@ -138,6 +138,17 @@ export default function Login() {
                         </Pressable>
                     </View>
 
+                    <Pressable onPress={() => router.push("/forgotPassword")}>
+                        <Text
+                            style={[styles.subTitle, {
+                                color: "#D76527",
+                                textDecorationLine: "underline",
+                                textAlign: "center",
+                            }]}
+                        >
+                            Forgot Password?
+                        </Text>
+                    </Pressable>
                 </View>
 
 
