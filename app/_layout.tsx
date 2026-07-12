@@ -116,11 +116,18 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-            name="changePassword"
-            options={{
-              headerShown: false,
-              animation: "none"
-            }}
+              name="changePassword"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
+            />
+            <Stack.Screen
+              name="onboarding"
+              options={{
+                headerShown: false,
+                animation: "none"
+              }}
             />
           </Stack>
         </Provider>

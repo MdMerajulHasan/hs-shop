@@ -50,9 +50,9 @@ export default function Profile() {
                         {/* user photo, name , email and edit icon */}
                         <View style={styles.userInfo}>
                             {
-                                userData.image ? <Image
+                                userData?.image ? <Image
                                     style={{ width: 80, height: 80, borderRadius: 90 }}
-                                    source={{ uri: userData.image }}
+                                    source={{ uri: userData?.image }}
                                 ></Image> : <Ionicons name="person-circle-outline" size={60}></Ionicons>
                             }
                             <View style={{ flex: 1 }}>

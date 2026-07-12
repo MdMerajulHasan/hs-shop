@@ -10,11 +10,19 @@ import PopularItems from "@/components/PopularItems";
 import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
-import { FlatList, View } from "react-native";
+import { Button, FlatList, View } from "react-native";
 import { useMemo } from "react";
 import { useAppSelector } from "@/store/hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+
 
 export default function Index() {
+
+  const resetOnboarding = async () => {
+    await AsyncStorage.removeItem("onboardingCompleted");
+    router.replace("/onboarding");
+  };
 
   const PRODUCTS = useAppSelector((s) => s.products.items)
 
@@ -87,7 +95,10 @@ export default function Index() {
 
               {/* category */}
               <Category></Category>
-
+              <Button
+                title="Show Onboarding Again"
+                onPress={resetOnboarding}
+              />
               {/* best deals */}
               <BestDeals bestDeals={bestDeals}></BestDeals>
 

@@ -69,8 +69,8 @@ export default function Details() {
 
                 // Name contains each other
                 if (
-                    item.name.toLowerCase().includes(product.name.toLowerCase()) ||
-                    product.name.toLowerCase().includes(item.name.toLowerCase())
+                    item.name?.toLowerCase().includes(product.name?.toLowerCase()) ||
+                    product.name?.toLowerCase().includes(item.name?.toLowerCase())
                 ) {
                     score += 4;
                 }
@@ -79,7 +79,7 @@ export default function Details() {
                 const commonIngredients = item.ingredients.filter(ingredient =>
                     product.ingredients.some(
                         p =>
-                            p.toLowerCase() === ingredient.toLowerCase()
+                            p?.toLowerCase() === ingredient?.toLowerCase()
                     )
                 );
 

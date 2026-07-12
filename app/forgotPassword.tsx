@@ -1,14 +1,38 @@
 import PrimaryButton from "@/components/PrimaryButton";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function ForgotPassword() {
 
-    const [email, setEmail] = useState("");
+    const [identifier, setIdentifier] = useState("");
 
-    const handleForgotPassword = () => {
+    const handleForgotPassword = async () => {
         router.push("/changePassword");
+        // try {
+        //     const isEmail = identifier.includes("@");
+        //     const response = await fetch("", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify({
+        //             email: isEmail ? identifier : "",
+        //             phone: isEmail ? "" : identifier,
+        //         })
+        //     });
+        //     const data = await response.text();
+        //     console.log("Status:", response.status);
+        //     console.log("Response:", data);
+        //     console.log(data);
+        //     if (response.ok) {
+        //         router.push("/changePassword");
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // } finally {
+
+        // }
     }
 
     return (
@@ -27,8 +51,9 @@ export default function ForgotPassword() {
                             style={styles.inputContainer}
                             placeholder="Email or Phone"
                             placeholderTextColor="#575757"
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
+                            value={identifier}
+                            onChangeText={setIdentifier}
+                            keyboardType="default"
                             autoCapitalize="none"
                         />
                     </View>

@@ -69,7 +69,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
         }
 
         const exists = addressTag.some(
-            tag => tag.name.toLowerCase() === value.toLowerCase()
+            tag => tag.name?.toLowerCase() === value?.toLowerCase()
         );
 
         if (exists) {
@@ -82,7 +82,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
 
         dispatch(
             addTag({
-                id: value.toLowerCase().replace(/\s+/g, "-"),
+                id: value?.toLowerCase().replace(/\s+/g, "-"),
                 name: value,
             })
         );
