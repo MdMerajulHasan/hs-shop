@@ -8,13 +8,6 @@ import { useState } from "react";
 import { Image, LayoutAnimation, Platform, Pressable, StyleSheet, Text, UIManager, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
-if (
-    Platform.OS === "android" &&
-    UIManager.setLayoutAnimationEnabledExperimental
-) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-}
-
 export default function OrderDetails() {
 
     const { id } = useLocalSearchParams<{ id: string }>();

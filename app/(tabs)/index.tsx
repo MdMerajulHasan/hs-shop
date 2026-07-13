@@ -10,37 +10,31 @@ import PopularItems from "@/components/PopularItems";
 import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
-import { Button, FlatList, View } from "react-native";
-import { useMemo } from "react";
 import { useAppSelector } from "@/store/hooks";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
-
+import { useMemo } from "react";
+import { FlatList, View } from "react-native";
 
 export default function Index() {
+  // const resetOnboarding = async () => {
+  //   await AsyncStorage.removeItem("onboardingCompleted");
+  //   router.replace("/onboarding");
+  // };
 
-  const resetOnboarding = async () => {
-    await AsyncStorage.removeItem("onboardingCompleted");
-    router.replace("/onboarding");
-  };
-
-  const PRODUCTS = useAppSelector((s) => s.products.items)
+  const PRODUCTS = useAppSelector((s) => s.products.items);
 
   const specialItems = useMemo(() => {
     return PRODUCTS.filter((food) => {
       return food.itemType === "Special";
-    })
+    });
   }, [PRODUCTS]);
 
   const productsToShow = useMemo(() => {
-    return PRODUCTS.filter(
-      (p) => p.itemType !== "Special" && !p.isCombo
-    );
+    return PRODUCTS.filter((p) => p.itemType !== "Special" && !p.isCombo);
   }, [PRODUCTS]);
 
   const comboData = useMemo(
     () => PRODUCTS.filter((p) => p.isCombo),
-    [PRODUCTS]
+    [PRODUCTS],
   );
 
   const bestDeals = useMemo(() => {
@@ -59,13 +53,15 @@ export default function Index() {
 
   return (
     <View>
-      <View style={{
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        paddingVertical: 15,
-        zIndex: 1,
-        backgroundColor: "#F5F5F5"
-      }}>
+      <View
+        style={{
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          paddingVertical: 15,
+          zIndex: 1,
+          backgroundColor: "#F5F5F5",
+        }}
+      >
         <Navbar></Navbar>
       </View>
       <View style={{ marginTop: -20, zIndex: 0 }}>
@@ -75,14 +71,16 @@ export default function Index() {
             <>
               <View>
                 {/* searchbar */}
-                <View style={{
-                  paddingTop: 15,
-                  paddingBottom: 16,
-                  backgroundColor: "#F5F5F5",
-                  zIndex: 200,
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20
-                }}>
+                <View
+                  style={{
+                    paddingTop: 15,
+                    paddingBottom: 16,
+                    backgroundColor: "#F5F5F5",
+                    zIndex: 200,
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                  }}
+                >
                   <SearchBar></SearchBar>
                 </View>
 
@@ -90,15 +88,14 @@ export default function Index() {
                 <View style={{ zIndex: 1, marginTop: -16 }}>
                   <Slider></Slider>
                 </View>
-
               </View>
 
               {/* category */}
               <Category></Category>
-              <Button
+              {/* <Button
                 title="Show Onboarding Again"
                 onPress={resetOnboarding}
-              />
+              /> */}
               {/* best deals */}
               <BestDeals bestDeals={bestDeals}></BestDeals>
 
@@ -106,7 +103,13 @@ export default function Index() {
               <Items specialItems={specialItems}></Items>
 
               {/* book your table */}
-              <View style={{ marginHorizontal: 10, backgroundColor: "#070C12", borderRadius: 20 }}>
+              <View
+                style={{
+                  marginHorizontal: 10,
+                  backgroundColor: "#070C12",
+                  borderRadius: 20,
+                }}
+              >
                 <Menu></Menu>
                 <BookYourTable></BookYourTable>
               </View>
@@ -122,7 +125,6 @@ export default function Index() {
               </View>
             </>
           }
-
           data={productsToShow}
           numColumns={2}
           columnWrapperStyle={{
@@ -133,13 +135,11 @@ export default function Index() {
           contentContainerStyle={{
             paddingBottom: 190, // space for bottom nav
           }}
-          renderItem={({ item, index }) =>
-            (<FoodCard isVertical={true} item={item} index={index} ></FoodCard>)}
-        >
-        </FlatList>
+          renderItem={({ item, index }) => (
+            <FoodCard isVertical={true} item={item} index={index}></FoodCard>
+          )}
+        ></FlatList>
       </View>
     </View>
   );
 }
-
-
