@@ -1,6 +1,7 @@
 import BottomSheetWrapper from "@/components/BottomSheetWrapper";
 import ModalChangePass from "@/components/ModalChangePass";
 import ModalDeliveryAddress from "@/components/ModalDeliveryAddress";
+import ModalEditProfile from "@/components/ModalEditProfile";
 import ModalNotificationSettings from "@/components/ModalNotificationSettings";
 import PrimaryButton from "@/components/PrimaryButton";
 import { logout } from "@/features/user/userSlice";
@@ -27,10 +28,12 @@ export default function Profile() {
   const addressRef = useRef<BottomSheetModal>(null);
   const changePassRef = useRef<BottomSheetModal>(null);
   const notificationRef = useRef<BottomSheetModal>(null);
+  const editProRef = useRef<BottomSheetModal>(null);
+  const [updatedName, setUpdatedName] = useState(userData?.name ?? "");
+  const [updatedImage, setUpdatedImage] = useState<string | null>(
+    userData?.image ?? null,
+  );
 
-  //   if (!userData) {
-  //     return <Redirect href="/login" />;
-  //   }
   if (!userData) {
     return (
       <View style={styles.notLoggedInContainer}>
@@ -85,20 +88,19 @@ export default function Profile() {
           <View style={styles.userContainer}>
             {/* user photo, name , email and edit icon */}
             <View style={styles.userInfo}>
-              {userData?.image ? (
+              {updatedImage ? (
                 <Image
                   style={{ width: 80, height: 80, borderRadius: 90 }}
-                  source={{ uri: userData?.image }}
-                ></Image>
+                  source={{ uri: updatedImage }}
+                />
               ) : (
-                <Ionicons name="person-circle-outline" size={60}></Ionicons>
+                <Ionicons name="person-circle-outline" size={60} />
               )}
-
               <View style={{ flex: 1 }}>
                 <Text
                   style={{ color: "#F5F5F5", fontSize: 22, fontWeight: "700" }}
                 >
-                  {userData?.name}
+                  {updatedName}
                 </Text>
                 <Text
                   style={{ color: "#D5D5D5", fontSize: 16, fontWeight: "400" }}
@@ -106,8 +108,12 @@ export default function Profile() {
                   {userData?.email}
                 </Text>
               </View>
-
-              <Pressable>
+              {/* edit profile */}
+              <Pressable
+                onPress={() => {
+                  editProRef.current?.present();
+                }}
+              >
                 <Image
                   style={{ height: 24, width: 24 }}
                   tintColor={"#D5D5D5"}
@@ -287,7 +293,7 @@ export default function Profile() {
               <Pressable
                 style={[
                   styles.Button,
-                  { backgroundColor: "#E9E9E9", borderColor: "#D5D5D5" },
+                  { backgroundColor: "#F5F5F5", borderColor: "#D5D5D5" },
                 ]}
               >
                 <FontAwesome6 name="star" size={24} color="#272727" />
@@ -343,6 +349,16 @@ export default function Profile() {
         <ModalDeliveryAddress
           onClose={() => addressRef.current?.close()}
         ></ModalDeliveryAddress>
+      </BottomSheetWrapper>
+      {/* edit profile bottomsheet */}
+      <BottomSheetWrapper ref={editProRef} snapPoints={["75%", "100%"]}>
+        <ModalEditProfile
+          userName={updatedName}
+          userImage={updatedImage}
+          setUpdatedName={setUpdatedName}
+          setUpdatedImage={setUpdatedImage}
+          onClose={() => editProRef.current?.close()}
+        />
       </BottomSheetWrapper>
     </>
   );
@@ -492,19 +508,19 @@ const styles = StyleSheet.create({
   },
 
   notLoggedInTitle: {
-    fontSize: 24,
-    fontWeight: "700",
+    fontSize: 32,
+    fontWeight: "600",
     color: "#272727",
-    marginTop: 12,
+    marginBottom: 10,
+    textAlign: "center",
   },
 
   notLoggedInSubtitle: {
     fontSize: 16,
+    fontWeight: "400",
     color: "#575757",
     textAlign: "center",
-    marginTop: 8,
-    marginBottom: 32,
-    lineHeight: 24,
+    marginBottom: 16,
   },
 
   authButton: {
