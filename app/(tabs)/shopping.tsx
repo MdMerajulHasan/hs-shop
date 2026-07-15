@@ -1,9 +1,11 @@
 import Header from "@/components/Header";
 import PrimaryButton from "@/components/PrimaryButton";
 import SmallFoodCard from "@/components/SmallFoodCard";
+import { addNotification } from "@/features/notifications/notificationsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { nanoid } from "@reduxjs/toolkit";
 import { router } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { useAppSelector } from "@/store/hooks";
 import Toast from "react-native-toast-message";
 
 
@@ -20,13 +22,28 @@ export default function Shopping() {
     const totalAmount = totalPrice + deliveryCharge + vatTax - discount - specialDiscount - freeShippingDiscount;
 
     const handleOrder = () => {
-        Toast.show({
-            type: 'error',
-            text1: 'Cart is empty',
-            text2: 'Please add items to your cart before placing an order.',
-            position: 'top',
-            visibilityTime: 3000,
-        });
+        if (totalItems === 0) {
+            Toast.show({
+                type: 'error',
+                text1: 'Cart is empty',
+                text2: 'Please add items to your cart before placing an order.',
+                position: 'top',
+                visibilityTime: 3000,
+            });
+        } else {
+            router.push({
+                pathname: "/placeOrder",
+                params: {
+                    totalAmount: totalAmount.toString(),
+                    totalPrice: totalPrice.toString(),
+                    deliveryCharge: deliveryCharge.toString(),
+                    vatTax: vatTax.toString(),
+                    discount: discount.toString(),
+                    specialDiscount: specialDiscount.toString(),
+                    freeShippingDiscount: freeShippingDiscount.toString(),
+                },
+            });
+        }
     }
 
     return (
@@ -124,23 +141,7 @@ export default function Shopping() {
                     </View>
                     <Pressable
                         onPress={() => {
-                            if (totalItems === 0) {
-                                handleOrder();
-                                return;
-                            }
-                            router.push({
-                                pathname: "/placeOrder",
-                                params: {
-                                    totalAmount: totalAmount.toString(),
-                                    totalPrice: totalPrice.toString(),
-                                    deliveryCharge: deliveryCharge.toString(),
-                                    vatTax: vatTax.toString(),
-                                    discount: discount.toString(),
-                                    specialDiscount: specialDiscount.toString(),
-                                    freeShippingDiscount: freeShippingDiscount.toString(),
-                                },
-                            });
-
+                            handleOrder();
                         }}
                         style={{ marginBottom: 20 }}>
                         <PrimaryButton label={"Place Order"}></PrimaryButton>
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#D76527",
         gap: 16,
-        
+
     },
     voucherItem: {
         flexDirection: "row",

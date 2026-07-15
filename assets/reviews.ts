@@ -8,7 +8,7 @@ export type Review = {
     rating: number;
     review: string;
 
-    createdAt: string;
+    createdAt: number;
 };
 
 export const REVIEWS: Review[] = [
@@ -19,7 +19,7 @@ export const REVIEWS: Review[] = [
         userImage: "https://i.pravatar.cc/150?img=1",
         rating: 5,
         review: "Amazing pizza! Crispy crust and fresh toppings.",
-        createdAt: "2026-06-20",
+        createdAt: new Date("2026-06-20").getTime(),
     },
     {
         id: "2",
@@ -28,7 +28,7 @@ export const REVIEWS: Review[] = [
         userImage: "https://i.pravatar.cc/150?img=2",
         rating: 4.5,
         review: "Very tasty. Will definitely order again.",
-        createdAt: "2026-06-18",
+        createdAt: new Date("2026-06-20").getTime(),
     },
     {
         id: "3",
@@ -37,6 +37,6 @@ export const REVIEWS: Review[] = [
         userImage: "https://i.pravatar.cc/150?img=3",
         rating: 4,
         review: "One of the best burgers I've had.",
-        createdAt: "2026-06-15",
+        createdAt: new Date("2026-06-20").getTime(),
     },
 ];

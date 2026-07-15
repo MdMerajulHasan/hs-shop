@@ -1,4 +1,5 @@
 export type NotificationType =
+  | "cart"
   | "order"
   | "offer"
   | "system"

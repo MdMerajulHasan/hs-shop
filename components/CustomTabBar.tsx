@@ -57,16 +57,17 @@ export default function CustomTabBar({
 
   return (
     <View
-      style={[styles.container, { paddingBottom: Math.max(insets.bottom, 10) }]}
+      style={[styles.container, { paddingBottom: Math.max(insets.bottom, 10), backgroundColor: "#0000" }]}
     >
       <View
         style={{
           minWidth: 277,
-          height: 93,
+          height: 85,
           marginHorizontal: "auto",
           borderRadius: 65,
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#0000"
         }}
       >
         {state.routes.map((route, index) => {
@@ -140,15 +141,7 @@ const styles = StyleSheet.create({
     paddingBottom: 13,
     width: Width,
     marginHorizontal: "auto",
-  },
-  tabBar: {
-    width: Width * 0.88,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#111",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    backgroundColor: "#0000",
   },
   text: {
     fontWeight: "400",

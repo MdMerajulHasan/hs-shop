@@ -1,9 +1,9 @@
+import { Product } from "@/assets/products";
+import { addToCart, decreaseQuantity, removeFromCart } from "@/features/cart/cartSlice";
+import { removeFromWishlist } from "@/features/wishlist/wishlistSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { Product } from "@/assets/products";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { removeFromWishlist } from "@/features/wishlist/wishlistSlice";
-import { addToCart, decreaseQuantity, removeFromCart } from "@/features/cart/cartSlice";
 import Toast from "react-native-toast-message";
 
 
@@ -103,6 +103,7 @@ export default function SmallFoodCard({ item, page }: Props) {
                     >
                         <Image source={{ uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png" }}
                             style={{ width: 24, height: 24 }}
+                            tintColor={"#F5F5F5"}
                         ></Image>
                     </Pressable> : null
             }

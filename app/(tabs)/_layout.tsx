@@ -10,6 +10,9 @@ export default function TabLayout() {
         // tabBarStyle: {
         // },
         headerShown: false,
+        sceneStyle:{
+          backgroundColor: "#0000"
+        }
       }}
     >
       <Tabs.Screen

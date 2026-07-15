@@ -2,7 +2,11 @@ import { NotificationType } from "@/features/notifications/types";
 
 export const getNotificationImage = (type: NotificationType) => {
   switch (type) {
+
     case "order":
+      return "https://d.hs-bd.com/wp-content/uploads/2026/06/title-2.png";
+
+    case "cart":
       return "https://d.hs-bd.com/wp-content/uploads/2026/06/title-2.png";
 
     case "delivery":

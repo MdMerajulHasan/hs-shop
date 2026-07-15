@@ -1,11 +1,14 @@
 import { Product } from "@/assets/products";
 import { addToCart } from "@/features/cart/cartSlice";
+import { addNotification } from "@/features/notifications/notificationsSlice";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "@/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { sendNotification } from "@/utils/sendNotification";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { nanoid } from "@reduxjs/toolkit";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -23,7 +26,7 @@ const createTwoButtonAlert = () =>
   Alert.alert("Added to wishlist", "", [
     {
       text: "Stay Here",
-      onPress: () => {},
+      onPress: () => { },
       style: "cancel",
     },
     { text: "See Wishlist", onPress: () => router.push("/wishlist") },
@@ -43,6 +46,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
   const wishlist = useAppSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((p) => p.id === item.id);
   const [visible, setVisible] = useState(false);
+
 
   return (
     <View
@@ -130,7 +134,23 @@ export default function FoodCard({ item, index, isVertical }: Props) {
 
           <Pressable
             style={styles.cartContainer}
-            onPress={() => dispatch(addToCart(item))}
+            onPress={async () => {
+              dispatch(addToCart(item));
+              dispatch(addNotification({
+                id: nanoid(),
+                title: "Added To Cart",
+                body: `${item.title} has added to cart successfully.`,
+                type: "cart",
+                isRead: false,
+                createdAt: Date.now(),
+                actionLabel: "View Cart",
+              }));
+              await sendNotification(
+                "Added to Cart",
+                `${item.title} has been added to your cart.`
+              );
+            }
+            }
           >
             <Image
               tintColor={"#F5F5F5"}
@@ -169,7 +189,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 340,
     flexDirection: "column",
-    backgroundColor: "#F5F5F5",
     gap: 10,
     borderRadius: 10,
   },

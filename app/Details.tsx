@@ -4,22 +4,25 @@ import FoodCard from "@/components/FoodCard";
 import StarRating from "@/components/StarRating";
 import TitleBar from "@/components/TitleBar";
 import { addToCart } from "@/features/cart/cartSlice";
+import { addNotification } from "@/features/notifications/notificationsSlice";
 import {
-    addToWishlist,
-    removeFromWishlist,
+  addToWishlist,
+  removeFromWishlist,
 } from "@/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getTimeAgo } from "@/utils/getTimeAgo";
+import { sendNotification } from "@/utils/sendNotification";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { nanoid } from "@reduxjs/toolkit";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    Image,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 type Size = {
@@ -31,7 +34,7 @@ type Size = {
 export default function Details() {
   const PRODUCTS = useAppSelector((s) => s.products.items);
 
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(0);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -113,7 +116,7 @@ export default function Details() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <View style={{ flex: 1, backgroundColor: "#FEFEFE" }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageBox}>
           {/* product image */}
@@ -178,12 +181,8 @@ export default function Details() {
           <View
             style={{
               paddingHorizontal: 10,
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
               paddingBottom: 20,
-              marginTop: -20,
               paddingTop: 20,
-              backgroundColor: "#F5F5F5",
             }}
           >
             {/* name and rating */}
@@ -295,7 +294,6 @@ export default function Details() {
             style={{
               paddingHorizontal: 10,
               paddingVertical: 20,
-              backgroundColor: "#FEFEFE",
             }}
           >
             {/* INGREDIENTS */}
@@ -351,7 +349,7 @@ export default function Details() {
             <View
               style={{
                 borderBottomWidth: 1,
-                borderBottomColor: "#E9E9E9",
+                borderBottomColor: "#D5D5D5",
                 paddingBottom: 16,
                 marginTop: 20,
                 marginHorizontal: 10,
@@ -364,36 +362,23 @@ export default function Details() {
           ) : null}
           {productReview
             ? productReview.map((r) => (
-                <View key={r.id} style={styles.reviewCard}>
-                  <Image source={{ uri: r?.userImage }} style={styles.avatar} />
-                  <View style={{ flex: 1 }}>
-                    <View
+              <View key={r.id} style={styles.reviewCard}>
+                <Image source={{ uri: r?.userImage }} style={styles.avatar} />
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text
                       style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
+                        fontSize: 14,
+                        fontWeight: "600",
+                        color: "#272727",
                       }}
                     >
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontWeight: "600",
-                          color: "#272727",
-                        }}
-                      >
-                        {r.userName}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          fontWeight: "400",
-                          color: "#575757",
-                        }}
-                      >
-                        {getTimeAgo(r.createdAt)}
-                      </Text>
-                    </View>
-                    <Text style={{ marginTop: 4, marginBottom: 10 }}>
-                      <StarRating rating={r.rating} />
+                      {r.userName}
                     </Text>
                     <Text
                       style={{
@@ -402,15 +387,28 @@ export default function Details() {
                         color: "#575757",
                       }}
                     >
-                      {r.review}
+                      {getTimeAgo(r.createdAt)}
                     </Text>
                   </View>
+                  <Text style={{ marginTop: 4, marginBottom: 10 }}>
+                    <StarRating rating={r.rating} />
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "400",
+                      color: "#575757",
+                    }}
+                  >
+                    {r.review}
+                  </Text>
                 </View>
-              ))
+              </View>
+            ))
             : null}
           {/* similar items */}
           {similarItems.length > 0 ? (
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, marginHorizontal: 10 }}>
               <TitleBar
                 itemName={similarItems[0].name}
                 label={"Similar Items"}
@@ -443,7 +441,7 @@ export default function Details() {
           }}
         >
           <View style={styles.qtyBox}>
-            <Pressable onPress={() => setQty((q) => Math.max(1, q - 1))}>
+            <Pressable onPress={() => setQty((q) => Math.max(0,q - 1))}>
               <Ionicons
                 size={18}
                 color={"#ADADAD"}
@@ -464,14 +462,30 @@ export default function Details() {
             </Pressable>
           </View>
           <Text style={{ color: "#272727", fontSize: 28, fontWeight: "700" }}>
-            ${selectedSize?.price ?? product?.price * qty}
+            ${(selectedSize?.price ?? product?.price) * qty}
           </Text>
         </View>
 
         <View style={styles.actions}>
           <Pressable
             style={styles.cartContainer}
-            onPress={() => dispatch(addToCart(product))}
+            onPress={async () => {
+              dispatch(addToCart(product));
+              setQty(qty + 1)
+              dispatch(addNotification({
+                id: nanoid(),
+                title: "Added To Cart",
+                body: `${product?.title} has added to cart successfully.`,
+                type: "cart",
+                isRead: false,
+                createdAt: Date.now(),
+                actionLabel: "View Cart",
+              }));
+              await sendNotification(
+                "Added to Cart",
+                `${product?.title} has been added to your cart.`
+              );
+            }}
           >
             <Image
               source={{
@@ -484,7 +498,14 @@ export default function Details() {
               Add To Cart
             </Text>
           </Pressable>
-          <Pressable style={styles.buy}>
+          <Pressable style={styles.buy}
+            onPress={() => {
+              dispatch(addToCart(product));
+              router.push({
+                pathname: "/shopping"
+              });
+            }}
+          >
             <Image
               source={{
                 uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bag.png",
@@ -558,6 +579,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FEFEFE",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    marginTop: -20
   },
 
   row: {

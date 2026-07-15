@@ -1,21 +1,22 @@
+import BackToHome from "@/components/BackToHome";
 import PrimaryButton from "@/components/PrimaryButton";
+import { login } from "@/features/user/userSlice";
 import { useAppDispatch } from "@/store/hooks";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { isAxiosError } from "axios";
 import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import {
+  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
-  Alert,
 } from "react-native";
-import { jwtDecode } from "jwt-decode";
-import { login } from "@/features/user/userSlice";
-import * as SecureStore from "expo-secure-store";
-import { isAxiosError } from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -81,6 +82,14 @@ export default function Login() {
   return (
     <View style={{ flex: 1, paddingHorizontal: 20 }}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{
+          marginBottom: 5,
+          position: "absolute",
+          top: 40, 
+          left: 0,
+        }}>
+          <BackToHome page={"home"}></BackToHome>
+        </View>
         <View
           style={{
             marginBottom: 30,

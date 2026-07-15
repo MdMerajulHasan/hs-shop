@@ -6,6 +6,7 @@ import { AppNotification } from "@/features/notifications/types";
 import { useAppDispatch } from "@/store/hooks";
 import { getNotificationImage } from "@/utils/getNotificationImage";
 import { getTimeAgo } from "@/utils/getTimeAgo";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -74,6 +75,18 @@ export default function NotificationCard({ notification }: Props) {
             }}
             onPress={() => {
               dispatch(markAsRead(notification.id));
+              if (notification.type === "cart") {
+                router.push({
+                  pathname: "/(tabs)/shopping"
+                })
+              } else if (notification.type === "order") {
+                router.replace({
+                  pathname: "/orderDetails",
+                  params: {
+                    id: notification.orderId,
+                  }
+                })
+              }
             }}
           >
             <Text
@@ -119,6 +132,23 @@ export default function NotificationCard({ notification }: Props) {
                 }}
               >
                 Delete
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+              }}
+            >
+              <Text
+                style={{
+                  color: "#272727",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  textAlign: "center",
+                }}
+              >
+                Cancel
               </Text>
             </Pressable>
           </Pressable>
@@ -173,17 +203,18 @@ const styles = StyleSheet.create({
     top: 0, // adjust for status bar/header
     right: 0,
     backgroundColor: "#FEFEFE",
-    padding: 5,
     borderRadius: 10,
-    minWidth: 80,
+    minWidth: 70,
     elevation: 6, // Android
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
+    gap: 5
   },
 
   menuItem: {
-    paddingVertical: 10,
+    paddingVertical: 5,
+    
   },
 });

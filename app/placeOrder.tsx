@@ -3,13 +3,16 @@ import Header from "@/components/Header";
 import PreviousAddress from "@/components/PreviousAddress";
 import PrimaryButton from "@/components/PrimaryButton";
 // import DateTimePicker from "@react-native-community/datetimepicker";
-import { useMemo, useState } from "react";
-import { Alert, Image, Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { router, useLocalSearchParams } from "expo-router";
-import { placeOrder, PaymentMethod, Order } from "@/features/order/orderSlice";
 import { clearCart } from "@/features/cart/cartSlice";
+import { addNotification } from "@/features/notifications/notificationsSlice";
+import { Order, PaymentMethod, placeOrder } from "@/features/order/orderSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { sendNotification } from "@/utils/sendNotification";
+import { nanoid } from "@reduxjs/toolkit";
+import { router, useLocalSearchParams } from "expo-router";
+import { useMemo, useState } from "react";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 // const deliVeriTimes = [
@@ -99,7 +102,7 @@ export default function PlaceOrder() {
     //     hour12: true,
     // }).format(time);
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder =async () => {
         if (!userData) {
             Alert.alert(
                 "Login Required",
@@ -110,11 +113,11 @@ export default function PlaceOrder() {
             return;
         }
 
-        if ((payType === "cash" || paid) && (orderAddress || addressId)) {
+        if ((payType === "cash" || paid || cashOn) && (orderAddress || addressId)) {
             const createdAt = new Date().toISOString();
 
             const order: Order = {
-                id: Date.now().toString(),
+                id: nanoid(),
                 createdAt,
                 items: orderedItems,
                 subtotal: Number(totalPrice),
@@ -149,6 +152,20 @@ export default function PlaceOrder() {
             // Continue placing the order
             dispatch(placeOrder(order));
             dispatch(clearCart());
+            dispatch(addNotification({
+                id: nanoid(),
+                title: "Order Placed",
+                body: `Your order of $${order.total} has been placed successfully.`,
+                type: "order",
+                isRead: false,
+                createdAt: Date.now(),
+                actionLabel: "View Order",
+                orderId: order.id,
+            }));
+            await sendNotification(
+                "Order Placed",
+                `Your order has been placed`
+            );
             router.push({
                 pathname: "/order",
             })

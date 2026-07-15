@@ -82,17 +82,6 @@ export default function ChangePassword() {
                             }}
                         >
                             <Text style={styles.subTitle}>Resent OTP? </Text>
-
-                            <Pressable onPress={() => router.push("/forgotPassword")}>
-                                <Text
-                                    style={[styles.subTitle, {
-                                        color: "#D76527",
-                                        textDecorationLine: "underline",
-                                    }]}
-                                >
-                                    Resend
-                                </Text>
-                            </Pressable>
                         </View>
                     </View>
                 </View>

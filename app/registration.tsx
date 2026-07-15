@@ -1,11 +1,16 @@
+import BackToHome from "@/components/BackToHome";
 import PrimaryButton from "@/components/PrimaryButton";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    Alert, Pressable, StyleSheet, Text, TextInput, View, KeyboardAvoidingView,
-    ScrollView, Platform,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet, Text, TextInput, View,
 } from "react-native";
 
 export default function Registration() {
@@ -126,8 +131,16 @@ export default function Registration() {
                 showsVerticalScrollIndicator={false}
             >
 
+
                 <View style={{ flex: 1, paddingHorizontal: 10 }}>
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", position: "relative" }}>
+                        <View style={{
+                            width: "100%",
+                            alignItems: "flex-end",
+                            marginBottom: 5,
+                        }}>
+                            <BackToHome page={"registration"}></BackToHome>
+                        </View>
                         <View style={{ marginBottom: 30, alignItems: "center", justifyContent: "center" }}>
                             <Text style={styles.title}>Create Your Account</Text>
                             <Text style={styles.subTitle}>Sign up to enjoy your favorite foods</Text>
