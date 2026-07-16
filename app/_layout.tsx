@@ -61,8 +61,8 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <BottomSheetModalProvider>
-        <Provider store={store}>
+      <Provider store={store}>
+        <BottomSheetModalProvider>
           <StatusBar hidden />
           <Stack>
             <Stack.Screen
@@ -139,9 +139,16 @@ export default function RootLayout() {
                 animation: "none"
               }}
             />
+            <Stack.Screen
+              name="index"
+              options={{
+                headerShown: false,
+                animation: "none",
+              }}
+            />
           </Stack>
-        </Provider>
-      </BottomSheetModalProvider>
+        </BottomSheetModalProvider>
+      </Provider>
     </GestureHandlerRootView>
   );
 }

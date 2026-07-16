@@ -1,15 +1,28 @@
-import { View, StyleSheet } from "react-native";
+import { useAppSelector } from "@/store/hooks";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import Header from "./Header";
 import PrimaryButton from "./PrimaryButton";
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import PreviousAddress from "./PreviousAddress";
+import AddNewAddress from "./AddNewAddress";
 
 type Props = {
     onClose: () => void;
 }
 
 export default function ModalDeliveryAddress({ onClose }: Props) {
+
+    const addresses = useAppSelector(s => s.address.items);
+    const defaultAddress = useMemo(() => {
+        return addresses.find(address => address.isDefault === true)
+    }, [addresses]);
+
+    const [selected, setSelected] = useState(addresses[0]?.id);
+    const [addressId, setAddressId] = useState(defaultAddress?.tagId);
+
     return (
-        <View style={{paddingBottom: 60}}>
+        <View style={{ paddingBottom: 60 }}>
             <View style={styles.header}>
                 <Header
                     page="deliveryaddress"
@@ -17,20 +30,20 @@ export default function ModalDeliveryAddress({ onClose }: Props) {
                     onClose={onClose}
                 />
             </View>
-            
+
             <BottomSheetScrollView
                 contentContainerStyle={{
                     paddingBottom: 30,
                 }}
                 showsVerticalScrollIndicator={false}
             >
+
+                {/* Previous Addresses */}
+                <PreviousAddress selected={selected} setSelected={setSelected} setAddressId={setAddressId} addresses={addresses}></PreviousAddress>
+                <AddNewAddress setAddressId={setAddressId} addresses={addresses}></AddNewAddress>
                 {/* <PreviousAddress />
-
+                    
                 <AddNewAddress /> */}
-
-                <View style={{ margin: 16 }}>
-                    <PrimaryButton label="Save" />
-                </View>
             </BottomSheetScrollView>
         </View>
     );

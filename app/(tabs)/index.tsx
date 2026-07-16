@@ -1,3 +1,4 @@
+import { Product } from "@/assets/products";
 import BestDeals from "@/components/BestDeals";
 import BookYourTable from "@/components/BookYourTable";
 import Category from "@/components/Category";
@@ -11,45 +12,111 @@ import SearchBar from "@/components/SearchBar";
 import Slider from "@/components/Slider";
 import TitleBar from "@/components/TitleBar";
 import { useAppSelector } from "@/store/hooks";
-import { useMemo } from "react";
-import { FlatList, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, View } from "react-native";
+
+type HomeData = {
+  specialItems: Product[];
+  productsToShow: Product[];
+  comboData: Product[];
+  bestDeals: Product[];
+  popularItems: Product[];
+};
+
 
 export default function Index() {
-  // const resetOnboarding = async () => {
-  //   await AsyncStorage.removeItem("onboardingCompleted");
-  //   router.replace("/onboarding");
-  // };
-
+  const [loading, setLoading] = useState(true);
   const PRODUCTS = useAppSelector((s) => s.products.items);
+  const [homeData, setHomeData] = useState<HomeData>({
+    specialItems: [],
+    productsToShow: [],
+    comboData: [],
+    bestDeals: [],
+    popularItems: [],
+  });
 
-  const specialItems = useMemo(() => {
-    return PRODUCTS.filter((food) => {
-      return food.itemType === "Special";
-    });
-  }, [PRODUCTS]);
+  useEffect(() => {
+    setLoading(true);
 
-  const productsToShow = useMemo(() => {
-    return PRODUCTS.filter((p) => p.itemType !== "Special" && !p.isCombo);
-  }, [PRODUCTS]);
+    const productsToShow = PRODUCTS.filter(
+      (p) => p.itemType !== "Special" && !p.isCombo
+    );
 
-  const comboData = useMemo(
-    () => PRODUCTS.filter((p) => p.isCombo),
-    [PRODUCTS],
-  );
+    const specialItems = PRODUCTS.filter(
+      (p) => p.itemType === "Special"
+    );
 
-  const bestDeals = useMemo(() => {
-    return productsToShow
-      .filter((item) => item.isAvailable)
+    const comboData = PRODUCTS.filter(
+      (p) => p.isCombo
+    );
+
+    const bestDeals = productsToShow
+      .filter((p) => p.isAvailable)
       .sort((a, b) => b.discount - a.discount)
       .slice(0, 5);
-  }, [productsToShow]);
 
-  const popularItems = useMemo(() => {
-    return productsToShow
-      .filter((item) => item.isPopular)
+    const popularItems = productsToShow
+      .filter((p) => p.isPopular)
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 5);
-  }, [productsToShow]);
+
+    setHomeData({
+      specialItems,
+      productsToShow,
+      comboData,
+      bestDeals,
+      popularItems,
+    });
+
+    setLoading(false);
+  }, [PRODUCTS]);
+
+
+
+  // const specialItems = useMemo(() => {
+  //   return PRODUCTS.filter((food) => {
+  //     return food.itemType === "Special";
+  //   });
+  // }, [PRODUCTS]);
+
+  // const productsToShow = useMemo(() => {
+  //   return PRODUCTS.filter((p) => p.itemType !== "Special" && !p.isCombo);
+  // }, [PRODUCTS]);
+
+  // const comboData = useMemo(
+  //   () => PRODUCTS.filter((p) => p.isCombo),
+  //   [PRODUCTS],
+  // );
+
+  // const bestDeals = useMemo(() => {
+  //   return productsToShow
+  //     .filter((item) => item.isAvailable)
+  //     .sort((a, b) => b.discount - a.discount)
+  //     .slice(0, 5);
+  // }, [productsToShow]);
+
+  // const popularItems = useMemo(() => {
+  //   return productsToShow
+  //     .filter((item) => item.isPopular)
+  //     .sort((a, b) => b.rating - a.rating)
+  //     .slice(0, 5);
+  // }, [productsToShow]);
+
+
+
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#D76527" />
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -97,10 +164,10 @@ export default function Index() {
                 onPress={resetOnboarding}
               /> */}
               {/* best deals */}
-              <BestDeals bestDeals={bestDeals}></BestDeals>
+              <BestDeals bestDeals={homeData?.bestDeals}></BestDeals>
 
               {/* items */}
-              <Items specialItems={specialItems}></Items>
+              <Items specialItems={homeData?.specialItems}></Items>
 
               {/* book your table */}
               <View
@@ -115,9 +182,9 @@ export default function Index() {
               </View>
 
               {/* polular items */}
-              <PopularItems popularItems={popularItems}></PopularItems>
+              <PopularItems popularItems={homeData?.popularItems}></PopularItems>
               {/* combo */}
-              <ComboSlider comboItems={comboData}></ComboSlider>
+              <ComboSlider comboItems={homeData?.comboData}></ComboSlider>
 
               {/* all items title */}
               <View style={{ marginHorizontal: 10 }}>
@@ -125,7 +192,7 @@ export default function Index() {
               </View>
             </>
           }
-          data={productsToShow}
+          data={homeData?.productsToShow}
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: "space-between",
