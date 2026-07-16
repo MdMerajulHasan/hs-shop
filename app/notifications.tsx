@@ -42,7 +42,6 @@ export default function Notifications() {
           onPress={() => {
             setNotiDotVisible(true);
           }}
-          style={{ paddingHorizontal: 9 }}
         >
           <Image
             style={{

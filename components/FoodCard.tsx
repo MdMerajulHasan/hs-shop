@@ -7,12 +7,12 @@ import {
 } from "@/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { sendNotification } from "@/utils/sendNotification";
+import { showSuccessToast } from "@/utils/toast";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { nanoid } from "@reduxjs/toolkit";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-  Alert,
   Dimensions,
   Image,
   Modal,
@@ -21,16 +21,6 @@ import {
   Text,
   View,
 } from "react-native";
-
-const createTwoButtonAlert = () =>
-  Alert.alert("Added to wishlist", "", [
-    {
-      text: "Stay Here",
-      onPress: () => { },
-      style: "cancel",
-    },
-    { text: "See Wishlist", onPress: () => router.push("/wishlist") },
-  ]);
 
 export type Props = {
   item: Product;
@@ -46,7 +36,6 @@ export default function FoodCard({ item, index, isVertical }: Props) {
   const wishlist = useAppSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((p) => p.id === item.id);
   const [visible, setVisible] = useState(false);
-
 
   return (
     <View
@@ -69,7 +58,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
             dispatch(removeFromWishlist(item.id));
           } else {
             dispatch(addToWishlist(item));
-            createTwoButtonAlert();
+            showSuccessToast("The item added to your wishlist.", "Added!");
           }
         }}
       >
@@ -136,21 +125,23 @@ export default function FoodCard({ item, index, isVertical }: Props) {
             style={styles.cartContainer}
             onPress={async () => {
               dispatch(addToCart(item));
-              dispatch(addNotification({
-                id: nanoid(),
-                title: "Added To Cart",
-                body: `${item.title} has added to cart successfully.`,
-                type: "cart",
-                isRead: false,
-                createdAt: Date.now(),
-                actionLabel: "View Cart",
-              }));
+              showSuccessToast("Item Added To Cart");
+              dispatch(
+                addNotification({
+                  id: nanoid(),
+                  title: "Added To Cart",
+                  body: `${item.title} has added to cart successfully.`,
+                  type: "cart",
+                  isRead: false,
+                  createdAt: Date.now(),
+                  actionLabel: "View Cart",
+                }),
+              );
               await sendNotification(
                 "Added to Cart",
-                `${item.title} has been added to your cart.`
+                `${item.title} has been added to your cart.`,
               );
-            }
-            }
+            }}
           >
             <Image
               tintColor={"#F5F5F5"}

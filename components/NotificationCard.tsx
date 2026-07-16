@@ -77,15 +77,15 @@ export default function NotificationCard({ notification }: Props) {
               dispatch(markAsRead(notification.id));
               if (notification.type === "cart") {
                 router.push({
-                  pathname: "/(tabs)/shopping"
-                })
+                  pathname: "/(tabs)/shopping",
+                });
               } else if (notification.type === "order") {
                 router.replace({
                   pathname: "/orderDetails",
                   params: {
                     id: notification.orderId,
-                  }
-                })
+                  },
+                });
               }
             }}
           >
@@ -109,7 +109,7 @@ export default function NotificationCard({ notification }: Props) {
         }}
       >
         <Image
-          style={{ width: 8, height: 18 }}
+          style={{ width: 10, height: 18 }}
           source={{
             uri: `https://d.hs-bd.com/wp-content/uploads/2026/06/3-Dot.png`,
           }}
@@ -154,34 +154,6 @@ export default function NotificationCard({ notification }: Props) {
           </Pressable>
         )}
       </Pressable>
-      {/* <Modal
-        visible={menuVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setMenuVisible(false)}
-      >
-        <Pressable style={styles.overlay} onPress={() => setMenuVisible(false)}>
-          <Pressable style={styles.menu} onPress={(e) => e.stopPropagation()}>
-            <Pressable
-              style={styles.menuItem}
-              onPress={() => {
-                setMenuVisible(false);
-                dispatch(deleteNotification(notification.id));
-              }}
-            >
-              <Text
-                style={{
-                  color: "#272727",
-                  fontSize: 16,
-                  fontWeight: "600",
-                }}
-              >
-                Delete
-              </Text>
-            </Pressable>
-          </Pressable>
-        </Pressable>
-      </Modal> */}
     </Pressable>
   );
 }
@@ -191,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 12,
     flexDirection: "row",
-    marginHorizontal: 10,
+    justifyContent: "space-between",
   },
   overlay: {
     flex: 1,
@@ -210,11 +182,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
-    gap: 5
+    gap: 5,
   },
 
   menuItem: {
     paddingVertical: 5,
-    
   },
 });

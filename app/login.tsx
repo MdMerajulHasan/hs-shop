@@ -21,10 +21,12 @@ import {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleLogin = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         "https://fabrictechs.com/api/v1/user/token/",
         {
@@ -76,18 +78,22 @@ export default function Login() {
       } else {
         Alert.alert("Login Failed", "Something went wrong.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 20 }}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View style={{
-          marginBottom: 5,
-          position: "absolute",
-          top: 40, 
-          left: 0,
-        }}>
+        <View
+          style={{
+            marginBottom: 5,
+            position: "absolute",
+            top: 40,
+            left: 0,
+          }}
+        >
           <BackToHome page={"home"}></BackToHome>
         </View>
         <View
@@ -131,11 +137,12 @@ export default function Login() {
           </View>
 
           <Pressable
+            disabled={loading}
             onPress={() => {
               handleLogin();
             }}
           >
-            <PrimaryButton label="Login" />
+            <PrimaryButton label={loading ? "Logging in..." : "Login"} />
           </Pressable>
 
           <View

@@ -76,7 +76,7 @@ export default function Header({ count, page, isModal, onClose, id }: Props) {
       >
         <Ionicons name="arrow-back" size={24} color="#272727" />
       </Pressable>
-      <View>
+      <View style={{ justifyContent: "space-between" }}>
         <Text style={{ fontSize: 18, fontWeight: "500", color: "#272727" }}>
           {title}
         </Text>

@@ -1,3 +1,4 @@
+import CustomToast from "@/components/CustomToast";
 import { store } from "@/store/store";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as Notifications from "expo-notifications";
@@ -6,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Toast, { BaseToastProps } from "react-native-toast-message";
 import { Provider } from "react-redux";
 
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +22,13 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
+  useEffect(() => {
+    console.log("RootLayout mounted");
+
+    return () => {
+      console.log("RootLayout unmounted");
+    };
+  }, []);
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
@@ -59,6 +68,16 @@ export default function RootLayout() {
     return null;
   }
 
+  const toastConfig = {
+    success: (props: BaseToastProps) => (
+      <CustomToast type="success" text1={props.text1} text2={props.text2} />
+    ),
+
+    error: (props: BaseToastProps) => (
+      <CustomToast type="error" text1={props.text1} text2={props.text2} />
+    ),
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <Provider store={store}>
@@ -81,62 +100,62 @@ export default function RootLayout() {
               options={{
                 title: "Place Order",
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="Details"
               options={{
-                headerShown: false
+                headerShown: false,
               }}
             />
             <Stack.Screen
               name="login"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="registration"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="orderDetails"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="active"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="forgotPassword"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="changePassword"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
               name="onboarding"
               options={{
                 headerShown: false,
-                animation: "none"
+                animation: "none",
               }}
             />
             <Stack.Screen
@@ -148,6 +167,7 @@ export default function RootLayout() {
             />
           </Stack>
         </BottomSheetModalProvider>
+        <Toast config={toastConfig} position="top" bottomOffset={30} />
       </Provider>
     </GestureHandlerRootView>
   );
