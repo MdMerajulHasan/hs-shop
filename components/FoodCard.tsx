@@ -7,19 +7,19 @@ import {
 } from "@/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { sendNotification } from "@/utils/sendNotification";
-import { showSuccessToast } from "@/utils/toast";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { nanoid } from "@reduxjs/toolkit";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
+  Alert,
   Dimensions,
   Image,
   Modal,
   Pressable,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 
 export type Props = {
@@ -36,6 +36,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
   const wishlist = useAppSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((p) => p.id === item.id);
   const [visible, setVisible] = useState(false);
+  const [wishlistModalVisible, setWishlistModalVisible] = useState(false);
 
   return (
     <View
@@ -58,7 +59,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
             dispatch(removeFromWishlist(item.id));
           } else {
             dispatch(addToWishlist(item));
-            showSuccessToast("The item added to your wishlist.", "Added!");
+            setWishlistModalVisible(true);
           }
         }}
       >
@@ -125,7 +126,7 @@ export default function FoodCard({ item, index, isVertical }: Props) {
             style={styles.cartContainer}
             onPress={async () => {
               dispatch(addToCart(item));
-              showSuccessToast("Item Added To Cart");
+              Alert.alert("Added!", "Item was added to cart.");
               dispatch(
                 addNotification({
                   id: nanoid(),
@@ -153,22 +154,45 @@ export default function FoodCard({ item, index, isVertical }: Props) {
           </Pressable>
         </View>
       </View>
-      <Modal visible={visible}>
-        <View
-          style={{ backgroundColor: "#FEFEFE", width: "80%", height: "25%" }}
-        >
-          <Text>The item is added to wishlist!</Text>
-          <Pressable
-            onPress={() => {
-              router.push("/wishlist");
-              setVisible(false);
-            }}
-          >
-            <Text>See Wishlist</Text>
-          </Pressable>
-          <Pressable onPress={() => setVisible(false)}>
-            <Text>Ok</Text>
-          </Pressable>
+      <Modal
+        visible={wishlistModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setWishlistModalVisible(false)}
+      >
+        <View style={styles.overlay}>
+          <View style={styles.modal}>
+            {/* <Ionicons
+              name="heart-circle"
+              size={64}
+              color="#D76527"
+              style={{ marginBottom: 10 }}
+            /> */}
+
+            <Text style={styles.title}>Added to Wishlist</Text>
+            <Text style={styles.message}>
+              The item has been added to your wishlist.
+            </Text>
+
+            <View style={styles.buttonRow}>
+              <Pressable
+                style={[styles.button, styles.cancelButton]}
+                onPress={() => setWishlistModalVisible(false)}
+              >
+                <Text style={styles.cancelText}>Continue</Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.button, styles.wishlistButton]}
+                onPress={() => {
+                  setWishlistModalVisible(false);
+                  router.push("/wishlist");
+                }}
+              >
+                <Text style={styles.wishlistText}>Go to Wishlist</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
       </Modal>
     </View>
@@ -239,5 +263,59 @@ const styles = StyleSheet.create({
     color: "#ADADAD",
     paddingVertical: 4,
     fontWeight: "400",
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modal: {
+    width: "85%",
+    backgroundColor: "#fff",
+
+    padding: 24,
+    alignItems: "center",
+    elevation: 10,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#222",
+    marginBottom: 8,
+  },
+  message: {
+    fontSize: 15,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 22,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 14,
+    alignItems: "center",
+  },
+  cancelButton: {
+    backgroundColor: "#F1F1F1",
+    marginRight: 8,
+  },
+  wishlistButton: {
+    backgroundColor: "#D76527",
+    marginLeft: 8,
+  },
+  cancelText: {
+    color: "#444",
+    fontWeight: "600",
+  },
+  wishlistText: {
+    color: "#fff",
+    fontWeight: "700",
   },
 });

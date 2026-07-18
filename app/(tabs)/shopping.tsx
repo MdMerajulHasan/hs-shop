@@ -4,8 +4,7 @@ import SmallFoodCard from "@/components/SmallFoodCard";
 import { useAppSelector } from "@/store/hooks";
 import { router } from "expo-router";
 import { useState } from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import Toast from "react-native-toast-message";
+import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Shopping() {
   const [loading, setLoading] = useState(false);
@@ -31,13 +30,7 @@ export default function Shopping() {
   const handleOrder = () => {
     setLoading(true);
     if (totalItems === 0) {
-      Toast.show({
-        type: "error",
-        text1: "Cart is empty",
-        text2: "Please add items to your cart before placing an order.",
-        position: "top",
-        visibilityTime: 3000,
-      });
+      Alert.alert("Cart is empty!", "Please add items to your cart before placing an order.");
       setLoading(false);
     } else {
       router.push({
@@ -185,7 +178,6 @@ export default function Shopping() {
           </Pressable>
         </View>
       </View>
-      <Toast></Toast>
     </View>
   );
 }

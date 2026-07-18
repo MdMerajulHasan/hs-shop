@@ -3,8 +3,7 @@ import { addToCart, decreaseQuantity, removeFromCart } from "@/features/cart/car
 import { removeFromWishlist } from "@/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import Toast from "react-native-toast-message";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 
 
@@ -21,13 +20,7 @@ export default function SmallFoodCard({ item, page }: Props) {
 
     const handleAddToCart = (item: Product) => {
         dispatch(addToCart(item));
-        Toast.show({
-            type: 'success',
-            text1: 'Item added to cart',
-            text2: 'Your item has been added to the cart successfully.',
-            position: 'top',
-            visibilityTime: 3000,
-        });
+        Alert.alert("Success!", "Your item has been added to the cart successfully.")
     };
 
 
@@ -107,7 +100,6 @@ export default function SmallFoodCard({ item, page }: Props) {
                         ></Image>
                     </Pressable> : null
             }
-            <Toast />
         </View>
     )
 }

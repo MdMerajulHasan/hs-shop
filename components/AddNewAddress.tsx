@@ -4,10 +4,10 @@ import subdistricts from "@/assets/upazilas.json";
 import PrimaryButton from "@/components/PrimaryButton";
 import { addAddress, Address, addTag } from "@/features/address/addressSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { showErrorToast, showSuccessToast } from "@/utils/toast";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useMemo, useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   Pressable,
@@ -15,7 +15,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 
 type Props = {
@@ -84,7 +84,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
     const value = newTag.trim();
 
     if (!value) {
-      showErrorToast("Please enter a tag name.", "Chose Tagname!");
+      Alert.alert("Tagname Empty!", "Tagname can't be empty.");
       return;
     }
 
@@ -93,10 +93,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
     );
 
     if (exists) {
-      showErrorToast(
-        "This address tag already used. Create or choose unique",
-        "Duplicate Tagname!",
-      );
+      Alert.alert("Duplicate Tagname!", "This address tag already used. Create or choose unique.")
       return;
     }
 
@@ -106,7 +103,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
         name: value,
       }),
     );
-    showSuccessToast("Tagname created successfully!", "Created");
+    Alert.alert("Created!", "Tagname was created successfully!");
     setNewTag("");
     setShowAddTag(false);
   };
@@ -168,7 +165,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
     if (!validate()) return;
 
     if (!tag) {
-      showErrorToast("Please select an address tag.", "Address tag!");
+      Alert.alert("Add Tag!", "Please select an address tag.");
       return;
     }
 
@@ -195,7 +192,7 @@ export default function AddNewAddress({ addresses, setAddressId }: Props) {
     setLoading(true);
     dispatch(addAddress(newAddress));
     setAddressId(newAddress.tagId);
-    showSuccessToast("Address added successfully!", "Added!");
+    Alert.alert("Added!", "Address added successfully.");
     setLoading(false);
   };
 

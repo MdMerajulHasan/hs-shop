@@ -3,8 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, TextInput, View, Modal } from "react-native";
-import Toast from "react-native-toast-message";
+import { Alert, Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import BranchList from "./BranchList";
 import PrimaryButton from "./PrimaryButton";
 
@@ -63,15 +62,6 @@ export default function BookingForm() {
         }
     };
 
-    const showToast = () => {
-        Toast.show({
-            type: 'success',
-            text1: 'Booking Inprogress',
-            text2: 'You will get an email soon!',
-            position: "bottom",
-        });
-    }
-
     const handleBooking = () => {
         if (!name?.trim()) {
             alert("Name is required.");
@@ -92,7 +82,7 @@ export default function BookingForm() {
             alert("Please select a time.");
             return;
         }
-        showToast();
+        Alert.alert("Success!", "Booking Inprogress. You will get an email soon.");
     };
     return (
         <>
@@ -298,7 +288,6 @@ export default function BookingForm() {
                         }}
                     />
                 )}
-                <Toast></Toast>
             </View>
             <Modal
                 visible={branchModalVisible}

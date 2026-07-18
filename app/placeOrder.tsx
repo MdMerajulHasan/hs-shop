@@ -8,11 +8,11 @@ import { addNotification } from "@/features/notifications/notificationsSlice";
 import { Order, PaymentMethod, placeOrder } from "@/features/order/orderSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { sendNotification } from "@/utils/sendNotification";
-import { showErrorToast, showSuccessToast } from "@/utils/toast";
 import { nanoid } from "@reduxjs/toolkit";
 import { router, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
 import {
+  Alert,
   Image,
   Pressable,
   ScrollView,
@@ -44,41 +44,41 @@ const paymentMethods: {
   title: string;
   image: { uri: string };
 }[] = [
-  {
-    id: 1,
-    type: "bkash",
-    title: "BKash",
-    image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bkash.png" },
-  },
-  {
-    id: 2,
-    type: "nagad",
-    title: "Nagad",
-    image: {
-      uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/nogod-scaled.png",
+    {
+      id: 1,
+      type: "bkash",
+      title: "BKash",
+      image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/bkash.png" },
     },
-  },
-  {
-    id: 3,
-    type: "rocket",
-    title: "Rocket",
-    image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/rocket.png" },
-  },
-  {
-    id: 4,
-    type: "upay",
-    title: "Upay",
-    image: {
-      uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/upay-scaled.png",
+    {
+      id: 2,
+      type: "nagad",
+      title: "Nagad",
+      image: {
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/nogod-scaled.png",
+      },
     },
-  },
-  {
-    id: 5,
-    type: "card",
-    title: "Visa Card",
-    image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/card.png" },
-  },
-];
+    {
+      id: 3,
+      type: "rocket",
+      title: "Rocket",
+      image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/rocket.png" },
+    },
+    {
+      id: 4,
+      type: "upay",
+      title: "Upay",
+      image: {
+        uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/upay-scaled.png",
+      },
+    },
+    {
+      id: 5,
+      type: "card",
+      title: "Visa Card",
+      image: { uri: "https://d.hs-bd.com/wp-content/uploads/2026/06/card.png" },
+    },
+  ];
 
 export default function PlaceOrder() {
   const dispatch = useAppDispatch();
@@ -138,7 +138,7 @@ export default function PlaceOrder() {
   const handlePlaceOrder = async () => {
     setLoading(true);
     if (!userData) {
-      showErrorToast("Please log in to confirm your order.", "Login Required");
+      Alert.alert("Login Required", "Please log in to confirm your order.");
       router.push("/login");
       setLoading(false);
       return;
@@ -183,10 +183,7 @@ export default function PlaceOrder() {
       // Continue placing the order
       dispatch(placeOrder(order));
       dispatch(clearCart());
-      showSuccessToast(
-        "Your order confirmed. View details to Track.",
-        "Confirmed!",
-      );
+      Alert.alert("Confirmed!", "Your order confirmed. View details to track it.")
       dispatch(
         addNotification({
           id: nanoid(),
@@ -205,10 +202,7 @@ export default function PlaceOrder() {
       });
       setLoading(false);
     } else if (!(orderAddress || addressId)) {
-      showErrorToast(
-        "Please, pick a delivery address or give a new delivery address.",
-        "Invalid Address",
-      );
+      Alert.alert("Invalid Address!", "Please, pick a delivery address or give a new delivery address.");
       setLoading(false);
     }
   };
@@ -526,7 +520,7 @@ export default function PlaceOrder() {
             const isToday = date.toDateString() === now.toDateString();
 
             if (isToday && selectedDateTime < now) {
-              showErrorToast("Please, pick a future time.", "Invalid Time!");
+              Alert.alert("Invalid Time!", "Please, pick a future time.");
               return;
             }
 
